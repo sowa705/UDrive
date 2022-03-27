@@ -1,0 +1,16 @@
+{
+    "name": "com.sowa705.udrive.editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:ffaf149b7b7b64644b0454c8728e7026"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
