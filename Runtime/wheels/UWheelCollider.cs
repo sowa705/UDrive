@@ -72,15 +72,19 @@ public class UWheelCollider : MonoBehaviour,ITorqueNode
         float len = instance.Data.Radius;
         instance.Grounded = false;
 
-        Debug.DrawRay(rayPos, -dir * len, Color.yellow, 0.2f);
+        Color c = Color.yellow;
         RaycastHit hit;
         if (Physics.Raycast(new Ray(rayPos,-dir),out hit, instance.Data.Radius))
         {
-            float depth = instance.Data.Radius - hit.distance;
-            suspensionCollisionForce = ((depth * instance.Data.Mass) / (deltaT * deltaT));
+            float depth = len - hit.distance;
+            suspensionCollisionForce = ((depth * instance.Data.Mass /WheelData.Radius) / (deltaT * deltaT))*SusColForMultip;
             instance.Grounded = true;
+            c = Color.magenta;
         }
 
+        Debug.DrawRay(rayPos + (transform.forward * 0.1f), -transform.forward * 0.2f, c, 0.2f);
+
+        Debug.DrawRay(rayPos, -dir * len, Color.yellow, 0.2f);
 
         float springForce = 1 * instance.Data.SuspensionSettings.Spring * instance.SuspensionPosition;
         float damperForce = 1 * instance.SuspensionVelocity * instance.Data.SuspensionSettings.Damper;
@@ -91,7 +95,7 @@ public class UWheelCollider : MonoBehaviour,ITorqueNode
 
         Vector3 rbForce = dir * force;
 
-        parentRB.AddForceAtPosition(rbForce / parentVehicle.Substeps* SusColForMultip, springPos, ForceMode.Force);
+        parentRB.AddForceAtPosition(rbForce / parentVehicle.Substeps, springPos, ForceMode.Force);
 
         instance.SuspensionVelocity -= ((force - suspensionCollisionForce) * deltaT) / instance.Data.Mass;
         instance.SuspensionVelocity = Mathf.Clamp(instance.SuspensionVelocity, -5, 5);
@@ -125,7 +129,7 @@ public class UWheelCollider : MonoBehaviour,ITorqueNode
         Gizmos.DrawLine(rayPos, rayPos - rotDir * rayDist);
 
 #if UNITY_EDITOR
-        Handles.DrawWireDisc(transform.position,normal,instance.Data.Radius);
+        Handles.DrawWireDisc(GetWheelPosition(), normal,instance.Data.Radius);
 #endif
     }
     private void OnValidate()
@@ -228,7 +232,7 @@ public class UWheelCollider : MonoBehaviour,ITorqueNode
         instance.AngularVelocity -= instance.AngularVelocity / 10f * deltaT; //damping
 
         instance.RPM = instance.AngularVelocity * 9.5493f;
-        instance.RotationAngle += instance.RPM/deltaT;
+        instance.RotationAngle += instance.RPM*deltaT*6;
         instance.RotationAngle = instance.RotationAngle % 360f;
     }
 

@@ -6,6 +6,7 @@ public class TwoWheelSteeringController : MonoBehaviour
 {
     public UWheelCollider LeftWheel;
     public UWheelCollider RightWheel;
+
     public SteeringMode Mode;
 
     [Range(-1f, 1f)]
@@ -30,7 +31,7 @@ public class TwoWheelSteeringController : MonoBehaviour
             {
                 dimensions.x = pos.x;
             }
-            if (dimensions.y > pos.x)
+            if (dimensions.y < pos.x)
             {
                 dimensions.y = pos.x;
             }
@@ -38,22 +39,38 @@ public class TwoWheelSteeringController : MonoBehaviour
             {
                 dimensions.z = pos.z;
             }
-            if (dimensions.w > pos.z)
+            if (dimensions.w < pos.z)
             {
                 dimensions.w = pos.z;
             }
         }
-        Width = dimensions.x - dimensions.y;
-        WheelBase = dimensions.z - dimensions.w;
+        Width = dimensions.y - dimensions.x;
+        WheelBase = dimensions.w - dimensions.z;
     }
     void FixedUpdate()
     {
-        switch (Mode)
+        if (Mode == SteeringMode.Simple)
         {
-            case SteeringMode.Simple:
-                LeftWheel.SteerAngle = SteerInput * MaxSteeringAngle;
-                RightWheel.SteerAngle = SteerInput * MaxSteeringAngle;
-                break;
+            LeftWheel.SteerAngle = SteerInput * MaxSteeringAngle;
+            LeftWheel.SteerAngle = SteerInput * MaxSteeringAngle;
+            return;
+        }
+
+        float SteerAngle = SteerInput * MaxSteeringAngle;
+        float radSteerAngle = Mathf.Deg2Rad * SteerAngle;
+
+        float L = Mathf.Atan((WheelBase * Mathf.Sin(radSteerAngle)) / (WheelBase * Mathf.Cos(radSteerAngle) + Width * Mathf.Sin(radSteerAngle)));
+        float R = Mathf.Atan((WheelBase * Mathf.Sin(radSteerAngle)) / (WheelBase * Mathf.Cos(radSteerAngle) - Width * Mathf.Sin(radSteerAngle)));
+
+        if (Mode == SteeringMode.Ackermann)
+        {
+            LeftWheel.SteerAngle = Mathf.Rad2Deg * L;
+            RightWheel.SteerAngle = Mathf.Rad2Deg * R;
+        }
+        else
+        {
+            LeftWheel.SteerAngle = Mathf.Rad2Deg * R;
+            RightWheel.SteerAngle = Mathf.Rad2Deg * L;
         }
     }
 }

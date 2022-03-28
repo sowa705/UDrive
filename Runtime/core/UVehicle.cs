@@ -7,12 +7,12 @@ public class UVehicle : MonoBehaviour
     ITorqueGenerator[] TqGenerators;
     UWheelCollider[] UWheelColliders;
 
-    [Range(4, 8)]
+    [Range(1, 32)]
     public int Substeps = 4;
     public float CurrentDeltaT { get => Time.fixedDeltaTime / Substeps; }
 
     Dictionary<VehicleParamId, float> VehicleValues;
-    void Start()
+    void Awake()
     {
         ResetVehicle();
     }
