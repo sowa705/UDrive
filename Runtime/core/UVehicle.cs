@@ -10,15 +10,37 @@ public class UVehicle : MonoBehaviour
     [Range(4, 8)]
     public int Substeps = 4;
     public float CurrentDeltaT { get => Time.fixedDeltaTime / Substeps; }
+
+    Dictionary<VehicleParamId, float> VehicleValues;
     void Start()
     {
         ResetVehicle();
     }
-
+    public float ReadParameter(VehicleParamId paramID)
+    {
+        if (VehicleValues.ContainsKey(paramID))
+        {
+            return VehicleValues[paramID];
+        }
+        return 0;
+    }
+    public void WriteParameter(VehicleParamId paramID,float value)
+    {
+        if (VehicleValues.ContainsKey(paramID))
+        {
+            VehicleValues[paramID]=value;
+        }
+        VehicleValues.Add(paramID,value);
+    }
+    public UWheelCollider[] GetWheels()
+    {
+        return UWheelColliders;
+    }
     void ResetVehicle()
     {
         TqGenerators=GetComponentsInChildren<ITorqueGenerator>();
         UWheelColliders=GetComponentsInChildren<UWheelCollider>();
+        VehicleValues = new Dictionary<VehicleParamId, float>();
     }
 
     void RunSubstep()

@@ -19,9 +19,13 @@ public class UWheelCollider : MonoBehaviour,ITorqueNode
     public float EngineTorque;
     public float BrakeTorque;
 
+    public float SusColForMultip = 50;
+
     public float LForceMultip;
     private bool ApplyNonVerticalSuspensionForces;
     private bool ApplySuspensionTorque;
+
+    public float SteerAngle;
 
     private void Start()
     {
@@ -56,7 +60,7 @@ public class UWheelCollider : MonoBehaviour,ITorqueNode
     }
     void SuspensionUpdate(float deltaT)
     {
-        Vector3 dir = transform.TransformDirection(Vector3.up);
+        Vector3 dir = transform.up;
         Vector3 pos = GetWheelPosition();
         float suspensionCollisionForce = 0;
         instance.Grounded = false;
@@ -66,30 +70,16 @@ public class UWheelCollider : MonoBehaviour,ITorqueNode
 
         Vector3 rayPos = GetWheelPosition();
         float len = instance.Data.Radius;
+        instance.Grounded = false;
 
         Debug.DrawRay(rayPos, -dir * len, Color.yellow, 0.2f);
-
-        foreach (var hit in Physics.RaycastAll(rayPos, -dir, len))
+        RaycastHit hit;
+        if (Physics.Raycast(new Ray(rayPos,-dir),out hit, instance.Data.Radius))
         {
-            if (hit.collider.GetComponentInParent<UVehicle>() == parentVehicle)
-            {
-                continue;
-            }
-            Debug.DrawRay(rayPos, -dir* hit.distance, Color.cyan, 0.2f);
-
-            float depth = len - hit.distance;
+            float depth = instance.Data.Radius - hit.distance;
+            suspensionCollisionForce = ((depth * instance.Data.Mass) / (deltaT * deltaT));
             instance.Grounded = true;
-
-            if (depth < 0)
-            {
-                depth = 0;
-                continue;
-            }
-            Debug.DrawRay(pos - dir * instance.Data.Radius, dir * depth, Color.red, 0.2f);
-
-            suspensionCollisionForce = ((depth * instance.Data.Mass) / (deltaT * deltaT))  * 50;
         }
-
 
 
         float springForce = 1 * instance.Data.SuspensionSettings.Spring * instance.SuspensionPosition;
@@ -101,7 +91,7 @@ public class UWheelCollider : MonoBehaviour,ITorqueNode
 
         Vector3 rbForce = dir * force;
 
-        parentRB.AddForceAtPosition(rbForce / parentVehicle.Substeps, springPos, ForceMode.Force);
+        parentRB.AddForceAtPosition(rbForce / parentVehicle.Substeps* SusColForMultip, springPos, ForceMode.Force);
 
         instance.SuspensionVelocity -= ((force - suspensionCollisionForce) * deltaT) / instance.Data.Mass;
         instance.SuspensionVelocity = Mathf.Clamp(instance.SuspensionVelocity, -5, 5);
@@ -118,11 +108,11 @@ public class UWheelCollider : MonoBehaviour,ITorqueNode
         }
         Vector3 dir = transform.up;
         Vector3 worldPos = transform.position;
-        Vector3 normal = transform.right;
+        Vector3 normal = Quaternion.Euler(0, instance.SteerAngle, 0) * transform.right;
 
         Vector3 rayPos = worldPos;
 
-        Vector3 rotDir = transform.TransformDirection(Quaternion.Euler(instance.RotationAngle, 0, 0) * Vector3.forward);
+        Vector3 rotDir = Quaternion.Euler(instance.RotationAngle,0,0) * transform.forward;
 
         float rayDist = instance.Data.Radius;
 
@@ -135,7 +125,7 @@ public class UWheelCollider : MonoBehaviour,ITorqueNode
         Gizmos.DrawLine(rayPos, rayPos - rotDir * rayDist);
 
 #if UNITY_EDITOR
-        Handles.DrawWireDisc(transform.position,transform.right,instance.Data.Radius);
+        Handles.DrawWireDisc(transform.position,normal,instance.Data.Radius);
 #endif
     }
     private void OnValidate()
@@ -179,8 +169,8 @@ public class UWheelCollider : MonoBehaviour,ITorqueNode
 
         Vector3 pos = transform.position;
 
-        double longitudinalSlipRatio = (wheelVelocity- forwardVelocity) / Math.Abs(forwardVelocity) + 0.01;
-        double lateralSlipAngle = -Math.Atan(lateralVelocity/ Math.Abs(forwardVelocity) + 0.01);
+        double longitudinalSlipRatio = (wheelVelocity- forwardVelocity) /( Math.Abs(forwardVelocity) + 0.1);
+        double lateralSlipAngle = -Math.Atan(lateralVelocity/ (Math.Abs(forwardVelocity) + 0.1));
 
         float reactionTorque = 0;
 
@@ -210,6 +200,10 @@ public class UWheelCollider : MonoBehaviour,ITorqueNode
             instance.SlipAngle = 0;
         }
 
+        if (float.IsNaN( reactionTorque))
+        {
+            reactionTorque = 0;
+        }
 
         instance.ReactionTorque = reactionTorque;
         instance.Torque -= reactionTorque;
@@ -234,7 +228,7 @@ public class UWheelCollider : MonoBehaviour,ITorqueNode
         instance.AngularVelocity -= instance.AngularVelocity / 10f * deltaT; //damping
 
         instance.RPM = instance.AngularVelocity * 9.5493f;
-
+        instance.RotationAngle += instance.RPM/deltaT;
         instance.RotationAngle = instance.RotationAngle % 360f;
     }
 
@@ -251,6 +245,7 @@ public class UWheelCollider : MonoBehaviour,ITorqueNode
     }
     void FixedUpdate()
     {
+        instance.SteerAngle = SteerAngle;
         instance.LastWorldPosition = instance.WorldPosition;
         instance.WorldPosition = transform.position;
     }
