@@ -171,22 +171,20 @@ public class MotorcycleController : MonoBehaviour
 
 		foreach (WheelData w in wheels)
 		{
-			WheelHit hit;
-
 			Vector3 localPos = w.wheelTransform.localPosition;
 
-			if (w.wheelCollider.instance.Grounded)
+			//if (w.wheelCollider.wheelState.IsGrounded)
 			{
-				localPos.y -= Vector3.Dot(w.wheelTransform.position - (w.wheelTransform.position- w.wheelTransform.up*w.wheelCollider.WheelData.Radius), transform.up) - wheelRadius;
+				localPos.y -= Vector3.Dot(w.wheelTransform.position - (w.wheelTransform.position- w.wheelTransform.up*w.wheelCollider.Parameters.Radius), transform.up) - wheelRadius;
 				w.wheelTransform.localPosition = localPos;
 			}
-			else
+			//else
 			{
 				localPos.y = w.wheelStartPos.y - wheelOffset;
 			}
 			//w.wheelTransform.localPosition = localPos;
 
-			w.rotation = Mathf.Repeat(w.rotation + delta * w.wheelCollider.instance.RPM * 360.0f / 60.0f, 360f);
+			//w.rotation = Mathf.Repeat(w.rotation + delta * w.wheelCollider.wheelState.RPM * 360.0f / 60.0f, 360f);
 			w.wheelTransform.localRotation = Quaternion.Euler(w.rotation, w.wheelCollider.SteerAngle, 90.0f);
 		}
 	}

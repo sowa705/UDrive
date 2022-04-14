@@ -44,15 +44,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b606a8e13f9be5d4ca1dceb6c5fb85e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  WheelData:
+  Parameters:
     Radius: 0.3
     Width: 0.2
     Mass: 20
     SuspensionSettings:
-      Spring: 45000
+      Spring: 30000
       Damper: 3000
-      Distance: 0.3
-    TireData:
+      Travel: 0.3
+    FrictionData:
       LongitudinalMultiplier: 1
       LateralMultiplier: 1
       Tire:
@@ -62,9 +62,9 @@ MonoBehaviour:
         Curvature: 0.97
   EngineTorque: 0
   BrakeTorque: 0
-  SusColForMultip: 1
   LForceMultip: 1
   SteerAngle: 0
+  Velocity: {x: 0, y: 0, z: 0}
 --- !u!1 &336212243622908284
 GameObject:
   m_ObjectHideFlags: 0
@@ -78,7 +78,6 @@ GameObject:
   - component: {fileID: 336212243622908163}
   - component: {fileID: 675532010}
   - component: {fileID: -5335934552558967991}
-  - component: {fileID: 681096157}
   m_Layer: 0
   m_Name: ExampleCar
   m_TagString: Untagged
@@ -119,7 +118,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8def506b6b7fe4142905465b07ec4840, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Substeps: 8
+  Substeps: 4
 --- !u!54 &336212243622908163
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -154,18 +153,6 @@ MonoBehaviour:
   SteerInput: 0
   MaxSteeringAngle: 25
 --- !u!114 &-5335934552558967991
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 336212243622908284}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 56aaeaef689ff5f46964b690ef3bc78f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &681096157
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -318,15 +305,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b606a8e13f9be5d4ca1dceb6c5fb85e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  WheelData:
+  Parameters:
     Radius: 0.3
     Width: 0.2
     Mass: 20
     SuspensionSettings:
-      Spring: 45000
+      Spring: 30000
       Damper: 3000
-      Distance: 0.3
-    TireData:
+      Travel: 0.3
+    FrictionData:
       LongitudinalMultiplier: 1
       LateralMultiplier: 1
       Tire:
@@ -336,9 +323,9 @@ MonoBehaviour:
         Curvature: 0.97
   EngineTorque: 0
   BrakeTorque: 0
-  SusColForMultip: 1
   LForceMultip: 1
   SteerAngle: 0
+  Velocity: {x: 0, y: 0, z: 0}
 --- !u!1 &336212244548664140
 GameObject:
   m_ObjectHideFlags: 0
@@ -465,15 +452,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b606a8e13f9be5d4ca1dceb6c5fb85e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  WheelData:
+  Parameters:
     Radius: 0.3
     Width: 0.2
     Mass: 20
     SuspensionSettings:
-      Spring: 45000
+      Spring: 30000
       Damper: 3000
-      Distance: 0.3
-    TireData:
+      Travel: 0.3
+    FrictionData:
       LongitudinalMultiplier: 1
       LateralMultiplier: 1
       Tire:
@@ -483,9 +470,9 @@ MonoBehaviour:
         Curvature: 0.97
   EngineTorque: 0
   BrakeTorque: 0
-  SusColForMultip: 1
   LForceMultip: 1
   SteerAngle: 0
+  Velocity: {x: 0, y: 0, z: 0}
 --- !u!1 &336212245205562003
 GameObject:
   m_ObjectHideFlags: 0
@@ -530,15 +517,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b606a8e13f9be5d4ca1dceb6c5fb85e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  WheelData:
+  Parameters:
     Radius: 0.3
     Width: 0.2
     Mass: 20
     SuspensionSettings:
-      Spring: 45000
+      Spring: 30000
       Damper: 3000
-      Distance: 0.3
-    TireData:
+      Travel: 0.3
+    FrictionData:
       LongitudinalMultiplier: 1
       LateralMultiplier: 1
       Tire:
@@ -548,6 +535,6 @@ MonoBehaviour:
         Curvature: 0.97
   EngineTorque: 0
   BrakeTorque: 0
-  SusColForMultip: 1
   LForceMultip: 1
   SteerAngle: 0
+  Velocity: {x: 0, y: 0, z: 0}
