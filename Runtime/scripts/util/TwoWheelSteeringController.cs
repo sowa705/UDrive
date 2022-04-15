@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TwoWheelSteeringController : MonoBehaviour
+public class TwoWheelSteeringController : VehicleComponent
 {
     public UWheelCollider LeftWheel;
     public UWheelCollider RightWheel;
@@ -13,10 +13,14 @@ public class TwoWheelSteeringController : MonoBehaviour
     public float SteerInput = 0;
     [Range(0f, 45f)]
     public float MaxSteeringAngle = 25;
+    [Range(20f, 200f)]
+    public float MaxAngularVelocity=80f;
+
+    float actualSteerAngle = 0;
 
     float WheelBase;
     float Width;
-    private void Start()
+    public override void VehicleStart()
     {
         SetupWheelGeometry();
     }
@@ -49,14 +53,23 @@ public class TwoWheelSteeringController : MonoBehaviour
     }
     void FixedUpdate()
     {
+        SteerInput = Vehicle.ReadParameter(VehicleParamId.TargetSteerAngle);
+
+        var angle = SteerInput * MaxSteeringAngle;
+
+        var angleDelta = angle - actualSteerAngle;
+        angleDelta = Mathf.Clamp(angleDelta,-MaxAngularVelocity*Time.fixedDeltaTime, MaxAngularVelocity * Time.fixedDeltaTime);
+
+        actualSteerAngle += angleDelta;
+
         if (Mode == SteeringMode.Simple)
         {
-            LeftWheel.SteerAngle = SteerInput * MaxSteeringAngle;
-            LeftWheel.SteerAngle = SteerInput * MaxSteeringAngle;
+            LeftWheel.SteerAngle = actualSteerAngle;
+            RightWheel.SteerAngle = actualSteerAngle;
             return;
         }
 
-        float SteerAngle = SteerInput * MaxSteeringAngle;
+        float SteerAngle = actualSteerAngle;
         float radSteerAngle = Mathf.Deg2Rad * SteerAngle;
 
         float L = Mathf.Atan((WheelBase * Mathf.Sin(radSteerAngle)) / (WheelBase * Mathf.Cos(radSteerAngle) + Width * Mathf.Sin(radSteerAngle)));

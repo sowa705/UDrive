@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+[ExecuteInEditMode]
 public class VehicleFollowCamera : MonoBehaviour
 {
     public UVehicle Target;
@@ -11,8 +11,13 @@ public class VehicleFollowCamera : MonoBehaviour
     public float Elevation=3;
     [Range(0f, 1f)]
     public float AngleMultiplier=0.25f;
+    
     void LateUpdate()
     {
+        if (Target==null)
+        {
+            return;
+        }
         var targetTransform = Target.transform;
 
         Vector3 position = new Vector3(0, Elevation, -Distance);

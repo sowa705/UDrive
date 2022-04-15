@@ -33,16 +33,12 @@ public class MotorcycleController : MonoBehaviour
 	public class WheelData
 	{
 
-		public WheelData(Transform transform, UWheelCollider collider)
+		public WheelData( UWheelCollider collider)
 		{
-			wheelTransform = transform;
 			wheelCollider = collider;
-			wheelStartPos = transform.transform.localPosition;
 		}
 
-		public Transform wheelTransform;
 		public UWheelCollider wheelCollider;
-		public Vector3 wheelStartPos;
 		public float rotation = 0f;
 	}
 
@@ -59,8 +55,8 @@ public class MotorcycleController : MonoBehaviour
 		GetComponent<Rigidbody>().centerOfMass = CenterOfMass.localPosition;
 
 		wheels = new WheelData[2];
-		wheels[0] = new WheelData(wheelF, WColForward);
-		wheels[1] = new WheelData(wheelB, WColBack);
+		wheels[0] = new WheelData(WColForward);
+		wheels[1] = new WheelData( WColBack);
 
 		thisTransform = GetComponent<Transform>();
 	}
@@ -84,7 +80,6 @@ public class MotorcycleController : MonoBehaviour
 		}
 
 		motoMove(motoControl(input));
-		updateWheels();
 
 		if (Input.GetKeyDown(KeyCode.Backspace))
 		{
@@ -163,36 +158,5 @@ public class MotorcycleController : MonoBehaviour
 		WColBack.BrakeTorque = maxBackBrake * input.brakeBack;
 
 		WColBack.EngineTorque = maxMotorTorque * input.acceleration;
-	}
-
-	private void updateWheels()
-	{
-		float delta = Time.fixedDeltaTime;
-
-		foreach (WheelData w in wheels)
-		{
-			Vector3 localPos = w.wheelTransform.localPosition;
-
-			//if (w.wheelCollider.wheelState.IsGrounded)
-			{
-				localPos.y -= Vector3.Dot(w.wheelTransform.position - (w.wheelTransform.position- w.wheelTransform.up*w.wheelCollider.Parameters.Radius), transform.up) - wheelRadius;
-				w.wheelTransform.localPosition = localPos;
-			}
-			//else
-			{
-				localPos.y = w.wheelStartPos.y - wheelOffset;
-			}
-			//w.wheelTransform.localPosition = localPos;
-
-			//w.rotation = Mathf.Repeat(w.rotation + delta * w.wheelCollider.wheelState.RPM * 360.0f / 60.0f, 360f);
-			w.wheelTransform.localRotation = Quaternion.Euler(w.rotation, w.wheelCollider.SteerAngle, 90.0f);
-		}
-	}
-
-	void OnGUI()
-	{
-		GUI.color = Color.black;
-		var area = new Rect(0, 0, 100, 50);
-		GUI.Label(area, speedVal.ToString("f1") + " m/s" + "\nangle = " + prevAngle.ToString("f3") + "\nangle' = " + prevOmega.ToString("f3"));
 	}
 }

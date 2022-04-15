@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class Flywheel : MonoBehaviour, ITorqueNode
+public class Flywheel : VehicleComponent, ITorqueNode
 {
     public float MOI;
     public float RPM;
@@ -13,5 +13,9 @@ public class Flywheel : MonoBehaviour, ITorqueNode
         RPM += torque / MOI / 50f;
         RPM -= RPM / 10000f;
         return RPM;
+    }
+
+    public override void VehicleStart()
+    {
     }
 }

@@ -6,6 +6,7 @@ public class UVehicle : MonoBehaviour
 {
     ITorqueGenerator[] TqGenerators;
     UWheelCollider[] UWheelColliders;
+    Rigidbody Rigidbody;
 
     [Range(1, 32)]
     public int Substeps = 4;
@@ -29,6 +30,7 @@ public class UVehicle : MonoBehaviour
         if (VehicleValues.ContainsKey(paramID))
         {
             VehicleValues[paramID]=value;
+            return;
         }
         VehicleValues.Add(paramID,value);
     }
@@ -40,6 +42,7 @@ public class UVehicle : MonoBehaviour
     {
         TqGenerators=GetComponentsInChildren<ITorqueGenerator>();
         UWheelColliders=GetComponentsInChildren<UWheelCollider>();
+        Rigidbody = GetComponentInChildren<Rigidbody>();
         VehicleValues = new Dictionary<VehicleParamId, float>();
     }
 
@@ -58,6 +61,7 @@ public class UVehicle : MonoBehaviour
 
     private void FixedUpdate()
     {
+        WriteParameter(VehicleParamId.VehicleSpeed,Rigidbody.velocity.magnitude);
         for (int i = 0; i < Substeps; i++)
         {
             RunSubstep();
@@ -70,5 +74,7 @@ public enum VehicleParamId
     VehicleEnabled,
     EngineEnabled,
     EngineRPM,
-    VehicleSpeed
+    EngineMaxRPM,
+    VehicleSpeed,
+    TargetSteerAngle,
 }

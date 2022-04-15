@@ -42,8 +42,11 @@ class TireFrictionComponent : WheelComponent
 
             var force = forwardDirection * longitudinalForce + lateralDirection * lateralForce;
 
-            Collider.parentRB.AddForceAtPosition(force / Collider.parentVehicle.Substeps * Collider.LForceMultip, pos);
+            Collider.parentRB.AddForceAtPosition(force / Collider.Vehicle.Substeps * Collider.LForceMultip, pos);
 
+            Collider.debugData.FrictionForce = new Vector2(longitudinalForce, lateralForce);
+            Collider.debugData.SlipAngle = (float)lateralSlipAngle;
+            Collider.debugData.SlipRatio = (float)longitudinalSlipRatio;
             reactionTorque = Collider.Parameters.Radius * longitudinalForce;
         }
 

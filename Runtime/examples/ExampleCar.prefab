@@ -149,9 +149,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LeftWheel: {fileID: 336212243461665327}
   RightWheel: {fileID: 336212244317466762}
-  Mode: 0
+  Mode: 1
   SteerInput: 0
   MaxSteeringAngle: 25
+  MaxAngularVelocity: 80
 --- !u!114 &-5335934552558967991
 MonoBehaviour:
   m_ObjectHideFlags: 0

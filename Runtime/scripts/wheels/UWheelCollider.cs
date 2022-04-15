@@ -7,15 +7,17 @@ using System;
 using UnityEditor;
 #endif
 
-public class UWheelCollider : MonoBehaviour,ITorqueNode
+public class UWheelCollider : VehicleComponent, ITorqueNode
 {
     public WheelParameters Parameters;
-    [NonSerialized]
+    //[NonSerialized]
     public WheelState wheelState;
+    public WheelTickState LastTickState { get; private set; }
     [NonSerialized]
     public Rigidbody parentRB;
-    [NonSerialized]
-    public UVehicle parentVehicle;
+
+    //[NonSerialized]
+    public WheelDebugData debugData;
 
     public float EngineTorque;
     public float BrakeTorque;
@@ -30,10 +32,6 @@ public class UWheelCollider : MonoBehaviour,ITorqueNode
     public Vector3 Velocity;
     List<WheelComponent> wheelComponents=new List<WheelComponent>();
 
-    private void Awake()
-    {
-        ResetWheel();
-    }
     void ResetWheel()
     {
         wheelState = new WheelState();
@@ -45,7 +43,6 @@ public class UWheelCollider : MonoBehaviour,ITorqueNode
         wheelComponents.Add(new WheelInertiaComponent(this));
 
         parentRB = GetComponentInParent<Rigidbody>();
-        parentVehicle=GetComponentInParent<UVehicle>();
     }
     public Vector3 GetWheelPosition()
     {
@@ -87,11 +84,11 @@ public class UWheelCollider : MonoBehaviour,ITorqueNode
 
     public void RunSubstep(float deltaT)
     {
-        var tickState=new WheelTickState();
+        LastTickState = new WheelTickState();
 
         foreach (var item in wheelComponents)
         {
-            item.RunSubstep(tickState,deltaT);
+            item.RunSubstep(LastTickState, deltaT);
         }
     }
     void FixedUpdate()
@@ -104,5 +101,10 @@ public class UWheelCollider : MonoBehaviour,ITorqueNode
     {
         EngineTorque = torque;
         return wheelState.AngularVelocity * 9.5493f;
+    }
+
+    public override void VehicleStart()
+    {
+        ResetWheel();
     }
 }

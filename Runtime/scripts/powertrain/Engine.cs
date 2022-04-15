@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class Engine : MonoBehaviour, ITorqueGenerator
+public class Engine : VehicleComponent, ITorqueGenerator
 {
     [RequireInterface(typeof(ITorqueNode))]
     public Object Output;
@@ -18,5 +18,11 @@ public class Engine : MonoBehaviour, ITorqueGenerator
         }
 
         CurrentRPM=outputGenerator.GetRPMFromTorque(torque);
+        Vehicle.WriteParameter(VehicleParamId.EngineRPM,CurrentRPM);
+    }
+
+    public override void VehicleStart()
+    {
+        Vehicle.WriteParameter(VehicleParamId.EngineMaxRPM, MaxRPM);
     }
 }

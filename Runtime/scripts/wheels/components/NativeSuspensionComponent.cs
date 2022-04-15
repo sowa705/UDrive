@@ -16,7 +16,7 @@ class NativeSuspensionComponent : WheelComponent
 
         SuspensionCollider.suspensionSpring = new JointSpring { damper = Collider.Parameters.SuspensionSettings.Damper, spring = Collider.Parameters.SuspensionSettings.Spring, targetPosition = 0.5f };
     }
-
+    
     public override void RunSubstep(WheelTickState tickState, float deltaT)
     {
         WheelHit hit;

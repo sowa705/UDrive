@@ -30,3 +30,13 @@ public class TireData
     public float LateralFrictionMultiplier;
     public AnimationCurve lateralSlipCurve;
 }
+
+[Serializable]
+
+public class WheelDebugData
+{
+    public float SlipAngle;
+    public float SlipRatio;
+
+    public Vector2 FrictionForce;
+}

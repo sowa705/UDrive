@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class PowertrainNode : MonoBehaviour, ITorqueNode
+public class PowertrainNode : VehicleComponent, ITorqueNode
 {
     //[RequireInterface(typeof(ITorqueNode))]
     public List<Object> Outputs;
@@ -19,5 +19,9 @@ public class PowertrainNode : MonoBehaviour, ITorqueNode
     public virtual float GetRPMFromTorque(float torque)
     {
         throw new System.NotImplementedException();
+    }
+
+    public override void VehicleStart()
+    {
     }
 }

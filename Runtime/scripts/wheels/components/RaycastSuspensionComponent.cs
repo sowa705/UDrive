@@ -5,7 +5,7 @@ class RaycastSuspensionComponent : WheelComponent
     public RaycastSuspensionComponent(UWheelCollider collider) : base(collider)
     {
     }
-
+    
     public override void RunSubstep(WheelTickState tickState, float deltaT)
     {
         Vector3 dir = Collider.transform.up;
@@ -25,7 +25,7 @@ class RaycastSuspensionComponent : WheelComponent
         if (Physics.Raycast(new Ray(rayPos, -dir), out hit, Collider.Parameters.Radius))
         {
             float depth = len - hit.distance;
-            suspensionCollisionForce = ((depth * Collider.Parameters.Mass / Collider.Parameters.Radius) / (deltaT * deltaT));
+            suspensionCollisionForce = ((depth / Collider.Parameters.Radius) / (deltaT * deltaT));
             tickState.IsGrounded = true;
             c = Color.magenta;
         }
@@ -43,7 +43,7 @@ class RaycastSuspensionComponent : WheelComponent
 
         Vector3 rbForce = dir * force;
 
-        Collider.parentRB.AddForceAtPosition(rbForce / Collider.parentVehicle.Substeps, springPos, ForceMode.Force);
+        Collider.parentRB.AddForceAtPosition(rbForce / Collider.Vehicle.Substeps, springPos, ForceMode.Force);
 
         Collider.wheelState.SuspensionVelocity -= ((force - suspensionCollisionForce) * deltaT) / Collider.Parameters.Mass;
         Collider.wheelState.SuspensionVelocity = Mathf.Clamp(Collider.wheelState.SuspensionVelocity, -5, 5);
