@@ -5,14 +5,15 @@
   "description": "Vehicle simulation system",
   "unity": "2019.1",
   "unityRelease": "0b5",
- "keywords": [
+  "keywords": [
     "vehicle",
     "simulation",
     "physics"
   ],
   "author": {
-    "name": "Łukasz Sowa",
+    "name": "\u0141ukasz Sowa",
     "email": "sowa705@gmail.com",
     "url": "https://github.com/sowa705/udrive"
-  }
+  },
+  "type": "library"
 }

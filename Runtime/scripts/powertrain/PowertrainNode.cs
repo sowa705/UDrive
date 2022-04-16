@@ -23,5 +23,9 @@ public class PowertrainNode : VehicleComponent, ITorqueNode
 
     public override void VehicleStart()
     {
+        PowertrainStart();
+    }
+    public virtual void PowertrainStart()
+    {
     }
 }

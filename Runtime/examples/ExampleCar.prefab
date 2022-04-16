@@ -49,8 +49,8 @@ MonoBehaviour:
     Width: 0.2
     Mass: 20
     SuspensionSettings:
-      Spring: 30000
-      Damper: 3000
+      Spring: 37500
+      Damper: 3500
       Travel: 0.3
     FrictionData:
       LongitudinalMultiplier: 1
@@ -60,6 +60,15 @@ MonoBehaviour:
         Shape: 1.9
         Peak: 1
         Curvature: 0.97
+  wheelState:
+    SuspensionPosition: 0
+    SuspensionVelocity: 0
+    AngularVelocity: 0
+    RotationAngle: 0
+  debugData:
+    SlipAngle: 0
+    SlipRatio: 0
+    FrictionForce: {x: 0, y: 0}
   EngineTorque: 0
   BrakeTorque: 0
   LForceMultip: 1
@@ -78,6 +87,8 @@ GameObject:
   - component: {fileID: 336212243622908163}
   - component: {fileID: 675532010}
   - component: {fileID: -5335934552558967991}
+  - component: {fileID: 834984422}
+  - component: {fileID: 834984423}
   m_Layer: 0
   m_Name: ExampleCar
   m_TagString: Untagged
@@ -165,6 +176,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56aaeaef689ff5f46964b690ef3bc78f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &834984422
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 336212243622908284}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1aad064a4a73f724891894773f9854e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BrakeBias: 0.476
+  BrakeTorque: 10000
+--- !u!114 &834984423
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 336212243622908284}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579bc2e267988874eb259e1a98d36f7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &336212244311956605
 GameObject:
   m_ObjectHideFlags: 0
@@ -192,7 +229,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 336212244311956605}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.75, z: 0}
+  m_LocalPosition: {x: 0, y: 0.791, z: 0}
   m_LocalScale: {x: 1.8, y: 1.5, z: 4.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -311,8 +348,8 @@ MonoBehaviour:
     Width: 0.2
     Mass: 20
     SuspensionSettings:
-      Spring: 30000
-      Damper: 3000
+      Spring: 37500
+      Damper: 3500
       Travel: 0.3
     FrictionData:
       LongitudinalMultiplier: 1
@@ -322,6 +359,15 @@ MonoBehaviour:
         Shape: 1.9
         Peak: 1
         Curvature: 0.97
+  wheelState:
+    SuspensionPosition: 0
+    SuspensionVelocity: 0
+    AngularVelocity: 0
+    RotationAngle: 0
+  debugData:
+    SlipAngle: 0
+    SlipRatio: 0
+    FrictionForce: {x: 0, y: 0}
   EngineTorque: 0
   BrakeTorque: 0
   LForceMultip: 1
@@ -337,8 +383,8 @@ GameObject:
   m_Component:
   - component: {fileID: 336212244548664141}
   - component: {fileID: 336212244548664144}
-  - component: {fileID: 336212244548664147}
   - component: {fileID: 336212244548664146}
+  - component: {fileID: 1138697927}
   m_Layer: 0
   m_Name: Drivetrain
   m_TagString: Untagged
@@ -373,25 +419,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b527dc42e4ad3a45b194a529f5f2303, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Output: {fileID: 336212244548664147}
-  Torque: 10
-  MaxRPM: 5000
+  Output: {fileID: 1138697927}
+  Torque: 200
+  MaxRPM: 7500
   CurrentRPM: 0
---- !u!114 &336212244548664147
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 336212244548664140}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d18d4ebcaa1b0244d8bb6c6f46a9e221, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Outputs:
-  - {fileID: 336212244548664146}
-  Ratio: 2
 --- !u!114 &336212244548664146
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -409,6 +440,39 @@ MonoBehaviour:
   - {fileID: 336212245205562003}
   FinalDriveRatio: 4
   Type: 0
+--- !u!114 &1138697927
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 336212244548664140}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be485cc5a568a264ebc97e226f037ad1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Outputs:
+  - {fileID: 336212244548664146}
+  GearRatios:
+  - -3.44
+  - 3.63
+  - 2.19
+  - 1.54
+  - 1.21
+  - 1
+  - 0.77
+  Gear: 1
+  FlywheelRPM: 0
+  ShaftRPM: 0
+  Clutch: 1
+  ActualClutch: 1
+  SmoothActualClutch: 0
+  MaxClutchTorque: 200
+  AppliedClutchTQ: 0
+  AutoClutch: 1
+  MomentOfInertia: 0.02
+  ShiftTime: 0.5
 --- !u!1 &336212244569899991
 GameObject:
   m_ObjectHideFlags: 0
@@ -458,8 +522,8 @@ MonoBehaviour:
     Width: 0.2
     Mass: 20
     SuspensionSettings:
-      Spring: 30000
-      Damper: 3000
+      Spring: 37500
+      Damper: 3500
       Travel: 0.3
     FrictionData:
       LongitudinalMultiplier: 1
@@ -469,6 +533,15 @@ MonoBehaviour:
         Shape: 1.9
         Peak: 1
         Curvature: 0.97
+  wheelState:
+    SuspensionPosition: 0
+    SuspensionVelocity: 0
+    AngularVelocity: 0
+    RotationAngle: 0
+  debugData:
+    SlipAngle: 0
+    SlipRatio: 0
+    FrictionForce: {x: 0, y: 0}
   EngineTorque: 0
   BrakeTorque: 0
   LForceMultip: 1
@@ -523,8 +596,8 @@ MonoBehaviour:
     Width: 0.2
     Mass: 20
     SuspensionSettings:
-      Spring: 30000
-      Damper: 3000
+      Spring: 37500
+      Damper: 3500
       Travel: 0.3
     FrictionData:
       LongitudinalMultiplier: 1
@@ -534,6 +607,15 @@ MonoBehaviour:
         Shape: 1.9
         Peak: 1
         Curvature: 0.97
+  wheelState:
+    SuspensionPosition: 0
+    SuspensionVelocity: 0
+    AngularVelocity: 0
+    RotationAngle: 0
+  debugData:
+    SlipAngle: 0
+    SlipRatio: 0
+    FrictionForce: {x: 0, y: 0}
   EngineTorque: 0
   BrakeTorque: 0
   LForceMultip: 1

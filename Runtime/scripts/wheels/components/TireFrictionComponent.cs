@@ -46,7 +46,7 @@ class TireFrictionComponent : WheelComponent
 
             Collider.debugData.FrictionForce = new Vector2(longitudinalForce, lateralForce);
             Collider.debugData.SlipAngle = (float)lateralSlipAngle;
-            Collider.debugData.SlipRatio = (float)longitudinalSlipRatio;
+            Collider.debugData.SlipRatio = (float)longitudinalSlipRatio + 1;
             reactionTorque = Collider.Parameters.Radius * longitudinalForce;
         }
 

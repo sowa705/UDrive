@@ -76,5 +76,8 @@ public enum VehicleParamId
     EngineRPM,
     EngineMaxRPM,
     VehicleSpeed,
-    TargetSteerAngle,
+    SteeringInput,
+    AcceleratorInput,
+    BrakeInput,
+    CurrentGear
 }

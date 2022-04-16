@@ -119,9 +119,6 @@ public class MotorcycleController : MonoBehaviour
 		prevAngle = angle;
 		prevOmega = omega;
 
-		float lowSpeed = 8f;
-		float highSpeed = 25f;
-
 		if (speedVal < lowSpeed)
 		{
 			float t = speedVal / lowSpeed;

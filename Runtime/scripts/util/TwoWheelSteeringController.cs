@@ -53,7 +53,7 @@ public class TwoWheelSteeringController : VehicleComponent
     }
     void FixedUpdate()
     {
-        SteerInput = Vehicle.ReadParameter(VehicleParamId.TargetSteerAngle);
+        SteerInput = Vehicle.ReadParameter(VehicleParamId.SteeringInput);
 
         var angle = SteerInput * MaxSteeringAngle;
 

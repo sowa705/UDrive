@@ -17,7 +17,7 @@ public class IngameDebugger : VehicleComponent
         for (int i = 0; i < wheels.Length; i++)
         {
             totalsusforce += wheels[i].LastTickState.SuspensionForce;
-            GUI.Label(new Rect(20, 50 + i * 25, 400, 20), $"{wheels[i].name}\t\t{(int)wheels[i].LastTickState.SuspensionForce} N\t\t{(wheels[i].debugData.SlipRatio).ToString("00.0")}\t{wheels[i].debugData.SlipAngle.ToString("00.0")} deg");
+            GUI.Label(new Rect(20, 50 + i * 25, 400, 20), $"{wheels[i].name}\t\t{(int)wheels[i].LastTickState.SuspensionForce} N\t\t{(wheels[i].debugData.SlipRatio).ToString("00.00")}\t{wheels[i].debugData.SlipAngle.ToString("00.0")} deg");
         }
         GUI.Label(new Rect(20, 50 + wheels.Length * 25, 400, 20), $"Total suspension force: {(int)totalsusforce} N ({-Mathf.RoundToInt(totalsusforce/Physics.gravity.y)} kg)");
     }
