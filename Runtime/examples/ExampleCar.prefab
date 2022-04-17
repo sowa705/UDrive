@@ -87,7 +87,6 @@ GameObject:
   - component: {fileID: 336212243622908163}
   - component: {fileID: 675532010}
   - component: {fileID: -5335934552558967991}
-  - component: {fileID: 834984422}
   - component: {fileID: 834984423}
   m_Layer: 0
   m_Name: ExampleCar
@@ -176,20 +175,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56aaeaef689ff5f46964b690ef3bc78f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &834984422
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 336212243622908284}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1aad064a4a73f724891894773f9854e2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  BrakeBias: 0.476
-  BrakeTorque: 10000
 --- !u!114 &834984423
 MonoBehaviour:
   m_ObjectHideFlags: 0
