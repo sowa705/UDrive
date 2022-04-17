@@ -6,7 +6,8 @@ public class UVehicle : MonoBehaviour
 {
     ITorqueGenerator[] TqGenerators;
     UWheelCollider[] UWheelColliders;
-    Rigidbody Rigidbody;
+    Rigidbody rigidbody;
+    public Rigidbody Rigidbody { get => rigidbody; }
 
     [Range(1, 32)]
     public int Substeps = 4;
@@ -42,7 +43,7 @@ public class UVehicle : MonoBehaviour
     {
         TqGenerators=GetComponentsInChildren<ITorqueGenerator>();
         UWheelColliders=GetComponentsInChildren<UWheelCollider>();
-        Rigidbody = GetComponentInChildren<Rigidbody>();
+        rigidbody = GetComponentInChildren<Rigidbody>();
         VehicleValues = new Dictionary<VehicleParamId, float>();
     }
 

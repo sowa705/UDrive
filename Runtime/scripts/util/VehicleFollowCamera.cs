@@ -25,7 +25,7 @@ public class VehicleFollowCamera : MonoBehaviour
 
         var targetposition = targetTransform.TransformPoint(position);
         var targetrotation = Quaternion.LookRotation(targetTransform.forward,targetTransform.up)* Quaternion.Euler(rotationAngle* AngleMultiplier, 0, 0);
-
+        
         transform.position = Vector3.Slerp(transform.position,targetposition,Time.unscaledDeltaTime* 10f);
         transform.rotation = Quaternion.Slerp(transform.rotation, targetrotation, Time.unscaledDeltaTime*6f);
     }
