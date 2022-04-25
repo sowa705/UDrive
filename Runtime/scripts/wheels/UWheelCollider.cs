@@ -118,8 +118,8 @@ public class UWheelCollider : VehicleComponent, ITorqueNode, IStatefulComponent
 
     public void Deserialize(BinaryReader reader)
     {
-        wheelState.SuspensionPosition = reader.ReadSingle();
-        wheelState.SuspensionVelocity = reader.ReadSingle();
-        wheelState.AngularVelocity = reader.ReadSingle();
+        wheelState.SuspensionPosition = Mathf.Lerp(wheelState.SuspensionPosition, reader.ReadSingle(),Time.fixedDeltaTime);
+        wheelState.SuspensionVelocity = Mathf.Lerp(wheelState.SuspensionVelocity, reader.ReadSingle(), Time.fixedDeltaTime);
+        wheelState.AngularVelocity = Mathf.Lerp(wheelState.AngularVelocity, reader.ReadSingle(), Time.fixedDeltaTime);
     }
 }

@@ -33,5 +33,18 @@ public class AutomaticManualGearboxController : VehicleComponent
             gearbox.ShiftGear(gearbox.Gear - 1);
             LastShiftTimer = 1f;
         }
+
+    }
+    private void LateUpdate()
+    {
+        if (gearbox.IsShifting)
+        {
+            Vehicle.WriteInputParameter(VehicleParamId.AcceleratorInput, 0);
+            Vehicle.WriteInputParameter(VehicleParamId.ClutchInput, 1);
+        }
+        else
+        {
+            Vehicle.WriteInputParameter(VehicleParamId.ClutchInput, 0);
+        }
     }
 }

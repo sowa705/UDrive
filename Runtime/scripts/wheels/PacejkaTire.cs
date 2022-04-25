@@ -28,10 +28,15 @@ public class SimplifiedPacejkaTireData
     [Range(-10, 1)]
     public float Curvature = 0.97f;
 
-    public float CalculateForce(float slip, float SuspensionForce)
+    public float GetMaxCof()
+    {
+        return Peak;
+    }
+
+    public float CalculateCoF(float slip)
     {
         float bslip = slip * Stiffness;
 
-        return SuspensionForce * Peak * Mathf.Sin(Shape * Mathf.Atan(bslip - Curvature * (bslip - Mathf.Atan(bslip))));
+        return Peak * Mathf.Sin(Shape * Mathf.Atan(bslip - Curvature * (bslip - Mathf.Atan(bslip))));
     }
 }

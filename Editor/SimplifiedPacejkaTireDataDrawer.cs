@@ -18,7 +18,7 @@ public class SimplifiedPacejkaTireDataDrawer : PropertyDrawer
         for (int i = 0; i < 80; i++)
         {
             float slip = i / 40f;
-            float v = tiredata.CalculateForce(slip, 1);
+            float v = tiredata.CalculateCoF(slip);
             if (v > max)
             {
                 max = v;
@@ -36,7 +36,7 @@ public class SimplifiedPacejkaTireDataDrawer : PropertyDrawer
         var unitRect = new Rect(position.x, position.y+90, position.width, position.height-90f);
         EditorGUI.CurveField(a, c,Color.red,new Rect(0,0,2,2));
         EditorGUI.LabelField(label1, $"Peak CoF: {max.ToString("0.000")} ({maxSlip})");
-        EditorGUI.LabelField(label2, $"Dynamic CoF: {tiredata.CalculateForce(3, 1).ToString("0.000")}");
+        EditorGUI.LabelField(label2, $"Dynamic CoF: {tiredata.CalculateCoF(3).ToString("0.000")}");
         EditorGUI.PropertyField(unitRect, property, new GUIContent( "Coefficients"), true);
     }
 

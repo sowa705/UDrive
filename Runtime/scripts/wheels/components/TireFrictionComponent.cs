@@ -37,17 +37,21 @@ class TireFrictionComponent : WheelComponent
         if (tickState.IsGrounded)
         {
             SimplifiedPacejkaTireData tire = Collider.Parameters.FrictionData.Tire;
-            float longitudinalForce = Collider.Parameters.FrictionData.LongitudinalMultiplier * tire.CalculateForce((float)longitudinalSlipRatio, tickState.SuspensionForce);
-            float lateralForce = Collider.Parameters.FrictionData.LateralMultiplier * tire.CalculateForce((float)lateralSlipAngle / 10f, tickState.SuspensionForce);
+            float longitudinalCOF = Collider.Parameters.FrictionData.LongitudinalMultiplier * tire.CalculateCoF((float)longitudinalSlipRatio);
+            float lateralCOF = Collider.Parameters.FrictionData.LateralMultiplier * tire.CalculateCoF((float)lateralSlipAngle / 10f);
 
-            var force = forwardDirection * longitudinalForce + lateralDirection * lateralForce;
+            float maxCOF = tire.GetMaxCof();
+
+            var forwardForce = Mathf.Sqrt(Mathf.Pow(longitudinalCOF / maxCOF, 2) + Mathf.Pow(lateralCOF / maxCOF, 2)) * longitudinalCOF*tickState.SuspensionForce;
+
+            var force = Mathf.Sqrt(Mathf.Pow(longitudinalCOF/ maxCOF,2)+ Mathf.Pow(lateralCOF / maxCOF, 2))*(forwardDirection * longitudinalCOF + lateralDirection * lateralCOF) * tickState.SuspensionForce;
 
             Collider.parentRB.AddForceAtPosition(force / Collider.Vehicle.Substeps * Collider.LForceMultip, pos);
 
-            Collider.debugData.FrictionForce = new Vector2(longitudinalForce, lateralForce);
+            Collider.debugData.FrictionForce = force;
             Collider.debugData.SlipAngle = (float)lateralSlipAngle;
             Collider.debugData.SlipRatio = (float)longitudinalSlipRatio + 1;
-            reactionTorque = Collider.Parameters.Radius * longitudinalForce;
+            reactionTorque = Collider.Parameters.Radius * forwardForce;
         }
 
         if (float.IsNaN(reactionTorque))

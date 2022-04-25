@@ -21,7 +21,7 @@ public class ManualGearbox : PowertrainNode, ITorqueNode
     float ShiftTimer;
     [Range(0.1f, 1f)]
     public float ShiftTime = 0.5f;
-    public bool IsShifting { get => ShiftTimer > 0f; }
+    public bool IsShifting { get => ShiftTimer > 0; }
 
     float GetRatio()
     {
@@ -51,6 +51,8 @@ public class ManualGearbox : PowertrainNode, ITorqueNode
     }
     public override float GetRPMFromTorque(float torque)
     {
+        Clutch = 1- Vehicle.ReadInputParameter(VehicleParamId.ClutchInput);
+
         ShiftTimer -= vehicle.CurrentDeltaT;
         if (AutoClutch)
         {

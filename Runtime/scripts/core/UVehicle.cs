@@ -61,16 +61,12 @@ public class UVehicle : MonoBehaviour
 
     public void AddVehicleComponent(VehicleComponent component)
     {
-        //get a somewhat stable and consistent ID
-        int cid = component.transform.localPosition.GetHashCode()^component.name.GetHashCode()^component.GetType().Name.GetHashCode();
-
-        Debug.Log($"Added component {component.name}, {cid}");
-        component.ID = cid;
+        Debug.Log($"Added component {component.name}, {component.GetID()}");
         Components.Add(component);
 
         if (component is IStatefulComponent)
         {
-            StatefulComponents.Add(cid,component as IStatefulComponent);
+            StatefulComponents.Add(component.GetID(), component as IStatefulComponent);
         }
     }
     public UWheelCollider[] GetWheels()
@@ -102,6 +98,10 @@ public class UVehicle : MonoBehaviour
     public void SerializeState(BinaryWriter writer,SerializationMode mode)
     {
         writer.Write((int)mode);
+        if (mode == 0)
+        {
+            return;
+        }
         writer.Write(rigidbody.position.x);
         writer.Write(rigidbody.position.y);
         writer.Write(rigidbody.position.z);
@@ -130,19 +130,35 @@ public class UVehicle : MonoBehaviour
     }
     public void DeserializeState(BinaryReader reader)
     {
-        int m = reader.ReadInt32();
+        int m;
+        try
+        {
+            m = reader.ReadInt32();
+        }
+        catch (System.Exception)
+        {
+            throw new System.Exception("Cannot read from the stream");
+        }
         if (m==0)
         {
             throw new System.Exception("Invalid start header");
         }
         SerializationMode mode = (SerializationMode)m;
+        if (m==0)
+        {
+            return;
+        }
         Vector3 pos = new Vector3(reader.ReadSingle(), reader.ReadSingle(), reader.ReadSingle());
         Vector3 vel = new Vector3(reader.ReadSingle(), reader.ReadSingle(), reader.ReadSingle());
         Quaternion rot = new Quaternion(reader.ReadSingle(), reader.ReadSingle(), reader.ReadSingle(), reader.ReadSingle());
 
-        Debug.Log($"Position diff = {pos-rigidbody.position}");
-        Debug.Log($"Velocity diff = {Vector3.Distance(vel, rigidbody.velocity) * 1000}");
-        Debug.Log($"Rotation diff = {Quaternion.Angle(rot,rigidbody.rotation) * 1000}");
+        Debug.Log($"Position diff = {Vector3.Distance(pos, transform.position)}");
+        Debug.Log($"Velocity diff = {Vector3.Distance(vel, rigidbody.velocity)}");
+        Debug.Log($"Rotation diff = {Quaternion.Angle(rot,rigidbody.rotation)}");
+
+        //rigidbody.velocity = Vector3.Lerp(rigidbody.velocity, vel,Time.fixedDeltaTime/5f);
+        //rigidbody.position = Vector3.Lerp(rigidbody.position, pos, Time.fixedDeltaTime / 1f);
+        //rigidbody.rotation = Quaternion.Slerp(rigidbody.rotation, rot, Time.fixedDeltaTime / 2f);
 
         while (true)
         {
@@ -191,12 +207,6 @@ public enum VehicleParamId
     SteeringInput,
     AcceleratorInput,
     BrakeInput,
-    CurrentGear
-}
-
-public enum SerializationMode
-{
-    None,
-    Network,
-    Full
+    CurrentGear,
+    ClutchInput
 }

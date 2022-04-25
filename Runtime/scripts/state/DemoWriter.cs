@@ -7,6 +7,7 @@ using System;
 public class DemoWriter : MonoBehaviour
 {
     public UVehicle Target;
+    public SerializationMode Mode;
     MemoryStream stream = new MemoryStream();
     BinaryWriter writer;
     // Start is called before the first frame update
@@ -29,11 +30,12 @@ public class DemoWriter : MonoBehaviour
         }
         if (Time.time > 30f)
         {
+            Debug.Log("Serialization state written");
             stream.Flush();
             byte[] data = stream.ToArray();
             stream = null;
             File.WriteAllBytes("vehicledata.dat", data);
         }
-        Target.SerializeState(writer,SerializationMode.Network);
+        Target.SerializeState(writer, Mode);
     }
 }
