@@ -2,12 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.IO;
 
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
 
-public class UWheelCollider : VehicleComponent, ITorqueNode
+public class UWheelCollider : VehicleComponent, ITorqueNode, IStatefulComponent
 {
     public WheelParameters Parameters;
     //[NonSerialized]
@@ -106,5 +107,19 @@ public class UWheelCollider : VehicleComponent, ITorqueNode
     public override void VehicleStart()
     {
         ResetWheel();
+    }
+
+    public void SerializeState(BinaryWriter writer)
+    {
+        writer.Write(wheelState.SuspensionPosition);
+        writer.Write(wheelState.SuspensionVelocity);
+        writer.Write(wheelState.AngularVelocity);
+    }
+
+    public void Deserialize(BinaryReader reader)
+    {
+        wheelState.SuspensionPosition = reader.ReadSingle();
+        wheelState.SuspensionVelocity = reader.ReadSingle();
+        wheelState.AngularVelocity = reader.ReadSingle();
     }
 }

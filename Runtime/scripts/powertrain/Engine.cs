@@ -10,7 +10,7 @@ public class Engine : VehicleComponent, ITorqueGenerator
     public float CurrentRPM;
     public void RunSubstep()
     {
-        float torque = Torque * Vehicle.ReadParameter(VehicleParamId.AcceleratorInput);
+        float torque = Torque * Vehicle.ReadInputParameter(VehicleParamId.AcceleratorInput);
         if (CurrentRPM > MaxRPM)
         {
             torque = 0;
