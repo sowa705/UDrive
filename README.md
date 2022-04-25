@@ -1,4 +1,6 @@
-# UDrive
+![UDrive logo](Branding/UDriveLogoWhite.png#gh-dark-mode-only)
+![UDrive logo](Branding/UDriveLogoBlack.png#gh-light-mode-only)
+
 Advanced vehicle simulation system for Unity
 
 # Advantages
