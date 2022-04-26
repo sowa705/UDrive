@@ -19,6 +19,8 @@ public class UVehicle : MonoBehaviour
 
     List<VehicleComponent> Components = new List<VehicleComponent>();
     Dictionary<int,IStatefulComponent> StatefulComponents=new Dictionary<int, IStatefulComponent>();
+
+    Vector3 lastVelocity;
     void Awake()
     {
         ResetVehicle();
@@ -189,6 +191,13 @@ public class UVehicle : MonoBehaviour
 
     private void FixedUpdate()
     {
+        Vector3 acceleration = (rigidbody.velocity - lastVelocity)/Time.fixedDeltaTime;
+        var localAcceleration = transform.InverseTransformVector(acceleration);
+
+        WriteParameter(VehicleParamId.VehicleLongitudinalAcceleration,localAcceleration.z);
+        WriteParameter(VehicleParamId.VehicleLateralAcceleration, localAcceleration.x);
+
+        lastVelocity = rigidbody.velocity;
         WriteParameter(VehicleParamId.VehicleSpeed,Rigidbody.velocity.magnitude);
         for (int i = 0; i < Substeps; i++)
         {
@@ -208,5 +217,7 @@ public enum VehicleParamId
     AcceleratorInput,
     BrakeInput,
     CurrentGear,
-    ClutchInput
+    ClutchInput,
+    VehicleLateralAcceleration,
+    VehicleLongitudinalAcceleration
 }

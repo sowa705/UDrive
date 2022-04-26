@@ -39,4 +39,17 @@ public class SimplifiedPacejkaTireData
 
         return Peak * Mathf.Sin(Shape * Mathf.Atan(bslip - Curvature * (bslip - Mathf.Atan(bslip))));
     }
+
+    public Vector2 CalculateLocalForce(float slipRatio,float slipAngle,float SuspensionForce)
+    {
+        float forwardCoF = CalculateCoF(slipRatio);
+        float lateralCoF = CalculateCoF(slipAngle);
+
+        float maxCOF = GetMaxCof();
+
+        var forwardForce = Mathf.Sqrt(Mathf.Pow(forwardCoF / maxCOF, 2) + Mathf.Pow(lateralCoF / maxCOF, 2)) * forwardCoF;
+        var lateralForce = Mathf.Sqrt(Mathf.Pow(forwardCoF / maxCOF, 2) + Mathf.Pow(lateralCoF / maxCOF, 2)) * lateralCoF;
+
+        return new Vector2(forwardForce,lateralForce)* SuspensionForce;
+    }
 }
