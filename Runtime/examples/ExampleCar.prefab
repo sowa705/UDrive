@@ -89,6 +89,7 @@ GameObject:
   - component: {fileID: -5335934552558967991}
   - component: {fileID: 8892675644751002876}
   - component: {fileID: 834984423}
+  - component: {fileID: 1755836851}
   m_Layer: 0
   m_Name: ExampleCar
   m_TagString: Untagged
@@ -183,7 +184,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 336212243622908284}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2e4e8c741ad11f145a5f4bea20881479, type: 3}
   m_Name: 
@@ -201,6 +202,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 579bc2e267988874eb259e1a98d36f7a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1755836851
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 336212243622908284}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1aad064a4a73f724891894773f9854e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BrakeBias: 0.3
+  BrakeTorque: 5000
 --- !u!1 &336212244311956605
 GameObject:
   m_ObjectHideFlags: 0

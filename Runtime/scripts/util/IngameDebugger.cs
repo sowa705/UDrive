@@ -25,8 +25,8 @@ public class IngameDebugger : VehicleComponent
         }
         GUILayout.Label($"Total suspension force: {(int)totalsusforce} N ({-Mathf.RoundToInt(totalsusforce / Physics.gravity.y)} kg)");
         GUILayout.Label($"Velocity: {(vehicle.ReadParameter(VehicleParamId.VehicleSpeed)*3.6f).ToString("000.0")} km/h");
-        GUILayout.Label($"Acceleration: {(vehicle.ReadParameter(VehicleParamId.VehicleLongitudinalAcceleration)).ToString("00.0")} m/s²\t{(vehicle.ReadParameter(VehicleParamId.VehicleLateralAcceleration)).ToString("00.0")} m/s²");
-        GUILayout.Label($"Engine speed: {(vehicle.ReadParameter(VehicleParamId.EngineRPM)).ToString("0000")} RPM");
+        GUILayout.Label($"Acceleration: forward: {(vehicle.ReadParameter(VehicleParamId.VehicleLongitudinalAcceleration)).ToString("00.0")} m/s²\tlateral: {(vehicle.ReadParameter(VehicleParamId.VehicleLateralAcceleration)).ToString("00.0")} m/s²");
+        GUILayout.Label($"Engine speed: {(vehicle.ReadParameter(VehicleParamId.EngineRPM)).ToString("0000")} RPM\tGear: {vehicle.ReadParameter(VehicleParamId.CurrentGear)}\tClutch: {vehicle.ReadInputParameter(VehicleParamId.ClutchInput)}");
         GUILayout.EndVertical();
     }
 

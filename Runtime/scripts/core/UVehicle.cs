@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -75,13 +76,26 @@ public class UVehicle : MonoBehaviour
     {
         return UWheelColliders;
     }
-    void ResetVehicle()
+    public void ResetVehicle()
     {
         TqGenerators=GetComponentsInChildren<ITorqueGenerator>();
         UWheelColliders=GetComponentsInChildren<UWheelCollider>();
         rigidbody = GetComponentInChildren<Rigidbody>();
+
+        rigidbody.velocity = Vector3.zero;
+        rigidbody.angularVelocity= Vector3.zero;
+
         VehicleValues = new Dictionary<VehicleParamId, float>();
         InputParameters = new Dictionary<VehicleParamId, float>();
+
+        foreach (var item in UWheelColliders)
+        {
+            item.ResetWheel();
+        }
+        foreach (var item in Components)
+        {
+            item.VehicleStart();
+        }
     }
 
     void RunSubstep()
@@ -219,5 +233,6 @@ public enum VehicleParamId
     CurrentGear,
     ClutchInput,
     VehicleLateralAcceleration,
-    VehicleLongitudinalAcceleration
+    VehicleLongitudinalAcceleration,
+    HandbrakeInput
 }

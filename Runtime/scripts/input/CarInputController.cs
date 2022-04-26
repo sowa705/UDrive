@@ -19,6 +19,7 @@ public class CarInputController : VehicleComponent
         Vehicle.WriteInputParameter(VehicleParamId.SteeringInput,Input.GetAxis("Horizontal"));
         Vehicle.WriteInputParameter(VehicleParamId.AcceleratorInput, Input.GetKey(KeyCode.W)?1:0);
         Vehicle.WriteInputParameter(VehicleParamId.BrakeInput, Input.GetKey(KeyCode.S) ? 1 : 0);
+        Vehicle.WriteInputParameter(VehicleParamId.HandbrakeInput, Input.GetKey(KeyCode.Space) ? 1 : 0);
     }
 }
 public enum InputType

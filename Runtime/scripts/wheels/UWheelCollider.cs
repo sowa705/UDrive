@@ -33,7 +33,7 @@ public class UWheelCollider : VehicleComponent, ITorqueNode, IStatefulComponent
     public Vector3 Velocity;
     List<WheelComponent> wheelComponents=new List<WheelComponent>();
 
-    void ResetWheel()
+    public void ResetWheel()
     {
         wheelState = new WheelState();
 

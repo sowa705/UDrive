@@ -23,12 +23,13 @@ public class AutomaticManualGearboxController : VehicleComponent
             return;
         }
         float rpm = Vehicle.ReadParameter(VehicleParamId.EngineRPM);
-        if (rpm > 6000)
+        float shiftRPM = Vehicle.ReadParameter(VehicleParamId.EngineMaxRPM);
+        if (rpm > shiftRPM*0.85f)
         {
             gearbox.ShiftGear(gearbox.Gear + 1);
             LastShiftTimer = 1f;
         }
-        if (rpm < 2000 && gearbox.Gear > 1)
+        if (rpm < shiftRPM * 0.25f && gearbox.Gear > 1)
         {
             gearbox.ShiftGear(gearbox.Gear - 1);
             LastShiftTimer = 1f;
