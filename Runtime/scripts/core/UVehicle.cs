@@ -171,10 +171,13 @@ public class UVehicle : MonoBehaviour
         Debug.Log($"Position diff = {Vector3.Distance(pos, transform.position)}");
         Debug.Log($"Velocity diff = {Vector3.Distance(vel, rigidbody.velocity)}");
         Debug.Log($"Rotation diff = {Quaternion.Angle(rot,rigidbody.rotation)}");
-
-        //rigidbody.velocity = Vector3.Lerp(rigidbody.velocity, vel,Time.fixedDeltaTime/5f);
-        //rigidbody.position = Vector3.Lerp(rigidbody.position, pos, Time.fixedDeltaTime / 1f);
-        //rigidbody.rotation = Quaternion.Slerp(rigidbody.rotation, rot, Time.fixedDeltaTime / 2f);
+        float dist = Vector3.Distance(pos, transform.position);
+        if (dist > .5f)
+        {
+            rigidbody.velocity = Vector3.Lerp(rigidbody.velocity, vel, Time.fixedDeltaTime * dist);
+            rigidbody.position = Vector3.Lerp(rigidbody.position, pos, Time.fixedDeltaTime * dist);
+            rigidbody.rotation = Quaternion.Slerp(rigidbody.rotation, rot, Time.fixedDeltaTime * dist);
+        }
 
         while (true)
         {

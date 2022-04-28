@@ -49,7 +49,10 @@ public class UWheelCollider : VehicleComponent, ITorqueNode, IStatefulComponent
     {
         return transform.position + wheelState.SuspensionPosition * transform.up;
     }
-
+    public Vector3 GetLocalWheelPosition()
+    {
+        return wheelState.SuspensionPosition * Vector3.up;
+    }
     void OnDrawGizmos()
     {
         if (wheelState==null)

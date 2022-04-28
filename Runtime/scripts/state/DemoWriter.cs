@@ -28,7 +28,7 @@ public class DemoWriter : MonoBehaviour
         {
             return;
         }
-        if (Time.time > 30f)
+        if (Time.time > 60f)
         {
             Debug.Log("Serialization state written");
             stream.Flush();

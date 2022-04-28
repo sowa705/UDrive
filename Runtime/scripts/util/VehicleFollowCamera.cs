@@ -11,9 +11,7 @@ public class VehicleFollowCamera : MonoBehaviour
     public float Elevation=3;
     [Range(0f, 1f)]
     public float AngleMultiplier=0.25f;
-    [Range(5f, 50f)]
-    public float FollowSpeed = 10f;
-    [Range(5f, 25f)]
+    [Range(1f, 25f)]
     public float RotationSpeed = 10f;
 
     public bool AvoidCollision;
@@ -38,7 +36,7 @@ public class VehicleFollowCamera : MonoBehaviour
         Vector3 position = new Vector3(0, Elevation, -Distance);
         if (LookBack)
         {
-            position = new Vector3(0, Elevation, Distance);
+            //position = new Vector3(0, Elevation, Distance);
             actualRotSpeed = 200f;
         }
 
@@ -46,31 +44,33 @@ public class VehicleFollowCamera : MonoBehaviour
 
         float rotationAngle = Mathf.Atan(Elevation / Distance)*Mathf.Rad2Deg;
 
-        var targetposition = targetTransform.TransformPoint(position);
         var targetrotation = Quaternion.LookRotation(targetTransform.forward, targetTransform.up) * Quaternion.Euler(rotationAngle * AngleMultiplier, 0, 0);
 
         if (LookBack)
             targetrotation = Quaternion.LookRotation(-targetTransform.forward, targetTransform.up) * Quaternion.Euler(rotationAngle * AngleMultiplier, 0, 0);
 
+        var smoothRotation = Quaternion.Slerp(transform.rotation, targetrotation, Time.unscaledDeltaTime * actualRotSpeed);
 
+        var positionoffset = smoothRotation * position;
+        var targetPos = targetTransform.position + positionoffset;
         if (AvoidCollision)
         {
             RaycastHit hit;
-
-            Ray r = new Ray(Target.transform.position, targetposition - Target.transform.position);
-            float length = (targetposition - Target.transform.position).magnitude;
+            Vector3 dir = (positionoffset).normalized;
+            Ray r = new Ray(Target.transform.position, dir);
+            float length = (positionoffset).magnitude-1f;
             LayerMask mask = Physics.DefaultRaycastLayers & (~LayerMask.GetMask("IgnoreCameraRaycast"));
 
-            Debug.DrawRay(r.origin, r.direction * length, Color.red);
+            Debug.DrawRay(r.origin, dir * length, Color.red);
 
             if (Physics.Raycast(r, out hit, length,mask))
             {
                 Debug.DrawLine(r.origin,hit.point,Color.green);
-                targetposition = hit.point;
+                targetPos = hit.point-(r.direction);
             }
         }
         
-        transform.position = Vector3.Slerp(transform.position,targetposition,Time.unscaledDeltaTime* FollowSpeed);
-        transform.rotation = Quaternion.Slerp(transform.rotation, targetrotation, Time.unscaledDeltaTime* actualRotSpeed);
+        transform.position = targetPos;
+        transform.rotation = smoothRotation;
     }
 }
