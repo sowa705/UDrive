@@ -41,11 +41,11 @@ public class AutomaticManualGearboxController : VehicleComponent
         if (gearbox.IsShifting)
         {
             Vehicle.WriteInputParameter(VehicleParamId.AcceleratorInput, 0);
-            Vehicle.WriteInputParameter(VehicleParamId.ClutchInput, 1);
+            //Vehicle.WriteInputParameter(VehicleParamId.ClutchInput, 1);
         }
         else
         {
-            Vehicle.WriteInputParameter(VehicleParamId.ClutchInput, 0);
+            //Vehicle.WriteInputParameter(VehicleParamId.ClutchInput, 0);
         }
     }
 }
