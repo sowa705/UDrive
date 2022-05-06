@@ -82,8 +82,7 @@ public class UVehicle : MonoBehaviour
         UWheelColliders=GetComponentsInChildren<UWheelCollider>();
         rigidbody = GetComponentInChildren<Rigidbody>();
 
-        rigidbody.velocity = Vector3.zero;
-        rigidbody.angularVelocity= Vector3.zero;
+        rigidbody.ResetInertiaTensor();
 
         VehicleValues = new Dictionary<VehicleParamId, float>();
         InputParameters = new Dictionary<VehicleParamId, float>();
@@ -213,6 +212,15 @@ public class UVehicle : MonoBehaviour
 
         WriteParameter(VehicleParamId.VehicleLongitudinalAcceleration,localAcceleration.z);
         WriteParameter(VehicleParamId.VehicleLateralAcceleration, localAcceleration.x);
+        int layermask = Physics.DefaultRaycastLayers & ~(LayerMask.GetMask("IgnoreCameraRaycast"));
+        RaycastHit hit;
+        Ray r = new Ray(transform.position+transform.up, -transform.up);
+        Debug.DrawRay(r.origin,r.direction*3,Color.cyan);
+        if (Physics.Raycast(r,out hit,3f, layermask))
+        {
+            WriteParameter(VehicleParamId.RoadGrade, Vector3.Angle(hit.normal,Vector3.up)*2);
+        }
+
 
         lastVelocity = rigidbody.velocity;
         WriteParameter(VehicleParamId.VehicleSpeed,Rigidbody.velocity.magnitude);
@@ -237,5 +245,6 @@ public enum VehicleParamId
     ClutchInput,
     VehicleLateralAcceleration,
     VehicleLongitudinalAcceleration,
+    RoadGrade,
     HandbrakeInput
 }

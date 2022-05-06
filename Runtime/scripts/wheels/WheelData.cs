@@ -38,5 +38,9 @@ public class WheelDebugData
     public float SlipAngle;
     public float SlipRatio;
 
+    public float BlendRatio;
+
+    public Vector2 Velocity;
+
     public Vector2 FrictionForce;
 }

@@ -13,8 +13,10 @@ public class TwoWheelSteeringController : VehicleComponent
     public float SteerInput = 0;
     [Range(0f, 45f)]
     public float MaxSteeringAngle = 25;
-    [Range(20f, 200f)]
+    [Range(20f, 2000f)]
     public float MaxAngularVelocity=80f;
+    [Range(0f, 1f)]
+    public float VelocitySomething = 80f;
 
     float actualSteerAngle = 0;
 
@@ -55,7 +57,7 @@ public class TwoWheelSteeringController : VehicleComponent
     {
         SteerInput = Vehicle.ReadInputParameter(VehicleParamId.SteeringInput);
 
-        var angle = SteerInput * MaxSteeringAngle;
+        var angle = SteerInput * MaxSteeringAngle/ (((Vehicle.ReadParameter(VehicleParamId.VehicleSpeed)+3)* VelocitySomething)+1);
 
         var angleDelta = angle - actualSteerAngle;
         angleDelta = Mathf.Clamp(angleDelta,-MaxAngularVelocity*Time.fixedDeltaTime, MaxAngularVelocity * Time.fixedDeltaTime);

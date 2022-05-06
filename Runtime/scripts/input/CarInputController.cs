@@ -16,7 +16,7 @@ public class CarInputController : VehicleComponent
     }
     void ProcessIMInput()
     {
-        Vehicle.WriteInputParameter(VehicleParamId.SteeringInput,Input.GetAxis("Horizontal"));
+        Vehicle.WriteInputParameter(VehicleParamId.SteeringInput,Input.GetAxisRaw("Horizontal"));
         Vehicle.WriteInputParameter(VehicleParamId.AcceleratorInput, Input.GetKey(KeyCode.W)?1:0);
         Vehicle.WriteInputParameter(VehicleParamId.BrakeInput, Input.GetKey(KeyCode.S) ? 1 : 0);
         Vehicle.WriteInputParameter(VehicleParamId.HandbrakeInput, Input.GetKey(KeyCode.Space) ? 1 : 0);

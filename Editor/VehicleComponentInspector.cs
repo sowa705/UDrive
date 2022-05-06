@@ -16,7 +16,11 @@ public class VehicleComponentInspector : Editor
         VehicleComponent component = target as VehicleComponent;
         GUIStyle labelStyle = new GUIStyle(GUI.skin.label);
         labelStyle.fontStyle = FontStyle.Italic;
-        EditorGUILayout.SelectableLabel($"Serialization component ID: {component.GetID()}", labelStyle, GUILayout.Height(16));
+        if (component is IStatefulComponent)
+        {
+            EditorGUILayout.SelectableLabel($"Serialization component ID: {component.GetID()}", labelStyle, GUILayout.Height(16));
+
+        }
         base.OnInspectorGUI();
     }
 }

@@ -17,16 +17,17 @@ public class IngameDebugger : VehicleComponent
         GUILayout.BeginVertical(style);
         GUILayout.Label($"UDrive - {vehicle.name}");
         float totalsusforce = 0;
-        GUILayout.Label("Wheel name\tSuspension force\tSlip ratio\tSlip angle     ");
+        GUILayout.Label("Wheel name\tSuspension force\tSlip ratio\tSlip angle\tBlend ratio   ");
         for (int i = 0; i < wheels.Length; i++)
         {
             totalsusforce += wheels[i].LastTickState.SuspensionForce;
-            GUILayout.Label($"{wheels[i].name}\t\t{(int)wheels[i].LastTickState.SuspensionForce} N\t\t{(wheels[i].debugData.SlipRatio).ToString("00.00")}\t{(wheels[i].debugData.SlipAngle*Mathf.Rad2Deg).ToString("+0.00;-0.00")} °");
-        }
-        GUILayout.Label($"Total suspension force: {(int)totalsusforce} N ({-Mathf.RoundToInt(totalsusforce / Physics.gravity.y)} kg)");
+            GUILayout.Label($"{wheels[i].name}\t\t{(int)wheels[i].LastTickState.SuspensionForce} N\t\t{(wheels[i].debugData.SlipRatio).ToString("00.00")}\t{(wheels[i].debugData.SlipAngle*Mathf.Rad2Deg).ToString("+0.00;-0.00")} °\t{(wheels[i].debugData.BlendRatio*100).ToString("000")} %");
+        }float weight = totalsusforce / Physics.gravity.y;
+        GUILayout.Label($"Total sus force: {totalsusforce.ToString("00000")} N ({Mathf.RoundToInt(-weight).ToString("0000")} kg), Vehicle mass: {(vehicle.Rigidbody.mass).ToString("0000")} kg, diff: {(-Mathf.RoundToInt(weight+vehicle.Rigidbody.mass)).ToString("0000")} kg");
         GUILayout.Label($"Velocity: {(vehicle.ReadParameter(VehicleParamId.VehicleSpeed)*3.6f).ToString("000.0")} km/h");
         GUILayout.Label($"Acceleration: forward: {(vehicle.ReadParameter(VehicleParamId.VehicleLongitudinalAcceleration)).ToString("00.0")} m/s²\tlateral: {(vehicle.ReadParameter(VehicleParamId.VehicleLateralAcceleration)).ToString("00.0")} m/s²");
         GUILayout.Label($"Engine speed: {(vehicle.ReadParameter(VehicleParamId.EngineRPM)).ToString("0000")} RPM\tGear: {vehicle.ReadParameter(VehicleParamId.CurrentGear)}\tClutch: {vehicle.ReadInputParameter(VehicleParamId.ClutchInput)}");
+        GUILayout.Label($"Road grade: {(vehicle.ReadParameter(VehicleParamId.RoadGrade)).ToString("00.0")} %");
         GUILayout.EndVertical();
     }
 

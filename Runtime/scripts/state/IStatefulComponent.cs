@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-interface IStatefulComponent
+public interface IStatefulComponent
 {
     void SerializeState(BinaryWriter writer);
     void Deserialize(BinaryReader reader);
