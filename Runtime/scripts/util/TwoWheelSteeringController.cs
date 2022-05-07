@@ -55,9 +55,9 @@ public class TwoWheelSteeringController : VehicleComponent
     }
     void FixedUpdate()
     {
-        SteerInput = Vehicle.ReadInputParameter(VehicleParamId.SteeringInput);
+        SteerInput = Vehicle.ReadInputParameter(VehicleInputParameter.Steer);
 
-        var angle = SteerInput * MaxSteeringAngle/ (((Vehicle.ReadParameter(VehicleParamId.VehicleSpeed)+3)* VelocitySomething)+1);
+        var angle = SteerInput * MaxSteeringAngle/ (((Vehicle.ReadParameter(VehicleParameter.VehicleSpeed)+3)* VelocitySomething)+1);
 
         var angleDelta = angle - actualSteerAngle;
         angleDelta = Mathf.Clamp(angleDelta,-MaxAngularVelocity*Time.fixedDeltaTime, MaxAngularVelocity * Time.fixedDeltaTime);

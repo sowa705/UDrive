@@ -39,7 +39,7 @@ class RaycastSuspensionComponent : WheelComponent
 
         float force = springForce + damperForce;
 
-        force = Mathf.Clamp(force, -8000, 8000);
+        force = Mathf.Clamp(force, -12000, 12000);
 
         Vector3 rbForce = dir * force;
 

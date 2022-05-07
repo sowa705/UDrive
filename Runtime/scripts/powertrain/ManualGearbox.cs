@@ -46,12 +46,12 @@ public class ManualGearbox : PowertrainNode, ITorqueNode
             return;
         }
         Gear = gear;
-        Vehicle.WriteParameter(VehicleParamId.CurrentGear, gear);
+        Vehicle.WriteParameter(VehicleParameter.CurrentGear, gear);
         ShiftTimer = ShiftTime;
     }
     public override float GetRPMFromTorque(float torque)
     {
-        Clutch = 1- Vehicle.ReadInputParameter(VehicleParamId.ClutchInput);
+        Clutch = 1- Vehicle.ReadInputParameter(VehicleInputParameter.Clutch);
 
         ShiftTimer -= vehicle.CurrentDeltaT;
         if (AutoClutch)
@@ -78,7 +78,7 @@ public class ManualGearbox : PowertrainNode, ITorqueNode
         float diff = ShaftRPM - FlywheelRPM;
         if (Gear == 0)
             diff = 0;
-        float ClutchTq = Mathf.Clamp01(Mathf.Abs(diff) / 300f) * MaxClutchTorque * Mathf.Sign(diff) * SmoothActualClutch;
+        float ClutchTq = Mathf.Clamp01(Mathf.Abs(diff) / MaxClutchTorque) * MaxClutchTorque * Mathf.Sign(diff) * SmoothActualClutch;
 
         float tq = torque + ClutchTq;
         FlywheelRPM += (tq / MomentOfInertia) * vehicle.CurrentDeltaT;
@@ -91,6 +91,6 @@ public class ManualGearbox : PowertrainNode, ITorqueNode
     }
     public override void PowertrainStart()
     {
-        Vehicle.WriteParameter(VehicleParamId.CurrentGear, Gear);
+        Vehicle.WriteParameter(VehicleParameter.CurrentGear, Gear);
     }
 }

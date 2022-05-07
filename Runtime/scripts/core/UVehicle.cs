@@ -8,25 +8,28 @@ public class UVehicle : MonoBehaviour
 {
     ITorqueGenerator[] TqGenerators;
     UWheelCollider[] UWheelColliders;
-    Rigidbody rigidbody;
-    public Rigidbody Rigidbody { get => rigidbody; }
+    Rigidbody rb;
+    public Rigidbody Rigidbody { get => rb; }
+
+    public Transform CenterOfMass;
 
     [Range(1, 32)]
     public int Substeps = 4;
     public float CurrentDeltaT { get => Time.fixedDeltaTime / Substeps; }
 
-    Dictionary<VehicleParamId, float> VehicleValues;
-    Dictionary<VehicleParamId, float> InputParameters;
+    public Dictionary<VehicleParameter, float> VehicleValues { get; private set; }
+    public Dictionary<VehicleInputParameter, float> InputParameters { get; private set; }
 
     List<VehicleComponent> Components = new List<VehicleComponent>();
     Dictionary<int,IStatefulComponent> StatefulComponents=new Dictionary<int, IStatefulComponent>();
+    public List<IDebuggableComponent> DebuggableComponents { get; } = new List<IDebuggableComponent>();
 
     Vector3 lastVelocity;
     void Awake()
     {
         ResetVehicle();
     }
-    public float ReadParameter(VehicleParamId paramID)
+    public float ReadParameter(VehicleParameter paramID)
     {
         if (VehicleValues.ContainsKey(paramID))
         {
@@ -34,7 +37,7 @@ public class UVehicle : MonoBehaviour
         }
         return 0;
     }
-    public void WriteParameter(VehicleParamId paramID,float value)
+    public void WriteParameter(VehicleParameter paramID,float value)
     {
         if (VehicleValues.ContainsKey(paramID))
         {
@@ -44,7 +47,7 @@ public class UVehicle : MonoBehaviour
         VehicleValues.Add(paramID,value);
     }
 
-    public float ReadInputParameter(VehicleParamId paramID)
+    public float ReadInputParameter(VehicleInputParameter paramID)
     {
         if (InputParameters.ContainsKey(paramID))
         {
@@ -52,7 +55,7 @@ public class UVehicle : MonoBehaviour
         }
         return 0;
     }
-    public void WriteInputParameter(VehicleParamId paramID, float value)
+    public void WriteInputParameter(VehicleInputParameter paramID, float value)
     {
         if (InputParameters.ContainsKey(paramID))
         {
@@ -71,7 +74,12 @@ public class UVehicle : MonoBehaviour
         {
             StatefulComponents.Add(component.GetID(), component as IStatefulComponent);
         }
+        if (component is IDebuggableComponent)
+        {
+            DebuggableComponents.Add(component as IDebuggableComponent);
+        }
     }
+
     public UWheelCollider[] GetWheels()
     {
         return UWheelColliders;
@@ -80,12 +88,12 @@ public class UVehicle : MonoBehaviour
     {
         TqGenerators=GetComponentsInChildren<ITorqueGenerator>();
         UWheelColliders=GetComponentsInChildren<UWheelCollider>();
-        rigidbody = GetComponentInChildren<Rigidbody>();
+        rb = GetComponentInChildren<Rigidbody>();
 
-        rigidbody.ResetInertiaTensor();
+        rb.ResetInertiaTensor();
 
-        VehicleValues = new Dictionary<VehicleParamId, float>();
-        InputParameters = new Dictionary<VehicleParamId, float>();
+        VehicleValues = new Dictionary<VehicleParameter, float>();
+        InputParameters = new Dictionary<VehicleInputParameter, float>();
 
         foreach (var item in UWheelColliders)
         {
@@ -94,6 +102,11 @@ public class UVehicle : MonoBehaviour
         foreach (var item in Components)
         {
             item.VehicleStart();
+        }
+
+        if (CenterOfMass!=null)
+        {
+            rb.centerOfMass = CenterOfMass.localPosition;
         }
     }
 
@@ -117,16 +130,16 @@ public class UVehicle : MonoBehaviour
         {
             return;
         }
-        writer.Write(rigidbody.position.x);
-        writer.Write(rigidbody.position.y);
-        writer.Write(rigidbody.position.z);
-        writer.Write(rigidbody.velocity.x);
-        writer.Write(rigidbody.velocity.y);
-        writer.Write(rigidbody.velocity.z);
-        writer.Write(rigidbody.rotation.x);
-        writer.Write(rigidbody.rotation.y);
-        writer.Write(rigidbody.rotation.z);
-        writer.Write(rigidbody.rotation.w);
+        writer.Write(rb.position.x);
+        writer.Write(rb.position.y);
+        writer.Write(rb.position.z);
+        writer.Write(rb.velocity.x);
+        writer.Write(rb.velocity.y);
+        writer.Write(rb.velocity.z);
+        writer.Write(rb.rotation.x);
+        writer.Write(rb.rotation.y);
+        writer.Write(rb.rotation.z);
+        writer.Write(rb.rotation.w);
         foreach (var item in InputParameters)
         {
             writer.Write((int)item.Key);
@@ -168,19 +181,19 @@ public class UVehicle : MonoBehaviour
         Quaternion rot = new Quaternion(reader.ReadSingle(), reader.ReadSingle(), reader.ReadSingle(), reader.ReadSingle());
 
         Debug.Log($"Position diff = {Vector3.Distance(pos, transform.position)}");
-        Debug.Log($"Velocity diff = {Vector3.Distance(vel, rigidbody.velocity)}");
-        Debug.Log($"Rotation diff = {Quaternion.Angle(rot,rigidbody.rotation)}");
+        Debug.Log($"Velocity diff = {Vector3.Distance(vel, rb.velocity)}");
+        Debug.Log($"Rotation diff = {Quaternion.Angle(rot,rb.rotation)}");
         float dist = Vector3.Distance(pos, transform.position);
         if (dist > .5f)
         {
-            rigidbody.velocity = Vector3.Lerp(rigidbody.velocity, vel, Time.fixedDeltaTime * dist);
-            rigidbody.position = Vector3.Lerp(rigidbody.position, pos, Time.fixedDeltaTime * dist);
-            rigidbody.rotation = Quaternion.Slerp(rigidbody.rotation, rot, Time.fixedDeltaTime * dist);
+            rb.velocity = Vector3.Lerp(rb.velocity, vel, Time.fixedDeltaTime * dist);
+            rb.position = Vector3.Lerp(rb.position, pos, Time.fixedDeltaTime * dist);
+            rb.rotation = Quaternion.Slerp(rb.rotation, rot, Time.fixedDeltaTime * dist);
         }
 
         while (true)
         {
-            VehicleParamId key = (VehicleParamId)reader.ReadInt32();
+            VehicleInputParameter key = (VehicleInputParameter)reader.ReadInt32();
             if (key == 0)
             {
                 break;
@@ -207,44 +220,26 @@ public class UVehicle : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Vector3 acceleration = (rigidbody.velocity - lastVelocity)/Time.fixedDeltaTime;
+        Vector3 acceleration = (rb.velocity - lastVelocity)/Time.fixedDeltaTime;
         var localAcceleration = transform.InverseTransformVector(acceleration);
 
-        WriteParameter(VehicleParamId.VehicleLongitudinalAcceleration,localAcceleration.z);
-        WriteParameter(VehicleParamId.VehicleLateralAcceleration, localAcceleration.x);
+        WriteParameter(VehicleParameter.VehicleLongitudinalAcceleration,localAcceleration.z);
+        WriteParameter(VehicleParameter.VehicleLateralAcceleration, localAcceleration.x);
         int layermask = Physics.DefaultRaycastLayers & ~(LayerMask.GetMask("IgnoreCameraRaycast"));
         RaycastHit hit;
         Ray r = new Ray(transform.position+transform.up, -transform.up);
         Debug.DrawRay(r.origin,r.direction*3,Color.cyan);
         if (Physics.Raycast(r,out hit,3f, layermask))
         {
-            WriteParameter(VehicleParamId.RoadGrade, Vector3.Angle(hit.normal,Vector3.up)*2);
+            WriteParameter(VehicleParameter.RoadGrade, Vector3.Angle(hit.normal,Vector3.up)*2);
         }
 
 
-        lastVelocity = rigidbody.velocity;
-        WriteParameter(VehicleParamId.VehicleSpeed,Rigidbody.velocity.magnitude);
+        lastVelocity = rb.velocity;
+        WriteParameter(VehicleParameter.VehicleSpeed,Rigidbody.velocity.magnitude);
         for (int i = 0; i < Substeps; i++)
         {
             RunSubstep();
         }
     }
-}
-
-public enum VehicleParamId
-{
-    VehicleEnabled,
-    EngineEnabled,
-    EngineRPM,
-    EngineMaxRPM,
-    VehicleSpeed,
-    SteeringInput,
-    AcceleratorInput,
-    BrakeInput,
-    CurrentGear,
-    ClutchInput,
-    VehicleLateralAcceleration,
-    VehicleLongitudinalAcceleration,
-    RoadGrade,
-    HandbrakeInput
 }

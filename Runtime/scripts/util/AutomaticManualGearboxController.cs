@@ -22,9 +22,9 @@ public class AutomaticManualGearboxController : VehicleComponent
             LastShiftTimer = 0.2f;
             return;
         }
-        float rpm = Vehicle.ReadParameter(VehicleParamId.EngineRPM);
-        float shiftRPM = Vehicle.ReadParameter(VehicleParamId.EngineMaxRPM);
-        if (rpm > shiftRPM*0.85f)
+        float rpm = Vehicle.ReadParameter(VehicleParameter.EngineRPM);
+        float shiftRPM = Vehicle.ReadParameter(VehicleParameter.EngineMaxRPM);
+        if (rpm > shiftRPM*0.9f)
         {
             gearbox.ShiftGear(gearbox.Gear + 1);
             LastShiftTimer = 1f;
@@ -40,7 +40,7 @@ public class AutomaticManualGearboxController : VehicleComponent
     {
         if (gearbox.IsShifting)
         {
-            Vehicle.WriteInputParameter(VehicleParamId.AcceleratorInput, 0);
+            Vehicle.WriteInputParameter(VehicleInputParameter.Accelerator, 0);
             //Vehicle.WriteInputParameter(VehicleParamId.ClutchInput, 1);
         }
         else

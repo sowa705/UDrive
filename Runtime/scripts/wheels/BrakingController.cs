@@ -30,12 +30,12 @@ public class BrakingController : VehicleComponent
     // Update is called once per frame
     void FixedUpdate()
     {
-        float torque = Vehicle.ReadInputParameter(VehicleParamId.BrakeInput)* BrakeTorque;
+        float torque = Vehicle.ReadInputParameter(VehicleInputParameter.Brake)* BrakeTorque;
         foreach (var item in frontWheels)
         {
             item.BrakeTorque = (torque / frontWheels.Count) * (1 - BrakeBias);
         }
-        float handbraketorque = Vehicle.ReadInputParameter(VehicleParamId.HandbrakeInput) * HandbrakeTorque;
+        float handbraketorque = Vehicle.ReadInputParameter(VehicleInputParameter.Handbrake) * HandbrakeTorque;
         foreach (var item in rearWheels)
         {
             item.BrakeTorque = ((torque+ handbraketorque) / rearWheels.Count) * BrakeBias;

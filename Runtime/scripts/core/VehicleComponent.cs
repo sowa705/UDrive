@@ -12,6 +12,10 @@ public abstract class VehicleComponent : MonoBehaviour
     void Start()
     {
         vehicle = GetComponentInParent<UVehicle>();
+        if (vehicle==null)
+        {
+            Debug.LogError("Vehicle is null");
+        }
         vehicle.AddVehicleComponent(this);
         VehicleStart();
     }
