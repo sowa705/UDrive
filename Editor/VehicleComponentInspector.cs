@@ -21,7 +21,7 @@ public class VehicleComponentInspector : Editor
             EditorGUILayout.SelectableLabel($"Serialization component ID: {component.GetID()}", labelStyle, GUILayout.Height(16));
 
         }
-        if (component.Vehicle==null)
+        if (component.Vehicle==null&&Application.isPlaying)
         {
             EditorGUILayout.LabelField("VEHICLE NULL");
         }

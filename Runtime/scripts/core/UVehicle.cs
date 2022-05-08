@@ -67,7 +67,7 @@ public class UVehicle : MonoBehaviour
 
     public void AddVehicleComponent(VehicleComponent component)
     {
-        Debug.Log($"Added component {component.name}, {component.GetID()}");
+        //Debug.Log($"Added component {component.name}, {component.GetID()}");
         Components.Add(component);
 
         if (component is IStatefulComponent)

@@ -39,7 +39,9 @@ class RaycastSuspensionComponent : WheelComponent
 
         float force = springForce + damperForce;
 
-        force = Mathf.Clamp(force, -12000, 12000);
+        float maxForce = Collider.Vehicle.Rigidbody.mass * 10;
+
+        force = Mathf.Clamp(force, -maxForce, maxForce);
 
         Vector3 rbForce = dir * force;
 

@@ -6,12 +6,14 @@ public class EVEngine : VehicleComponent, ITorqueGenerator,IDebuggableComponent
     public Object Output;
     ITorqueNode outputGenerator { get => Output as ITorqueNode; }
     public float MaxTorque = 100;
+    public float MaxPower = 200;
     public float MaxRPM = 5000;
     public float CurrentRPM;
 
     float currentTq;
     float currentPwr;
     float currentInput;
+    float currentMaxTq;
 
     PIDController idleRPMController;
 
@@ -29,10 +31,21 @@ public class EVEngine : VehicleComponent, ITorqueGenerator,IDebuggableComponent
         float torque = MaxTorque * input;
         //torque -= (CurrentRPM / 100f);
 
+        
+
+        float tqrpm = Mathf.Clamp(CurrentRPM,100,MaxRPM);
+
+        currentMaxTq = MaxPower*1000 * 9.54f / tqrpm;
+
+        if (torque>currentMaxTq)
+        {
+            torque = currentMaxTq;
+        }
+
         currentInput = input;
         currentTq = torque;
 
-        currentPwr = torque * CurrentRPM / 9.54f/1000;
+        currentPwr = torque * CurrentRPM / 9.54f / 1000;
 
         Vehicle.WriteParameter(VehicleParameter.EngineRPM, CurrentRPM);
 
@@ -46,6 +59,6 @@ public class EVEngine : VehicleComponent, ITorqueGenerator,IDebuggableComponent
 
     public void DrawDebugText()
     {
-        GUILayout.Label($"Throttle: {currentInput.ToString("0.00")}  {CurrentRPM.ToString("0000")} RPM\ttorque: {currentTq.ToString("000")} Nm\tpower: {currentPwr.ToString("000")} kW");
+        GUILayout.Label($"Throttle: {currentInput.ToString("0.00")}  {CurrentRPM.ToString("0000")} RPM\ttorque: {currentTq.ToString("000")} Nm\tpower: {currentPwr.ToString("000")} kW ({currentMaxTq.ToString("000")} Nm max)");
     }
 }
