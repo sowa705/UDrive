@@ -5,14 +5,12 @@ Advanced vehicle simulation system for Unity
 
 # Advantages
 * Configurable drivetrain simulation
-  * Scalable from electric scooters to heavy trucks
-  * ICE and EV simulation
+  * ICE and EV
   * Open and locked differentials
-  * Automatic and manual gearboxes with clutch
-  * Synchronized with the rest of simulation
+  * Manual gearboxes with clutch
 * Completely custom friction and suspension
-* Two wheeled vehicle control
 * Modern Unity package, doesnt litter your Assets directory
+* Serialization support (Demos)
 * No dependencies
 
 # Installation
