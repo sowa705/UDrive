@@ -9,6 +9,8 @@
     VehicleLateralAcceleration,
     VehicleLongitudinalAcceleration,
     RoadGrade,
+    ABSActive,
+    TCSActive
 }
 
 public enum VehicleInputParameter

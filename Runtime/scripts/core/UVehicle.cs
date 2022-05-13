@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using UDrive;
 using UnityEngine;
 
 public class UVehicle : MonoBehaviour
@@ -23,7 +24,7 @@ public class UVehicle : MonoBehaviour
     List<VehicleComponent> Components = new List<VehicleComponent>();
     Dictionary<int,IStatefulComponent> StatefulComponents=new Dictionary<int, IStatefulComponent>();
     public List<IDebuggableComponent> DebuggableComponents { get; } = new List<IDebuggableComponent>();
-
+    List<IVehicleAssist> VehicleAssists = new List<IVehicleAssist>();
     Vector3 lastVelocity;
     void Awake()
     {
@@ -78,6 +79,10 @@ public class UVehicle : MonoBehaviour
         {
             DebuggableComponents.Add(component as IDebuggableComponent);
         }
+        if (component is IVehicleAssist)
+        {
+            VehicleAssists.Add(component as IVehicleAssist);
+        }
     }
 
     public UWheelCollider[] GetWheels()
@@ -116,6 +121,13 @@ public class UVehicle : MonoBehaviour
         foreach (var item in TqGenerators)
         {
             item.RunSubstep();
+        }
+        foreach (var item in VehicleAssists)
+        {
+            foreach (var wheel in UWheelColliders)
+            {
+                item.OnWheel(wheel);
+            }
         }
         foreach (var item in UWheelColliders)
         {
@@ -225,7 +237,7 @@ public class UVehicle : MonoBehaviour
 
         WriteParameter(VehicleParameter.VehicleLongitudinalAcceleration,localAcceleration.z);
         WriteParameter(VehicleParameter.VehicleLateralAcceleration, localAcceleration.x);
-        int layermask = Physics.DefaultRaycastLayers & ~(LayerMask.GetMask("IgnoreCameraRaycast"));
+        int layermask = Physics.DefaultRaycastLayers & ~(LayerMask.GetMask("IgnoreVehicleRaycast"));
         RaycastHit hit;
         Ray r = new Ray(transform.position+transform.up, -transform.up);
         Debug.DrawRay(r.origin,r.direction*3,Color.cyan);
@@ -237,6 +249,11 @@ public class UVehicle : MonoBehaviour
 
         lastVelocity = rb.velocity;
         WriteParameter(VehicleParameter.VehicleSpeed,Rigidbody.velocity.magnitude);
+        foreach (var item in VehicleAssists)
+        {
+            item.OnUpdate();
+        }
+
         for (int i = 0; i < Substeps; i++)
         {
             RunSubstep();

@@ -13,7 +13,7 @@ public class TwoWheelSteeringController : VehicleComponent
     public float SteerInput = 0;
     [Range(0f, 45f)]
     public float MaxSteeringAngle = 25;
-    [Range(20f, 2000f)]
+    [Range(10, 500f)]
     public float MaxAngularVelocity=80f;
     [Range(0f, 1f)]
     public float VelocitySomething = 80f;
