@@ -15,5 +15,6 @@
     "email": "sowa705@gmail.com",
     "url": "https://github.com/sowa705/udrive"
   },
-  "type": "library"
+  "type": "library",
+  "license": "LGPL-3.0-only"
 }
