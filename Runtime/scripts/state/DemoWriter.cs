@@ -12,6 +12,7 @@ namespace UDrive
         public SerializationMode Mode;
         MemoryStream stream = new MemoryStream();
         BinaryWriter writer;
+        public string FileName;
         // Start is called before the first frame update
         void Start()
         {
@@ -36,7 +37,7 @@ namespace UDrive
                 stream.Flush();
                 byte[] data = stream.ToArray();
                 stream = null;
-                File.WriteAllBytes("vehicledata.dat", data);
+                File.WriteAllBytes(FileName, data);
             }
             Target.SerializeState(writer, Mode);
         }
