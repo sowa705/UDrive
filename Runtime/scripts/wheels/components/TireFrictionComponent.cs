@@ -36,14 +36,10 @@ namespace UDrive
             blendRatio = Mathf.Clamp01(blendRatio);
             float lowSpeedLateralSlip = (-lateralVelocity) / 3f;
 
-            float delta = (wheelVelocity - forwardVelocity) - Mathf.Abs(forwardVelocity);
-            //delta /= 0.91f;
-            float differentialSlipRatio = delta * deltaT;
+            //obviously wrong but works fine for very low speeds
+            float lowSpeedSlipRatio = wheelVelocity - forwardVelocity;
 
-            float tau = 0.001f;
-            float slipRatio = differentialSlipRatio;
-
-            float finalSlipRatio = Mathf.Lerp(slipRatio, longitudinalSlipRatio, blendRatio);
+            float finalSlipRatio = Mathf.Lerp(lowSpeedSlipRatio, longitudinalSlipRatio, blendRatio);
             float finalSlipAngle = Mathf.Lerp(lowSpeedLateralSlip, lateralSlipAngle, blendRatio);
 
             float reactionTorque = 0;
