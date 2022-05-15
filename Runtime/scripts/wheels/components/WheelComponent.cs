@@ -1,13 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
-
-abstract class WheelComponent
+namespace UDrive
 {
-    protected UWheelCollider Collider;
-    public WheelComponent(UWheelCollider collider)
+    abstract class WheelComponent
     {
-        Collider = collider;
-    }
+        protected UWheelCollider Collider;
+        public WheelComponent(UWheelCollider collider)
+        {
+            Collider = collider;
+        }
 
-    public abstract void RunSubstep(WheelTickState tickState, float deltaT);
+        public abstract void RunSubstep(WheelTickState tickState, float deltaT);
+    }
 }

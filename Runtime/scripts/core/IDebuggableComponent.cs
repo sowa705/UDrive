@@ -4,7 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-public interface IDebuggableComponent
+namespace UDrive
 {
-    void DrawDebugText();
+    public interface IDebuggableComponent
+    {
+        void DrawDebugText();
+    }
 }

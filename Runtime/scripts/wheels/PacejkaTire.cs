@@ -5,51 +5,54 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-[Serializable]
-public class PacejkaTireData
+namespace UDrive
 {
-    [Range(0,3)]
-    public float LongitudinalMultiplier=1;
-    [Range(0, 3)]
-    public float LateralMultiplier=1;
-    public SimplifiedPacejkaTireData Tire;
-}
-
-//default values taken from https://www.edy.es/dev/docs/pacejka-94-parameters-explained-a-comprehensive-guide/
-[Serializable]
-public class SimplifiedPacejkaTireData
-{
-    [Range(4, 12)]
-    public float Stiffness=10;
-    [Range(1, 2)]
-    public float Shape = 1.9f;
-    [Range(0.1f, 1.9f)]
-    public float Peak = 1;
-    [Range(-10, 1)]
-    public float Curvature = 0.97f;
-
-    public float GetMaxCof()
+    [Serializable]
+    public class PacejkaTireData
     {
-        return Peak;
+        [Range(0, 3)]
+        public float LongitudinalMultiplier = 1;
+        [Range(0, 3)]
+        public float LateralMultiplier = 1;
+        public SimplifiedPacejkaTireData Tire;
     }
 
-    public float CalculateCoF(float slip)
+    //default values taken from https://www.edy.es/dev/docs/pacejka-94-parameters-explained-a-comprehensive-guide/
+    [Serializable]
+    public class SimplifiedPacejkaTireData
     {
-        float bslip = slip * Stiffness;
+        [Range(4, 12)]
+        public float Stiffness = 10;
+        [Range(1, 2)]
+        public float Shape = 1.9f;
+        [Range(0.1f, 1.9f)]
+        public float Peak = 1;
+        [Range(-10, 1)]
+        public float Curvature = 0.97f;
 
-        return Peak * Mathf.Sin(Shape * Mathf.Atan(bslip - Curvature * (bslip - Mathf.Atan(bslip))));
-    }
+        public float GetMaxCof()
+        {
+            return Peak;
+        }
 
-    public Vector2 CalculateLocalForce(float slipRatio,float slipAngle,float SuspensionForce)
-    {
-        float forwardCoF = CalculateCoF(slipRatio);
-        float lateralCoF = CalculateCoF(slipAngle);
+        public float CalculateCoF(float slip)
+        {
+            float bslip = slip * Stiffness;
 
-        float maxCOF = GetMaxCof();
+            return Peak * Mathf.Sin(Shape * Mathf.Atan(bslip - Curvature * (bslip - Mathf.Atan(bslip))));
+        }
 
-        var forwardForce = Mathf.Sqrt(Mathf.Pow(forwardCoF / maxCOF, 2) + Mathf.Pow(lateralCoF / maxCOF, 2)) * forwardCoF;
-        var lateralForce = Mathf.Sqrt(Mathf.Pow(forwardCoF / maxCOF, 2) + Mathf.Pow(lateralCoF / maxCOF, 2)) * lateralCoF;
+        public Vector2 CalculateLocalForce(float slipRatio, float slipAngle, float SuspensionForce)
+        {
+            float forwardCoF = CalculateCoF(slipRatio);
+            float lateralCoF = CalculateCoF(slipAngle);
 
-        return new Vector2(forwardForce,lateralForce)* SuspensionForce;
+            float maxCOF = GetMaxCof();
+
+            var forwardForce = Mathf.Sqrt(Mathf.Pow(forwardCoF / maxCOF, 2) + Mathf.Pow(lateralCoF / maxCOF, 2)) * forwardCoF;
+            var lateralForce = Mathf.Sqrt(Mathf.Pow(forwardCoF / maxCOF, 2) + Mathf.Pow(lateralCoF / maxCOF, 2)) * lateralCoF;
+
+            return new Vector2(forwardForce, lateralForce) * SuspensionForce;
+        }
     }
 }

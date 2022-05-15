@@ -3,49 +3,52 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class VehicleComponent : MonoBehaviour
+namespace UDrive
 {
-    protected UVehicle vehicle;
-    public UVehicle Vehicle { get => vehicle; }
+    public abstract class VehicleComponent : MonoBehaviour
+    {
+        protected UVehicle vehicle;
+        public UVehicle Vehicle { get => vehicle; }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        vehicle = GetComponentInParent<UVehicle>();
-        if (vehicle==null)
-        {
-            Debug.LogError("Vehicle is null");
-        }
-        vehicle.AddVehicleComponent(this);
-        VehicleStart();
-    }
-    /// <summary>
-    /// Somewhat stable ID for this particular component. This value needs to be constant between game instances for the serialization system to work
-    /// </summary>
-    public int GetID()
-    {
-        if (vehicle==null)
+        // Start is called before the first frame update
+        void Start()
         {
             vehicle = GetComponentInParent<UVehicle>();
+            if (vehicle == null)
+            {
+                Debug.LogError("Vehicle is null");
+            }
+            vehicle.AddVehicleComponent(this);
+            VehicleStart();
         }
-        if (vehicle==null)
+        /// <summary>
+        /// Somewhat stable ID for this particular component. This value needs to be constant between game instances for the serialization system to work
+        /// </summary>
+        public int GetID()
         {
-            return -1;
-        }
-        int cid = transform.localPosition.GetHashCode() ^ name.GetHashCode() ^ GetType().Name.GetHashCode();
+            if (vehicle == null)
+            {
+                vehicle = GetComponentInParent<UVehicle>();
+            }
+            if (vehicle == null)
+            {
+                return -1;
+            }
+            int cid = transform.localPosition.GetHashCode() ^ name.GetHashCode() ^ GetType().Name.GetHashCode();
 
-        if (transform==vehicle.transform) // component attached to the vehicle root so we cant use the local position
+            if (transform == vehicle.transform) // component attached to the vehicle root so we cant use the local position
+            {
+                cid = name.GetHashCode() ^ GetType().Name.GetHashCode();
+            }
+            //get a somewhat stable and consistent ID
+            return cid;
+        }
+        /// <summary>
+        /// Component start function. Use this instead of Unity Start()
+        /// </summary>
+        public virtual void VehicleStart()
         {
-            cid = name.GetHashCode() ^ GetType().Name.GetHashCode();
-        }
-        //get a somewhat stable and consistent ID
-        return cid;
-    }
-    /// <summary>
-    /// Component start function. Use this instead of Unity Start()
-    /// </summary>
-    public virtual void VehicleStart()
-    {
 
+        }
     }
 }

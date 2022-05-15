@@ -2,58 +2,61 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CarInputController : VehicleComponent, IDebuggableComponent
+namespace UDrive
 {
-    public InputType Type;
-
-    public float CruiseControlSpeed;
-
-    PIDController cruiseControl;
-    public override void VehicleStart()
+    public class CarInputController : VehicleComponent, IDebuggableComponent
     {
-        cruiseControl = new PIDController(2,0.5f,0);
-    }
-    // Update is called once per frame
-    void Update()
-    {
-        ProcessIMInput();
-    }
-    void ProcessIMInput()
-    {
-        Vehicle.WriteInputParameter(VehicleInputParameter.Steer,Input.GetAxisRaw("Horizontal"));
-        Vehicle.WriteInputParameter(VehicleInputParameter.Accelerator, Input.GetKey(KeyCode.W)?1:0);
-        Vehicle.WriteInputParameter(VehicleInputParameter.Brake, Input.GetKey(KeyCode.S) ? 1 : 0);
-        Vehicle.WriteInputParameter(VehicleInputParameter.Handbrake, Input.GetKey(KeyCode.Space) ? 1 : 0);
-        Vehicle.WriteInputParameter(VehicleInputParameter.Clutch, Input.GetKey(KeyCode.E) ? 1 : 0);
+        public InputType Type;
 
-        if (Input.GetKeyDown(KeyCode.P))
+        public float CruiseControlSpeed;
+
+        PIDController cruiseControl;
+        public override void VehicleStart()
         {
-            CruiseControlSpeed += 10;
+            cruiseControl = new PIDController(2, 0.5f, 0);
         }
-        if (Input.GetKeyDown(KeyCode.L))
+        // Update is called once per frame
+        void Update()
         {
-            CruiseControlSpeed -= 10;
-            if (CruiseControlSpeed<0)
+            ProcessIMInput();
+        }
+        void ProcessIMInput()
+        {
+            Vehicle.WriteInputParameter(VehicleInputParameter.Steer, Input.GetAxisRaw("Horizontal"));
+            Vehicle.WriteInputParameter(VehicleInputParameter.Accelerator, Input.GetKey(KeyCode.W) ? 1 : 0);
+            Vehicle.WriteInputParameter(VehicleInputParameter.Brake, Input.GetKey(KeyCode.S) ? 1 : 0);
+            Vehicle.WriteInputParameter(VehicleInputParameter.Handbrake, Input.GetKey(KeyCode.Space) ? 1 : 0);
+            Vehicle.WriteInputParameter(VehicleInputParameter.Clutch, Input.GetKey(KeyCode.E) ? 1 : 0);
+
+            if (Input.GetKeyDown(KeyCode.P))
             {
-                CruiseControlSpeed = 0;
+                CruiseControlSpeed += 10;
+            }
+            if (Input.GetKeyDown(KeyCode.L))
+            {
+                CruiseControlSpeed -= 10;
+                if (CruiseControlSpeed < 0)
+                {
+                    CruiseControlSpeed = 0;
+                }
+            }
+
+            if (CruiseControlSpeed > 0)
+            {
+                cruiseControl.SetPoint = CruiseControlSpeed / 3.6f;
+                float input = cruiseControl.ComputeStep(vehicle.ReadParameter(VehicleParameter.VehicleSpeed), vehicle.CurrentDeltaT);
+                Vehicle.WriteInputParameter(VehicleInputParameter.Accelerator, input);
             }
         }
 
-        if (CruiseControlSpeed>0)
+        public void DrawDebugText()
         {
-            cruiseControl.SetPoint = CruiseControlSpeed/3.6f;
-            float input = cruiseControl.ComputeStep(vehicle.ReadParameter(VehicleParameter.VehicleSpeed),vehicle.CurrentDeltaT);
-            Vehicle.WriteInputParameter(VehicleInputParameter.Accelerator, input);
+            GUILayout.Label($"Cruise control setpoint: {CruiseControlSpeed}");
         }
     }
-
-    public void DrawDebugText()
+    public enum InputType
     {
-        GUILayout.Label($"Cruise control setpoint: {CruiseControlSpeed}");
+        InputManager,
+        None
     }
-}
-public enum InputType
-{
-    InputManager,
-    None
 }

@@ -8,121 +8,124 @@ using System.IO;
 using UnityEditor;
 #endif
 
-public class UWheelCollider : VehicleComponent, ITorqueNode, IStatefulComponent
+namespace UDrive
 {
-    public WheelParameters Parameters;
-    //[NonSerialized]
-    public WheelState wheelState;
-    public WheelTickState LastTickState { get; private set; }
-    [NonSerialized]
-    public Rigidbody parentRB;
-
-    //[NonSerialized]
-    public WheelDebugData debugData;
-
-    public float EngineTorque;
-    public float BrakeTorque;
-
-    public float LForceMultip;
-
-    public float SteerAngle;
-
-    Vector3 lastworldpos;
-    Vector3 worldpos;
-
-    public Vector3 Velocity;
-    List<WheelComponent> wheelComponents=new List<WheelComponent>();
-
-    public void ResetWheel()
+    public class UWheelCollider : VehicleComponent, ITorqueNode, IStatefulComponent
     {
-        wheelState = new WheelState();
+        public WheelParameters Parameters;
+        //[NonSerialized]
+        public WheelState wheelState;
+        public WheelTickState LastTickState { get; private set; }
+        [NonSerialized]
+        public Rigidbody parentRB;
 
-        wheelComponents.Clear();
+        //[NonSerialized]
+        public WheelDebugData debugData;
 
-        wheelComponents.Add(new RaycastSuspensionComponent(this));
-        wheelComponents.Add(new TireFrictionComponent(this));
-        wheelComponents.Add(new WheelInertiaComponent(this));
+        public float EngineTorque;
+        public float BrakeTorque;
 
-        parentRB = GetComponentInParent<Rigidbody>();
-    }
-    public Vector3 GetWheelPosition()
-    {
-        return transform.position + wheelState.SuspensionPosition * transform.up;
-    }
-    public Vector3 GetLocalWheelPosition()
-    {
-        return wheelState.SuspensionPosition * Vector3.up;
-    }
-    void OnDrawGizmos()
-    {
-        if (wheelState==null)
+        public float LForceMultip;
+
+        public float SteerAngle;
+
+        Vector3 lastworldpos;
+        Vector3 worldpos;
+
+        public Vector3 Velocity;
+        List<WheelComponent> wheelComponents = new List<WheelComponent>();
+
+        public void ResetWheel()
         {
-            OnValidate();
+            wheelState = new WheelState();
+
+            wheelComponents.Clear();
+
+            wheelComponents.Add(new RaycastSuspensionComponent(this));
+            wheelComponents.Add(new TireFrictionComponent(this));
+            wheelComponents.Add(new WheelInertiaComponent(this));
+
+            parentRB = GetComponentInParent<Rigidbody>();
         }
-        Vector3 dir = transform.up;
-        Vector3 worldPos = transform.position;
-        Vector3 normal = Quaternion.Euler(0, SteerAngle, 0) * transform.right;
+        public Vector3 GetWheelPosition()
+        {
+            return transform.position + wheelState.SuspensionPosition * transform.up;
+        }
+        public Vector3 GetLocalWheelPosition()
+        {
+            return wheelState.SuspensionPosition * Vector3.up;
+        }
+        void OnDrawGizmos()
+        {
+            if (wheelState == null)
+            {
+                OnValidate();
+            }
+            Vector3 dir = transform.up;
+            Vector3 worldPos = transform.position;
+            Vector3 normal = Quaternion.Euler(0, SteerAngle, 0) * transform.right;
 
-        Vector3 rayPos = GetWheelPosition();
+            Vector3 rayPos = GetWheelPosition();
 
-        Vector3 rotDir = Quaternion.Euler(wheelState.RotationAngle, SteerAngle, 0) * transform.forward;
+            Vector3 rotDir = Quaternion.Euler(wheelState.RotationAngle, SteerAngle, 0) * transform.forward;
 
-        float rayDist = Parameters.Radius;
+            float rayDist = Parameters.Radius;
 
-        Gizmos.color = Color.red;
+            Gizmos.color = Color.red;
 
-        Gizmos.DrawLine(rayPos, rayPos - dir * rayDist);
+            Gizmos.DrawLine(rayPos, rayPos - dir * rayDist);
 
-        Gizmos.color = Color.blue;
+            Gizmos.color = Color.blue;
 
-        Gizmos.DrawLine(rayPos, rayPos - rotDir * rayDist);
+            Gizmos.DrawLine(rayPos, rayPos - rotDir * rayDist);
 
 #if UNITY_EDITOR
-        Handles.DrawWireDisc(rayPos, normal, Parameters.Radius);
+            Handles.DrawWireDisc(rayPos, normal, Parameters.Radius);
 #endif
-    }
-    private void OnValidate()
-    {
-        wheelState = new WheelState();
-    }
-
-    public void RunSubstep(float deltaT)
-    {
-        LastTickState = new WheelTickState();
-
-        foreach (var item in wheelComponents)
-        {
-            item.RunSubstep(LastTickState, deltaT);
         }
-    }
-    void FixedUpdate()
-    {
-        lastworldpos = worldpos;
-        worldpos = transform.position;
-        Velocity =  (worldpos-lastworldpos)/Time.fixedDeltaTime;
-    }
-    public float GetRPMFromTorque(float torque)
-    {
-        EngineTorque = torque;
-        return wheelState.AngularVelocity * 9.5493f;
-    }
+        private void OnValidate()
+        {
+            wheelState = new WheelState();
+        }
 
-    public override void VehicleStart()
-    {
-        ResetWheel();
-    }
+        public void RunSubstep(float deltaT)
+        {
+            LastTickState = new WheelTickState();
 
-    public void SerializeState(BinaryWriter writer)
-    {
-        writer.Write(wheelState.SuspensionPosition);
-        writer.Write(wheelState.SuspensionVelocity);
-        writer.Write(wheelState.AngularVelocity);
-    }
+            foreach (var item in wheelComponents)
+            {
+                item.RunSubstep(LastTickState, deltaT);
+            }
+        }
+        void FixedUpdate()
+        {
+            lastworldpos = worldpos;
+            worldpos = transform.position;
+            Velocity = (worldpos - lastworldpos) / Time.fixedDeltaTime;
+        }
+        public float GetRPMFromTorque(float torque)
+        {
+            EngineTorque = torque;
+            return wheelState.AngularVelocity * 9.5493f;
+        }
 
-    public void Deserialize(BinaryReader reader)
-    {
-        wheelState.SuspensionPosition = Mathf.Lerp(wheelState.SuspensionPosition, reader.ReadSingle(),Time.fixedDeltaTime);
-        wheelState.SuspensionVelocity = Mathf.Lerp(wheelState.SuspensionVelocity, reader.ReadSingle(), Time.fixedDeltaTime);
-        wheelState.AngularVelocity = Mathf.Lerp(wheelState.AngularVelocity, reader.ReadSingle(), Time.fixedDeltaTime);
+        public override void VehicleStart()
+        {
+            ResetWheel();
+        }
+
+        public void SerializeState(BinaryWriter writer)
+        {
+            writer.Write(wheelState.SuspensionPosition);
+            writer.Write(wheelState.SuspensionVelocity);
+            writer.Write(wheelState.AngularVelocity);
+        }
+
+        public void Deserialize(BinaryReader reader)
+        {
+            wheelState.SuspensionPosition = Mathf.Lerp(wheelState.SuspensionPosition, reader.ReadSingle(), Time.fixedDeltaTime);
+            wheelState.SuspensionVelocity = Mathf.Lerp(wheelState.SuspensionVelocity, reader.ReadSingle(), Time.fixedDeltaTime);
+            wheelState.AngularVelocity = Mathf.Lerp(wheelState.AngularVelocity, reader.ReadSingle(), Time.fixedDeltaTime);
+        }
     }
 }

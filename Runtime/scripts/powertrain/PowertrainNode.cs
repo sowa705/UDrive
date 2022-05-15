@@ -1,31 +1,33 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-
-public class PowertrainNode : VehicleComponent, ITorqueNode
+namespace UDrive
 {
-    //[RequireInterface(typeof(ITorqueNode))]
-    public List<Object> Outputs;
-    public ITorqueNode GetOutput(int index=0)
+    public class PowertrainNode : VehicleComponent, ITorqueNode
     {
-        if (Outputs[index] is ITorqueNode)
+        //[RequireInterface(typeof(ITorqueNode))]
+        public List<Object> Outputs;
+        public ITorqueNode GetOutput(int index = 0)
         {
-            return Outputs[index] as ITorqueNode;
+            if (Outputs[index] is ITorqueNode)
+            {
+                return Outputs[index] as ITorqueNode;
+            }
+            else
+            {
+                return (Outputs[index] as GameObject).GetComponent<ITorqueNode>();
+            }
         }
-        else
+        public virtual float GetRPMFromTorque(float torque)
         {
-            return (Outputs[index] as GameObject).GetComponent<ITorqueNode>();
+            throw new System.NotImplementedException();
         }
-    }
-    public virtual float GetRPMFromTorque(float torque)
-    {
-        throw new System.NotImplementedException();
-    }
 
-    public override void VehicleStart()
-    {
-        PowertrainStart();
-    }
-    public virtual void PowertrainStart()
-    {
+        public override void VehicleStart()
+        {
+            PowertrainStart();
+        }
+        public virtual void PowertrainStart()
+        {
+        }
     }
 }

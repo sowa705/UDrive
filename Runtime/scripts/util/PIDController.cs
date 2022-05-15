@@ -5,44 +5,47 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-[Serializable]
-public class PIDController
+namespace UDrive
 {
-    public float ProportionalGain=1;
-    public float IntegralGain=.5f;
-    public float DerivativeGain=0.2f;
-
-    public float InputDivider=1;
-
-    public float SetPoint;
-
-    float integral;
-    float lastError;
-
-    public float OutputMin=0;
-    public float OutputMax=1;
-
-    public PIDController(float proportionalGain, float integralGain, float derivativeGain)
+    [Serializable]
+    public class PIDController
     {
-        ProportionalGain = proportionalGain;
-        IntegralGain = integralGain;
-        DerivativeGain = derivativeGain;
-    }
+        public float ProportionalGain = 1;
+        public float IntegralGain = .5f;
+        public float DerivativeGain = 0.2f;
 
-    public float ComputeStep(float input, float deltaT)
-    {
-        float proportionalError = (SetPoint-input)/InputDivider;
+        public float InputDivider = 1;
 
-        integral += proportionalError * deltaT;
+        public float SetPoint;
 
-        integral = Mathf.Clamp(integral,-1,1);
+        float integral;
+        float lastError;
 
-        float derivative = (proportionalError - lastError)/deltaT;
+        public float OutputMin = 0;
+        public float OutputMax = 1;
 
-        lastError = proportionalError;
+        public PIDController(float proportionalGain, float integralGain, float derivativeGain)
+        {
+            ProportionalGain = proportionalGain;
+            IntegralGain = integralGain;
+            DerivativeGain = derivativeGain;
+        }
 
-        float cv = proportionalError*ProportionalGain + integral*IntegralGain + derivative*DerivativeGain;
+        public float ComputeStep(float input, float deltaT)
+        {
+            float proportionalError = (SetPoint - input) / InputDivider;
 
-        return Mathf.Clamp(cv,OutputMin,OutputMax);
+            integral += proportionalError * deltaT;
+
+            integral = Mathf.Clamp(integral, -1, 1);
+
+            float derivative = (proportionalError - lastError) / deltaT;
+
+            lastError = proportionalError;
+
+            float cv = proportionalError * ProportionalGain + integral * IntegralGain + derivative * DerivativeGain;
+
+            return Mathf.Clamp(cv, OutputMin, OutputMax);
+        }
     }
 }

@@ -5,8 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-public interface IStatefulComponent
+namespace UDrive
 {
-    void SerializeState(BinaryWriter writer);
-    void Deserialize(BinaryReader reader);
+    public interface IStatefulComponent
+    {
+        void SerializeState(BinaryWriter writer);
+        void Deserialize(BinaryReader reader);
+    }
 }

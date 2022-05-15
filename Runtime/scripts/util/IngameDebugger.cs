@@ -2,75 +2,78 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class IngameDebugger : VehicleComponent
+namespace UDrive
 {
-    GUIStyle style;
-
-    public bool DisplayInputs;
-    public bool DisplayValues;
-
-    public bool DisplayWheels;
-    public override void VehicleStart()
+    public class IngameDebugger : VehicleComponent
     {
-        style = new GUIStyle();
-        style.normal.background = MakeColorTexture(64, 64, new Color(0,0,0,.5f));
-    }
+        GUIStyle style;
 
-    void OnGUI()
-    {
-        var wheels = vehicle.GetWheels();
-        GUILayout.BeginVertical(style);
-        GUILayout.Label($"UDrive - {vehicle.name}");
-        float totalsusforce = 0;
+        public bool DisplayInputs;
+        public bool DisplayValues;
 
-        if (DisplayWheels)
-            GUILayout.Label("Wheel name\tSuspension force\tSlip ratio\tSlip angle\tBlend ratio   ");
-        for (int i = 0; i < wheels.Length; i++)
+        public bool DisplayWheels;
+        public override void VehicleStart()
         {
-            totalsusforce += wheels[i].LastTickState.SuspensionForce;
-            if(DisplayWheels)
-                GUILayout.Label($"{wheels[i].name}\t\t{(int)wheels[i].LastTickState.SuspensionForce} N\t\t{(wheels[i].debugData.SlipRatio).ToString("00.00")}\t{(wheels[i].debugData.SlipAngle * Mathf.Rad2Deg).ToString("+0.00;-0.00")} °\t{(wheels[i].debugData.BlendRatio * 100).ToString("000")} %");
+            style = new GUIStyle();
+            style.normal.background = MakeColorTexture(64, 64, new Color(0, 0, 0, .5f));
         }
 
-        float weight = totalsusforce / Physics.gravity.y;
-        GUILayout.Label($"Total sus force: {totalsusforce.ToString("00000")} N ({Mathf.RoundToInt(-weight).ToString("0000")} kg), Vehicle mass: {(vehicle.Rigidbody.mass).ToString("0000")} kg, diff: {(-Mathf.RoundToInt(weight+vehicle.Rigidbody.mass)).ToString("0000")} kg");
-        GUILayout.Label($"Velocity: {(vehicle.ReadParameter(VehicleParameter.VehicleSpeed) * 3.6f).ToString("000.0")} km/h, accel: forward: {(vehicle.ReadParameter(VehicleParameter.VehicleLongitudinalAcceleration)).ToString("00.0")} m/s²\tlateral: {(vehicle.ReadParameter(VehicleParameter.VehicleLateralAcceleration)).ToString("00.0")} m/s²");
-        GUILayout.Label($"Road grade: {(vehicle.ReadParameter(VehicleParameter.RoadGrade)).ToString("00.0")} %");
-
-        foreach (var item in vehicle.DebuggableComponents)
+        void OnGUI()
         {
-            item.DrawDebugText();
-        }
+            var wheels = vehicle.GetWheels();
+            GUILayout.BeginVertical(style);
+            GUILayout.Label($"UDrive - {vehicle.name}");
+            float totalsusforce = 0;
 
-        if (DisplayInputs)
-        {
-            foreach (var item in vehicle.InputParameters)
+            if (DisplayWheels)
+                GUILayout.Label("Wheel name\tSuspension force\tSlip ratio\tSlip angle\tBlend ratio   ");
+            for (int i = 0; i < wheels.Length; i++)
             {
-                GUILayout.Label($"{item.Key}: {item.Value.ToString("0.00")}");
+                totalsusforce += wheels[i].LastTickState.SuspensionForce;
+                if (DisplayWheels)
+                    GUILayout.Label($"{wheels[i].name}\t\t{(int)wheels[i].LastTickState.SuspensionForce} N\t\t{(wheels[i].debugData.SlipRatio).ToString("00.00")}\t{(wheels[i].debugData.SlipAngle * Mathf.Rad2Deg).ToString("+0.00;-0.00")} °\t{(wheels[i].debugData.BlendRatio * 100).ToString("000")} %");
             }
-        }
 
-        if (DisplayValues)
-        {
-            foreach (var item in vehicle.VehicleValues)
+            float weight = totalsusforce / Physics.gravity.y;
+            GUILayout.Label($"Total sus force: {totalsusforce.ToString("00000")} N ({Mathf.RoundToInt(-weight).ToString("0000")} kg), Vehicle mass: {(vehicle.Rigidbody.mass).ToString("0000")} kg, diff: {(-Mathf.RoundToInt(weight + vehicle.Rigidbody.mass)).ToString("0000")} kg");
+            GUILayout.Label($"Velocity: {(vehicle.ReadParameter(VehicleParameter.VehicleSpeed) * 3.6f).ToString("000.0")} km/h, accel: forward: {(vehicle.ReadParameter(VehicleParameter.VehicleLongitudinalAcceleration)).ToString("00.0")} m/s²\tlateral: {(vehicle.ReadParameter(VehicleParameter.VehicleLateralAcceleration)).ToString("00.0")} m/s²");
+            GUILayout.Label($"Road grade: {(vehicle.ReadParameter(VehicleParameter.RoadGrade)).ToString("00.0")} %");
+
+            foreach (var item in vehicle.DebuggableComponents)
             {
-                GUILayout.Label($"{item.Key}: {item.Value.ToString("0.000")}");
+                item.DrawDebugText();
             }
+
+            if (DisplayInputs)
+            {
+                foreach (var item in vehicle.InputParameters)
+                {
+                    GUILayout.Label($"{item.Key}: {item.Value.ToString("0.00")}");
+                }
+            }
+
+            if (DisplayValues)
+            {
+                foreach (var item in vehicle.VehicleValues)
+                {
+                    GUILayout.Label($"{item.Key}: {item.Value.ToString("0.000")}");
+                }
+            }
+            GUILayout.EndVertical();
         }
-        GUILayout.EndVertical();
-    }
 
-    Texture2D MakeColorTexture(int width, int height, Color col)
-    {
-        Color[] pix = new Color[width * height];
+        Texture2D MakeColorTexture(int width, int height, Color col)
+        {
+            Color[] pix = new Color[width * height];
 
-        for (int i = 0; i < pix.Length; i++)
-            pix[i] = col;
+            for (int i = 0; i < pix.Length; i++)
+                pix[i] = col;
 
-        Texture2D result = new Texture2D(width, height);
-        result.SetPixels(pix);
-        result.Apply();
+            Texture2D result = new Texture2D(width, height);
+            result.SetPixels(pix);
+            result.Apply();
 
-        return result;
+            return result;
+        }
     }
 }

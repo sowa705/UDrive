@@ -1,9 +1,7 @@
-﻿public interface ITorqueGenerator
+﻿namespace UDrive
 {
-    void RunSubstep();
-}
-
-public interface ITorqueNode
-{
-    float GetRPMFromTorque(float torque);
+    public interface ITorqueGenerator
+    {
+        void RunSubstep();
+    }
 }

@@ -2,43 +2,46 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WheelVisual : MonoBehaviour
+namespace UDrive
 {
-    UWheelCollider wcollider;
-    public Transform Pivot;
-    public Vector3 PivotAxis;
-    public Transform Wheel;
-    public Vector3 WheelAxis;
-    public Vector3 WheelSteerAxis;
-
-    Quaternion startPivotRotation;
-    Quaternion startWheelRotation;
-    Vector3 wheelOffset;
-
-    // Start is called before the first frame update
-    void Start()
+    public class WheelVisual : MonoBehaviour
     {
-        wcollider = GetComponent<UWheelCollider>();
-        if (Pivot != null)
-        {
-            startPivotRotation = Pivot.transform.localRotation;
-        }
-        startWheelRotation = Wheel.transform.localRotation;
-        wheelOffset = Wheel.transform.localPosition;
-    }
+        UWheelCollider wcollider;
+        public Transform Pivot;
+        public Vector3 PivotAxis;
+        public Transform Wheel;
+        public Vector3 WheelAxis;
+        public Vector3 WheelSteerAxis;
 
-    void Update()
-    {
-        if (Pivot != null)
-        {
-            Pivot.transform.localRotation = startPivotRotation * Quaternion.Euler(PivotAxis * wcollider.SteerAngle);
-            Wheel.transform.localRotation = startWheelRotation * Quaternion.Euler(WheelAxis * wcollider.wheelState.RotationAngle);
+        Quaternion startPivotRotation;
+        Quaternion startWheelRotation;
+        Vector3 wheelOffset;
 
-        }
-        else
+        // Start is called before the first frame update
+        void Start()
         {
-            Wheel.transform.localRotation = startWheelRotation * Quaternion.Euler(WheelSteerAxis * wcollider.SteerAngle)*Quaternion.Euler(WheelAxis * wcollider.wheelState.RotationAngle) ;
-            Wheel.transform.localPosition= wcollider.GetLocalWheelPosition() + wheelOffset;
+            wcollider = GetComponent<UWheelCollider>();
+            if (Pivot != null)
+            {
+                startPivotRotation = Pivot.transform.localRotation;
+            }
+            startWheelRotation = Wheel.transform.localRotation;
+            wheelOffset = Wheel.transform.localPosition;
+        }
+
+        void Update()
+        {
+            if (Pivot != null)
+            {
+                Pivot.transform.localRotation = startPivotRotation * Quaternion.Euler(PivotAxis * wcollider.SteerAngle);
+                Wheel.transform.localRotation = startWheelRotation * Quaternion.Euler(WheelAxis * wcollider.wheelState.RotationAngle);
+
+            }
+            else
+            {
+                Wheel.transform.localRotation = startWheelRotation * Quaternion.Euler(WheelSteerAxis * wcollider.SteerAngle) * Quaternion.Euler(WheelAxis * wcollider.wheelState.RotationAngle);
+                Wheel.transform.localPosition = wcollider.GetLocalWheelPosition() + wheelOffset;
+            }
         }
     }
 }

@@ -1,76 +1,79 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-[ExecuteInEditMode]
-public class VehicleFollowCamera : MonoBehaviour
+namespace UDrive
 {
-    public UVehicle Target;
-    [Range(1f, 20f)]
-    public float Distance=10;
-    [Range(0f, 6f)]
-    public float Elevation=3;
-    [Range(0f, 1f)]
-    public float AngleMultiplier=0.25f;
-    [Range(1f, 25f)]
-    public float RotationSpeed = 10f;
-
-    public bool AvoidCollision;
-    public bool LookBack;
-    void LateUpdate()
+    [ExecuteInEditMode]
+    public class VehicleFollowCamera : MonoBehaviour
     {
-        if (Target==null)
+        public UVehicle Target;
+        [Range(1f, 20f)]
+        public float Distance = 10;
+        [Range(0f, 6f)]
+        public float Elevation = 3;
+        [Range(0f, 1f)]
+        public float AngleMultiplier = 0.25f;
+        [Range(1f, 25f)]
+        public float RotationSpeed = 10f;
+
+        public bool AvoidCollision;
+        public bool LookBack;
+        void LateUpdate()
         {
-            return;
-        }
-        float actualRotSpeed = RotationSpeed;
-
-        if (LookBack)
-        {
-            actualRotSpeed = 200f;
-        }
-
-        LookBack = Input.GetKey(KeyCode.Q);
-
-        var targetTransform = Target.transform;
-
-        Vector3 position = new Vector3(0, Elevation, -Distance);
-        if (LookBack)
-        {
-            //position = new Vector3(0, Elevation, Distance);
-            actualRotSpeed = 200f;
-        }
-
-
-
-        float rotationAngle = Mathf.Atan(Elevation / Distance)*Mathf.Rad2Deg;
-
-        var targetrotation = Quaternion.LookRotation(targetTransform.forward, targetTransform.up) * Quaternion.Euler(rotationAngle * AngleMultiplier, 0, 0);
-
-        if (LookBack)
-            targetrotation = Quaternion.LookRotation(-targetTransform.forward, targetTransform.up) * Quaternion.Euler(rotationAngle * AngleMultiplier, 0, 0);
-
-        var smoothRotation = Quaternion.Slerp(transform.rotation, targetrotation, Time.unscaledDeltaTime * actualRotSpeed);
-
-        var positionoffset = smoothRotation * position;
-        var targetPos = targetTransform.position + positionoffset;
-        if (AvoidCollision)
-        {
-            RaycastHit hit;
-            Vector3 dir = (positionoffset).normalized;
-            Ray r = new Ray(Target.transform.position, dir);
-            float length = (positionoffset).magnitude-1f;
-            LayerMask mask = Physics.DefaultRaycastLayers & (~LayerMask.GetMask("IgnoreCameraRaycast"));
-
-            Debug.DrawRay(r.origin, dir * length, Color.red);
-
-            if (Physics.Raycast(r, out hit, length,mask))
+            if (Target == null)
             {
-                Debug.DrawLine(r.origin,hit.point,Color.green);
-                targetPos = hit.point-(r.direction);
+                return;
             }
+            float actualRotSpeed = RotationSpeed;
+
+            if (LookBack)
+            {
+                actualRotSpeed = 200f;
+            }
+
+            LookBack = Input.GetKey(KeyCode.Q);
+
+            var targetTransform = Target.transform;
+
+            Vector3 position = new Vector3(0, Elevation, -Distance);
+            if (LookBack)
+            {
+                //position = new Vector3(0, Elevation, Distance);
+                actualRotSpeed = 200f;
+            }
+
+
+
+            float rotationAngle = Mathf.Atan(Elevation / Distance) * Mathf.Rad2Deg;
+
+            var targetrotation = Quaternion.LookRotation(targetTransform.forward, targetTransform.up) * Quaternion.Euler(rotationAngle * AngleMultiplier, 0, 0);
+
+            if (LookBack)
+                targetrotation = Quaternion.LookRotation(-targetTransform.forward, targetTransform.up) * Quaternion.Euler(rotationAngle * AngleMultiplier, 0, 0);
+
+            var smoothRotation = Quaternion.Slerp(transform.rotation, targetrotation, Time.unscaledDeltaTime * actualRotSpeed);
+
+            var positionoffset = smoothRotation * position;
+            var targetPos = targetTransform.position + positionoffset;
+            if (AvoidCollision)
+            {
+                RaycastHit hit;
+                Vector3 dir = (positionoffset).normalized;
+                Ray r = new Ray(Target.transform.position, dir);
+                float length = (positionoffset).magnitude - 1f;
+                LayerMask mask = Physics.DefaultRaycastLayers & (~LayerMask.GetMask("IgnoreCameraRaycast"));
+
+                Debug.DrawRay(r.origin, dir * length, Color.red);
+
+                if (Physics.Raycast(r, out hit, length, mask))
+                {
+                    Debug.DrawLine(r.origin, hit.point, Color.green);
+                    targetPos = hit.point - (r.direction);
+                }
+            }
+
+            transform.position = targetPos;
+            transform.rotation = smoothRotation;
         }
-        
-        transform.position = targetPos;
-        transform.rotation = smoothRotation;
     }
 }

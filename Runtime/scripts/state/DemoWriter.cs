@@ -4,38 +4,41 @@ using UnityEngine;
 using System.IO;
 using System;
 
-public class DemoWriter : MonoBehaviour
+namespace UDrive
 {
-    public UVehicle Target;
-    public SerializationMode Mode;
-    MemoryStream stream = new MemoryStream();
-    BinaryWriter writer;
-    // Start is called before the first frame update
-    void Start()
+    public class DemoWriter : MonoBehaviour
     {
-        stream = new MemoryStream();
-        writer = new BinaryWriter(stream);
-    }
+        public UVehicle Target;
+        public SerializationMode Mode;
+        MemoryStream stream = new MemoryStream();
+        BinaryWriter writer;
+        // Start is called before the first frame update
+        void Start()
+        {
+            stream = new MemoryStream();
+            writer = new BinaryWriter(stream);
+        }
 
-    // Update is called once per frame
-    void FixedUpdate()
-    {
-        ser();
-    }
-    void ser()
-    {
-        if (stream == null)
+        // Update is called once per frame
+        void FixedUpdate()
         {
-            return;
+            ser();
         }
-        if (Time.time > 60f)
+        void ser()
         {
-            Debug.Log("Serialization state written");
-            stream.Flush();
-            byte[] data = stream.ToArray();
-            stream = null;
-            File.WriteAllBytes("vehicledata.dat", data);
+            if (stream == null)
+            {
+                return;
+            }
+            if (Time.time > 60f)
+            {
+                Debug.Log("Serialization state written");
+                stream.Flush();
+                byte[] data = stream.ToArray();
+                stream = null;
+                File.WriteAllBytes("vehicledata.dat", data);
+            }
+            Target.SerializeState(writer, Mode);
         }
-        Target.SerializeState(writer, Mode);
     }
 }

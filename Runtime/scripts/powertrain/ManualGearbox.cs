@@ -1,7 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+namespace UDrive
+{
 public class ManualGearbox : PowertrainNode, ITorqueNode, IDebuggableComponent
 {
     public List<float> GearRatios = new List<float>();
@@ -98,4 +99,5 @@ public class ManualGearbox : PowertrainNode, ITorqueNode, IDebuggableComponent
     {
         GUILayout.Label($"Gear: {Gear}, ActualClutch: {SmoothActualClutch.ToString("0.00")}, ClutchTq: {(-AppliedClutchTQ).ToString("000")} Nm, Diff: {(ShaftRPM-FlywheelRPM).ToString("0000")}");
     }
+}
 }

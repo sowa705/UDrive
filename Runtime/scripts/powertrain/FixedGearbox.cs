@@ -1,9 +1,12 @@
-﻿public class FixedGearbox : PowertrainNode
+﻿namespace UDrive
 {
-    public float Ratio;
-
-    public override float GetRPMFromTorque(float torque)
+    public class FixedGearbox : PowertrainNode
     {
-        return GetOutput().GetRPMFromTorque(torque*Ratio)*Ratio;
+        public float Ratio;
+
+        public override float GetRPMFromTorque(float torque)
+        {
+            return GetOutput().GetRPMFromTorque(torque * Ratio) * Ratio;
+        }
     }
 }

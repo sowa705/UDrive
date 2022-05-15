@@ -1,21 +1,22 @@
-﻿using UnityEngine;
-
-public class Flywheel : VehicleComponent, ITorqueNode
+﻿namespace UDrive
 {
-    public float MOI;
-    public float RPM;
-
-    public float SubstepTorque;
-
-    public float GetRPMFromTorque(float torque)
+    public class Flywheel : VehicleComponent, ITorqueNode
     {
-        SubstepTorque=torque;
-        RPM += torque / MOI / 50f;
-        RPM -= RPM / 10000f;
-        return RPM;
-    }
+        public float MOI;
+        public float RPM;
 
-    public override void VehicleStart()
-    {
+        public float SubstepTorque;
+
+        public float GetRPMFromTorque(float torque)
+        {
+            SubstepTorque = torque;
+            RPM += torque / MOI / 50f;
+            RPM -= RPM / 10000f;
+            return RPM;
+        }
+
+        public override void VehicleStart()
+        {
+        }
     }
 }
