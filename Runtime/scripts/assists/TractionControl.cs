@@ -10,8 +10,8 @@ namespace UDrive
     internal class TractionControl : VehicleComponent, IDebuggableComponent, IVehicleAssist
     {
         bool Activated;
-        [Range(1f,3f)]
-        public float TargetMaxSlip = 1.5f;
+        [Range(1f,2f)]
+        public float TargetMaxSlip = 1.25f;
         public void DrawDebugText()
         {
             GUILayout.Label($"TCS activated: {Activated}");
@@ -22,7 +22,6 @@ namespace UDrive
         {
             Activated = false;
 
-            float slip;
             foreach (var item in vehicle.GetWheels())
             {
                 if (item.debugData.SlipRatio>TargetMaxSlip)
