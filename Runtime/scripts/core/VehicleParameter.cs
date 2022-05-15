@@ -2,7 +2,7 @@
 {
     public enum VehicleParameter
     {
-        VehicleEnabled,
+        VehicleEnabled=1,
         EngineEnabled,
         EngineRPM,
         EngineMaxRPM,

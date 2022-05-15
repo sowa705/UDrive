@@ -2,7 +2,7 @@
 {
     public enum VehicleInputParameter
     {
-        Steer,
+        Steer=1,
         Accelerator,
         Brake,
         Handbrake,
