@@ -4,10 +4,9 @@ using UnityEngine;
 
 namespace UDrive
 {
-    public class Differential : PowertrainNode, IDebuggableComponent
+    public class OpenDifferential : PowertrainNode, IDebuggableComponent
     {
         public float FinalDriveRatio = 4;
-        public DifferentialType Type;
         [Range(0f, 1f)]
         public float Bias = 0.5f;
 
@@ -22,12 +21,7 @@ namespace UDrive
 
         public override float GetRPMFromTorque(float torque)
         {
-            switch (Type)
-            {
-                case DifferentialType.Open:
-                    return ProcessOpenDiff(torque);
-            }
-            throw new System.Exception("Invalid differential type");
+            return ProcessOpenDiff(torque);
         }
 
         float ProcessOpenDiff(float torque)
@@ -48,10 +42,5 @@ namespace UDrive
             }
             return rpm / Outputs.Count * FinalDriveRatio;
         }
-    }
-
-    public enum DifferentialType
-    {
-        Open
     }
 }

@@ -4,8 +4,8 @@ Advanced vehicle simulation system for Unity
 # Advantages
 * Configurable drivetrain simulation
   * ICE, EV and custom engine types
-  * Open and locked differentials
   * Fixed and Manual gearbox with clutch
+  * Easy to extend
 * Completely custom friction and suspension
 * Vehicle assists (ABS, TCS)
 * Modern Unity package, doesnt litter your Assets directory
