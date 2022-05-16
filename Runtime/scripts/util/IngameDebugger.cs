@@ -35,7 +35,7 @@ namespace UDrive
             }
 
             float weight = totalsusforce / Physics.gravity.y;
-            GUILayout.Label($"Total sus force: {totalsusforce.ToString("00000")} N ({Mathf.RoundToInt(-weight).ToString("0000")} kg), Vehicle mass: {(vehicle.Rigidbody.mass).ToString("0000")} kg, diff: {(-Mathf.RoundToInt(weight + vehicle.Rigidbody.mass)).ToString("0000")} kg");
+            GUILayout.Label($"Total sus force: {totalsusforce.ToString("00000")} N ({Mathf.RoundToInt(-weight).ToString("0000")} kgf), Vehicle mass: {(vehicle.Rigidbody.mass).ToString("0000")} kg, diff: {(-Mathf.RoundToInt(weight + vehicle.Rigidbody.mass)).ToString("0000")} kgf");
             GUILayout.Label($"Velocity: {(vehicle.ReadParameter(VehicleParameter.VehicleSpeed) * 3.6f).ToString("000.0")} km/h, accel: forward: {(vehicle.ReadParameter(VehicleParameter.VehicleLongitudinalAcceleration)).ToString("00.0")} m/s²\tlateral: {(vehicle.ReadParameter(VehicleParameter.VehicleLateralAcceleration)).ToString("00.0")} m/s²");
             GUILayout.Label($"Road grade: {(vehicle.ReadParameter(VehicleParameter.RoadGrade)).ToString("00.0")} %");
 

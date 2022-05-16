@@ -101,7 +101,8 @@ namespace UDrive
             rb = GetComponentInChildren<Rigidbody>();
 
             rb.ResetInertiaTensor();
-
+            rb.angularVelocity = Vector3.zero;
+            rb.velocity = Vector3.zero;
             VehicleValues = new Dictionary<VehicleParameter, float>();
             InputParameters = new Dictionary<VehicleInputParameter, float>();
 
