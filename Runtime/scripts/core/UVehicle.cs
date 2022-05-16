@@ -7,6 +7,9 @@ using UnityEngine;
 
 namespace UDrive
 {
+    /// <summary>
+    /// Core of a UDrive Vehicle
+    /// </summary>
     public class UVehicle : MonoBehaviour
     {
         ITorqueGenerator[] TqGenerators;

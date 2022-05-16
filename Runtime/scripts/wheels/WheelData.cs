@@ -14,13 +14,13 @@ namespace UDrive
         public float Width = 0.2f;
         public float Mass = 20;
         public SuspensionSettings SuspensionSettings = new SuspensionSettings();
-        public PacejkaTireData FrictionData = new PacejkaTireData();
+        public SimpleTireData FrictionData = new SimpleTireData();
     }
 
     [Serializable]
     public class SuspensionSettings
     {
-        public float Spring = 3000;
+        public float Spring = 30000;
         public float Damper = 1000;
         public float Travel = 0.3f;
     }
@@ -31,19 +31,5 @@ namespace UDrive
         public AnimationCurve longitudalSlipCurve;
         public float LateralFrictionMultiplier;
         public AnimationCurve lateralSlipCurve;
-    }
-
-    [Serializable]
-
-    public class WheelDebugData
-    {
-        public float SlipAngle;
-        public float SlipRatio;
-
-        public float BlendRatio;
-
-        public Vector2 Velocity;
-
-        public Vector2 FrictionForce;
     }
 }

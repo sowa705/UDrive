@@ -31,7 +31,7 @@ namespace UDrive
             {
                 totalsusforce += wheels[i].LastTickState.SuspensionForce;
                 if (DisplayWheels)
-                    GUILayout.Label($"{wheels[i].name}\t\t{(int)wheels[i].LastTickState.SuspensionForce} N\t\t{(wheels[i].debugData.SlipRatio).ToString("00.00")}\t{(wheels[i].debugData.SlipAngle * Mathf.Rad2Deg).ToString("+0.00;-0.00")} °\t{(wheels[i].debugData.BlendRatio * 100).ToString("000")} %");
+                    GUILayout.Label($"{wheels[i].name}\t\t{(int)wheels[i].LastTickState.SuspensionForce} N\t\t{(wheels[i].LastTickState.SlipRatio).ToString("00.00")}\t{(wheels[i].LastTickState.SlipAngle * Mathf.Rad2Deg).ToString("+0.00;-0.00")} °\t{(wheels[i].LastTickState.BlendRatio * 100).ToString("000")} %");
             }
 
             float weight = totalsusforce / Physics.gravity.y;

@@ -7,13 +7,13 @@ using UnityEngine;
 using UnityEngine.UIElements;
 namespace UDrive
 {
-    [CustomPropertyDrawer(typeof(SimplifiedPacejkaTireData))]
+    [CustomPropertyDrawer(typeof(SimpleTireFrictionCurve))]
     public class SimplifiedPacejkaTireDataDrawer : PropertyDrawer
     {
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
             AnimationCurve c = new AnimationCurve();
-            var tiredata = GetTargetObjectOfProperty(property) as SimplifiedPacejkaTireData;
+            var tiredata = GetTargetObjectOfProperty(property) as SimpleTireFrictionCurve;
             float max = 0;
             float maxSlip = 0;
             for (int i = 0; i < 80; i++)

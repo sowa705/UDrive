@@ -33,8 +33,8 @@ namespace UDrive
         // Update is called once per frame
         void Update()
         {
-            float totalForwardSlip = Mathf.Abs(wheel.debugData.SlipRatio - 1);
-            float totalLateralSlip = Mathf.Abs(wheel.debugData.SlipAngle * 3f * (wheel.debugData.Velocity.y / 6f));
+            float totalForwardSlip = Mathf.Abs(wheel.LastTickState.SlipRatio - 1);
+            float totalLateralSlip = Mathf.Abs(wheel.LastTickState.SlipAngle * 3f * (wheel.LastTickState.Velocity.y / 6f));
 
             if (!wheel.LastTickState.IsGrounded)
             {

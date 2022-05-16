@@ -24,7 +24,7 @@ namespace UDrive
 
             foreach (var item in vehicle.GetWheels())
             {
-                if (item.debugData.SlipRatio>TargetMaxSlip)
+                if (item.LastTickState.SlipRatio>TargetMaxSlip)
                 {
                     Vehicle.WriteInputParameter(VehicleInputParameter.Accelerator,0);
                     Activated = true;

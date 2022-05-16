@@ -8,18 +8,18 @@ using UnityEngine;
 namespace UDrive
 {
     [Serializable]
-    public class PacejkaTireData
+    public class SimpleTireData
     {
         [Range(0, 3)]
         public float LongitudinalMultiplier = 1;
         [Range(0, 3)]
         public float LateralMultiplier = 1;
-        public SimplifiedPacejkaTireData Tire;
+        public SimpleTireFrictionCurve Tire;
     }
 
     //default values taken from https://www.edy.es/dev/docs/pacejka-94-parameters-explained-a-comprehensive-guide/
     [Serializable]
-    public class SimplifiedPacejkaTireData
+    public class SimpleTireFrictionCurve
     {
         [Range(4, 12)]
         public float Stiffness = 10;

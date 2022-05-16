@@ -5,6 +5,9 @@ using UnityEngine;
 
 namespace UDrive
 {
+    /// <summary>
+    /// Base class for UDrive components, provides a UVehicle reference and serialization ID
+    /// </summary>
     public abstract class VehicleComponent : MonoBehaviour
     {
         protected UVehicle vehicle;

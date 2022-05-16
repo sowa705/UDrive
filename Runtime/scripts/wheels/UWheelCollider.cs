@@ -10,17 +10,17 @@ using UnityEditor;
 
 namespace UDrive
 {
+    /// <summary>
+    /// Wheel collider with integrated suspension, requires UVehicle to function
+    /// </summary>
     public class UWheelCollider : VehicleComponent, ITorqueNode, IStatefulComponent
     {
         public WheelParameters Parameters;
         //[NonSerialized]
         public WheelState wheelState;
-        public WheelTickState LastTickState { get; private set; }
+        public WheelTickState LastTickState { get; private set; } = new WheelTickState();
         [NonSerialized]
         public Rigidbody parentRB;
-
-        //[NonSerialized]
-        public WheelDebugData debugData;
 
         public float EngineTorque;
         public float BrakeTorque;
@@ -46,6 +46,7 @@ namespace UDrive
             wheelComponents.Add(new WheelInertiaComponent(this));
 
             parentRB = GetComponentInParent<Rigidbody>();
+            LastTickState = new WheelTickState();
         }
         public Vector3 GetWheelPosition()
         {

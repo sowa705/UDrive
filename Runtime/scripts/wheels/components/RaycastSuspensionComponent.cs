@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 namespace UDrive
 {
+    /// <summary>
+    /// Standard UDrive suspension, raycast based and somewhat stable in the general case
+    /// </summary>
     class RaycastSuspensionComponent : WheelComponent
     {
         public RaycastSuspensionComponent(UWheelCollider collider) : base(collider)

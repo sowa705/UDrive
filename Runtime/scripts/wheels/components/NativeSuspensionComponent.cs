@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 namespace UDrive
 {
+    /// <summary>
+    /// Test alternative suspension based on PhysX WheelCollider
+    /// </summary>
     class NativeSuspensionComponent : WheelComponent
     {
         WheelCollider SuspensionCollider;

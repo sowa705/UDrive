@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 namespace UDrive
 {
+    /// <summary>
+    /// Standard inertia component, calculates final wheel torque and applies it
+    /// </summary>
     class WheelInertiaComponent : WheelComponent
     {
         public WheelInertiaComponent(UWheelCollider collider) : base(collider)

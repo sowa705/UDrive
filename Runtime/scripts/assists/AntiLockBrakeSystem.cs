@@ -12,7 +12,7 @@ namespace UDrive
         {
             if (collider.BrakeTorque>0)
             {
-                if (collider.debugData.SlipRatio< TargetSlipRatio)
+                if (collider.LastTickState.SlipRatio< TargetSlipRatio)
                 {
                     collider.BrakeTorque = 0;
                     Activated = true;

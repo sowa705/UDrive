@@ -2,6 +2,9 @@
 using UnityEngine;
 namespace UDrive
 {
+    /// <summary>
+    /// Standard friction component
+    /// </summary>
     class TireFrictionComponent : WheelComponent
     {
         public TireFrictionComponent(UWheelCollider collider) : base(collider)
@@ -29,8 +32,8 @@ namespace UDrive
 
             Vector3 pos = Collider.transform.position;
 
-            float longitudinalSlipRatio = (wheelVelocity - forwardVelocity) / (Mathf.Abs(forwardVelocity) + 0.02f);
-            float lateralSlipAngle = -Mathf.Atan(lateralVelocity / (Mathf.Abs(forwardVelocity) + 0.02f));
+            float longitudinalSlipRatio = (wheelVelocity - forwardVelocity) / (Mathf.Abs(forwardVelocity) + 0.1f);
+            float lateralSlipAngle = -Mathf.Atan(lateralVelocity / (Mathf.Abs(forwardVelocity) + 0.1f));
 
             float blendRatio = (Mathf.Abs(forwardVelocity) - 1) / 4f;
             blendRatio = Mathf.Clamp01(blendRatio);
@@ -47,26 +50,26 @@ namespace UDrive
 
             if (tickState.IsGrounded)
             {
-                SimplifiedPacejkaTireData tire = Collider.Parameters.FrictionData.Tire;
+                SimpleTireFrictionCurve tire = Collider.Parameters.FrictionData.Tire;
 
                 var force = tire.CalculateLocalForce(finalSlipRatio, finalSlipAngle, tickState.SuspensionForce);
                 var globalForce = force.x * forwardDirection + force.y * lateralDirection;
                 Collider.parentRB.AddForceAtPosition(globalForce / Collider.Vehicle.Substeps * Collider.LForceMultip, pos);
 
-                Collider.debugData.FrictionForce = force;
-                Collider.debugData.SlipAngle = finalSlipAngle;
-                Collider.debugData.SlipRatio = finalSlipRatio + 1;
-                Collider.debugData.BlendRatio = blendRatio;
+                tickState.FrictionForce = force;
+                tickState.SlipAngle = finalSlipAngle;
+                tickState.SlipRatio = finalSlipRatio + 1;
+                tickState.BlendRatio = blendRatio;
                 reactionTorque = Collider.Parameters.Radius * force.x;
             }
             else
             {
-                Collider.debugData.FrictionForce = Vector2.zero;
-                Collider.debugData.SlipAngle = 0;
-                Collider.debugData.SlipRatio = 0;
-                Collider.debugData.BlendRatio = 0;
+                tickState.FrictionForce = Vector2.zero;
+                tickState.SlipAngle = 0;
+                tickState.SlipRatio = 0;
+                tickState.BlendRatio = 0;
             }
-            Collider.debugData.Velocity = new Vector2(forwardVelocity, lateralVelocity);
+            Collider.LastTickState.Velocity = new Vector2(forwardVelocity, lateralVelocity);
 
             if (float.IsNaN(reactionTorque))
             {

@@ -22,11 +22,11 @@ namespace UDrive
 
             UWheelCollider collider = target as UWheelCollider;
 
-            GUILayout.Label($"Forward slip ratio: {collider.debugData.SlipRatio}");
-            GUILayout.Label($"Lateral slip angle: {collider.debugData.SlipAngle}");
+            GUILayout.Label($"Forward slip ratio: {collider.LastTickState.SlipRatio}");
+            GUILayout.Label($"Lateral slip angle: {collider.LastTickState.SlipAngle}");
             GUILayout.Label($"Wheel RPM: {collider.wheelState.AngularVelocity * 9.8f}");
             GUILayout.Label($"Rotation angle: {collider.wheelState.RotationAngle}");
-            GUILayout.Label($"Longitudinal force: {collider.debugData.FrictionForce}");
+            GUILayout.Label($"Longitudinal force: {collider.LastTickState.FrictionForce}");
             //GUILayout.Label($"Suspension force: {collider.LastTickState.SuspensionForce}");
         }
     }
