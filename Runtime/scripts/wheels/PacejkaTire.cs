@@ -44,15 +44,12 @@ namespace UDrive
 
         public Vector2 CalculateLocalForce(float slipRatio, float slipAngle, float SuspensionForce)
         {
+            float maxCOF = GetMaxCof();
+            float ratio = Mathf.Sqrt(Mathf.Pow(slipRatio / maxCOF, 2) + Mathf.Pow(slipAngle / maxCOF, 2));
             float forwardCoF = CalculateCoF(slipRatio);
             float lateralCoF = CalculateCoF(slipAngle);
 
-            float maxCOF = GetMaxCof();
-
-            var forwardForce = Mathf.Sqrt(Mathf.Pow(forwardCoF / maxCOF, 2) + Mathf.Pow(lateralCoF / maxCOF, 2)) * forwardCoF;
-            var lateralForce = Mathf.Sqrt(Mathf.Pow(forwardCoF / maxCOF, 2) + Mathf.Pow(lateralCoF / maxCOF, 2)) * lateralCoF;
-
-            return new Vector2(forwardForce, lateralForce) * SuspensionForce;
+            return new Vector2(((slipRatio / maxCOF) /ratio)*CalculateCoF(ratio), ((slipAngle / maxCOF) / ratio) * CalculateCoF(ratio)) * SuspensionForce;
         }
     }
 }
