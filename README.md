@@ -1,6 +1,7 @@
 ![UDrive logo](Branding/UDriveBackground.png)
-Advanced vehicle simulation system for Unity
+*Advanced vehicle simulation system for Unity*
 
+[![openupm](https://img.shields.io/npm/v/com.sowa705.udrive?label=openupm&registry_uri=https://package.openupm.com)](https://openupm.com/packages/com.sowa705.udrive/)
 # Advantages
 * Configurable drivetrain simulation
   * ICE, EV and custom engine types
