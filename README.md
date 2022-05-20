@@ -24,3 +24,7 @@ Contributions are welcome, feel free to open issues and pull requests.
 
 # Installation
 Refer to the [Unity manual](https://docs.unity3d.com/Manual/upm-ui-giturl.html).
+
+# Usage
+
+Check out the basics in the [Wiki](https://github.com/sowa705/UDrive/wiki)
