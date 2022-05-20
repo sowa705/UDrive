@@ -10,7 +10,7 @@ namespace UDrive
     {
         public UVehicle Target;
         public SerializationMode Mode;
-        MemoryStream stream = new MemoryStream();
+        MemoryStream stream;
         BinaryWriter writer;
         public string FileName;
         VehicleSerializer serializer;
@@ -31,6 +31,19 @@ namespace UDrive
                 return;
             }
             if (Time.time > 60f)
+            {
+                Target.Serializer = null;
+                Debug.Log("Serialization state written");
+                stream.Flush();
+                byte[] data = stream.ToArray();
+                stream = null;
+                File.WriteAllBytes(FileName, data);
+            }
+        }
+
+        private void OnDestroy()
+        {
+            if (stream!=null)
             {
                 Target.Serializer = null;
                 Debug.Log("Serialization state written");

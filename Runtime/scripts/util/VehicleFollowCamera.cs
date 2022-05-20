@@ -16,8 +16,13 @@ namespace UDrive
         [Range(1f, 25f)]
         public float RotationSpeed = 10f;
 
+        [Range(0f, 10f)]
+        public float FreeLookSensitivity = 3f;
+
         public bool AvoidCollision;
         public bool LookBack;
+        float FreeLookTimer;
+        Vector2 FreeLookShift;
         void LateUpdate()
         {
             if (Target == null)
@@ -41,8 +46,20 @@ namespace UDrive
                 //position = new Vector3(0, Elevation, Distance);
                 actualRotSpeed = 200f;
             }
+            FreeLookTimer -= Time.deltaTime;
+            if (FreeLookTimer<0)
+            {
+                FreeLookShift = Vector2.Lerp(FreeLookShift, Vector2.zero,Time.deltaTime*10f);
+            }
 
+            Vector2 frameShift = new Vector2(-Input.GetAxis("Mouse Y"), Input.GetAxis("Mouse X"));
 
+            if (frameShift.sqrMagnitude>0)
+            {
+                FreeLookTimer = 5f;
+
+                FreeLookShift += frameShift* FreeLookSensitivity;
+            }
 
             float rotationAngle = Mathf.Atan(Elevation / Distance) * Mathf.Rad2Deg;
 
@@ -51,6 +68,7 @@ namespace UDrive
             if (LookBack)
                 targetrotation = Quaternion.LookRotation(-targetTransform.forward, targetTransform.up) * Quaternion.Euler(rotationAngle * AngleMultiplier, 0, 0);
 
+            targetrotation *= Quaternion.Euler(FreeLookShift.x, FreeLookShift.y,0);
             var smoothRotation = Quaternion.Slerp(transform.rotation, targetrotation, Time.unscaledDeltaTime * actualRotSpeed);
 
             var positionoffset = smoothRotation * position;
@@ -60,7 +78,7 @@ namespace UDrive
                 RaycastHit hit;
                 Vector3 dir = (positionoffset).normalized;
                 Ray r = new Ray(Target.transform.position, dir);
-                float length = (positionoffset).magnitude - 1f;
+                float length = (positionoffset).magnitude + 1f;
                 LayerMask mask = Physics.DefaultRaycastLayers & (~LayerMask.GetMask("IgnoreCameraRaycast"));
 
                 Debug.DrawRay(r.origin, dir * length, Color.red);
