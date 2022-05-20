@@ -13,19 +13,18 @@ namespace UDrive
         MemoryStream stream = new MemoryStream();
         BinaryWriter writer;
         public string FileName;
+        VehicleSerializer serializer;
         // Start is called before the first frame update
         void Start()
         {
             stream = new MemoryStream();
             writer = new BinaryWriter(stream);
+            serializer = new BinarySerializer(writer,Mode);
+            Target.Serializer = serializer;
         }
 
         // Update is called once per frame
         void FixedUpdate()
-        {
-            ser();
-        }
-        void ser()
         {
             if (stream == null)
             {
@@ -33,13 +32,13 @@ namespace UDrive
             }
             if (Time.time > 60f)
             {
+                Target.Serializer = null;
                 Debug.Log("Serialization state written");
                 stream.Flush();
                 byte[] data = stream.ToArray();
                 stream = null;
                 File.WriteAllBytes(FileName, data);
             }
-            Target.SerializeState(writer, Mode);
         }
     }
 }

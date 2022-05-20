@@ -11,17 +11,15 @@ namespace UDrive
         public string filename;
         Stream s;
         BinaryReader reader;
+        VehicleDeserializer deserializer;
+
         // Start is called before the first frame update
         void Start()
         {
             s = new FileStream(filename, FileMode.Open, FileAccess.Read);
             reader = new BinaryReader(s);
-        }
-
-        // Update is called once per frame
-        void FixedUpdate()
-        {
-            target.DeserializeState(reader);
+            deserializer = new BinaryDeserializer(reader);
+            target.Deserializer = deserializer;
         }
     }
 }

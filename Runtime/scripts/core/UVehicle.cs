@@ -27,10 +27,17 @@ namespace UDrive
         public Dictionary<VehicleInputParameter, float> InputParameters { get; private set; }
 
         List<VehicleComponent> Components = new List<VehicleComponent>();
-        Dictionary<int, IStatefulComponent> StatefulComponents = new Dictionary<int, IStatefulComponent>();
+        public Dictionary<int, IStatefulComponent> StatefulComponents { get; } = new Dictionary<int, IStatefulComponent>();
         public List<IDebuggableComponent> DebuggableComponents { get; } = new List<IDebuggableComponent>();
         List<IVehicleAssist> VehicleAssists = new List<IVehicleAssist>();
         Vector3 lastVelocity;
+
+        public VehicleDeserializer Deserializer { get=> deserializer; set { if (value != null) value.SetVehicle(this); deserializer = value; } }
+        VehicleDeserializer deserializer;
+
+        public VehicleSerializer Serializer { get => serializer; set { if(value!=null) value.SetVehicle(this); serializer = value; } }
+        VehicleSerializer serializer;
+
         void Awake()
         {
             ResetVehicle();
@@ -141,103 +148,13 @@ namespace UDrive
             }
         }
 
-        public void SerializeState(BinaryWriter writer, SerializationMode mode)
-        {
-            writer.Write((int)mode);
-            if (mode == 0)
-            {
-                return;
-            }
-            writer.Write(rb.position.x);
-            writer.Write(rb.position.y);
-            writer.Write(rb.position.z);
-            writer.Write(rb.velocity.x);
-            writer.Write(rb.velocity.y);
-            writer.Write(rb.velocity.z);
-            writer.Write(rb.rotation.x);
-            writer.Write(rb.rotation.y);
-            writer.Write(rb.rotation.z);
-            writer.Write(rb.rotation.w);
-            foreach (var item in InputParameters)
-            {
-                writer.Write((int)item.Key);
-                writer.Write(item.Value);
-            }
-            writer.Write(0);
-            if (mode == SerializationMode.Full)
-            {
-                foreach (var item in StatefulComponents)
-                {
-                    writer.Write(item.Key);
-                    item.Value.SerializeState(writer);
-                }
-                writer.Write(0);
-            }
-        }
-        public void DeserializeState(BinaryReader reader)
-        {
-            int m;
-            try
-            {
-                m = reader.ReadInt32();
-            }
-            catch (System.Exception)
-            {
-                throw new System.Exception("Cannot read from the stream");
-            }
-            if (m == 0)
-            {
-                throw new System.Exception("Invalid start header");
-            }
-            SerializationMode mode = (SerializationMode)m;
-            if (m == 0)
-            {
-                return;
-            }
-            Vector3 pos = new Vector3(reader.ReadSingle(), reader.ReadSingle(), reader.ReadSingle());
-            Vector3 vel = new Vector3(reader.ReadSingle(), reader.ReadSingle(), reader.ReadSingle());
-            Quaternion rot = new Quaternion(reader.ReadSingle(), reader.ReadSingle(), reader.ReadSingle(), reader.ReadSingle());
-
-            Debug.Log($"Position diff = {Vector3.Distance(pos, transform.position)}");
-            Debug.Log($"Velocity diff = {Vector3.Distance(vel, rb.velocity)}");
-            Debug.Log($"Rotation diff = {Quaternion.Angle(rot, rb.rotation)}");
-            float dist = Vector3.Distance(pos, transform.position);
-            if (dist > .5f)
-            {
-                rb.velocity = Vector3.Lerp(rb.velocity, vel, Time.fixedDeltaTime * dist);
-                rb.position = Vector3.Lerp(rb.position, pos, Time.fixedDeltaTime * dist);
-                rb.rotation = Quaternion.Slerp(rb.rotation, rot, Time.fixedDeltaTime * dist);
-            }
-
-            while (true)
-            {
-                VehicleInputParameter key = (VehicleInputParameter)reader.ReadInt32();
-                if (key == 0)
-                {
-                    break;
-                }
-                WriteInputParameter(key, reader.ReadSingle());
-            }
-            if (mode == SerializationMode.Full)
-            {
-                while (true)
-                {
-                    int key = reader.ReadInt32();
-                    if (key == 0)
-                    {
-                        break;
-                    }
-                    if (!StatefulComponents.ContainsKey(key))
-                    {
-                        throw new System.Exception("Serialized stream contains unknown key");
-                    }
-                    StatefulComponents[key].Deserialize(reader);
-                }
-            }
-        }
-
         private void FixedUpdate()
         {
+            if (deserializer!=null)
+            {
+                deserializer.RunUpdate();
+            }
+
             Vector3 acceleration = (rb.velocity - lastVelocity) / Time.fixedDeltaTime;
             var localAcceleration = transform.InverseTransformVector(acceleration);
 
@@ -263,6 +180,11 @@ namespace UDrive
             for (int i = 0; i < Substeps; i++)
             {
                 RunSubstep();
+            }
+
+            if (serializer != null)
+            {
+                serializer.RunUpdate();
             }
         }
     }
