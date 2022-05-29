@@ -53,5 +53,10 @@ namespace UDrive
         {
 
         }
+
+        public virtual void Substep()
+        {
+
+        }
     }
 }

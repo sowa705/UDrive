@@ -146,6 +146,10 @@ namespace UDrive
             {
                 item.RunSubstep(CurrentDeltaT);
             }
+            foreach (var item in Components)
+            {
+                item.Substep();
+            }
         }
 
         private void FixedUpdate()
