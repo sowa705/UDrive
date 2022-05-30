@@ -8,6 +8,7 @@
   * Fixed and Manual gearbox with clutch
   * Easy to extend
 * Completely custom friction and suspension
+* Procedural suspension audio
 * Vehicle assists (ABS, TCS)
 * Modern Unity package, doesnt litter your Assets directory
 * Serialization support (demos)
