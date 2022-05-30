@@ -12,6 +12,7 @@
 * Vehicle assists (ABS, TCS)
 * Modern Unity package, doesnt litter your Assets directory
 * Serialization support (demos)
+* Multiple ground types
 
 # Licensing
 
