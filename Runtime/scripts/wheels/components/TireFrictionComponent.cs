@@ -50,9 +50,10 @@ namespace UDrive
 
             if (tickState.IsGrounded)
             {
-                SimpleTireFrictionCurve tire = Collider.Parameters.FrictionData.Tire;
+                SimpleTireFrictionCurve tire = Collider.Parameters.FrictionCurve;
 
-                var force = tire.CalculateLocalForce(finalSlipRatio, finalSlipAngle, tickState.SuspensionForce);
+                var force = tire.CalculateLocalForce(finalSlipRatio, finalSlipAngle, tickState.SuspensionForce)*GroundConfig.GlobalConfig.GetFrictionMultiplier(tickState.TagName);
+
                 var globalForce = force.x * forwardDirection + force.y * lateralDirection;
                 Collider.parentRB.AddForceAtPosition(globalForce / Collider.Vehicle.Substeps * Collider.LForceMultip, pos);
 

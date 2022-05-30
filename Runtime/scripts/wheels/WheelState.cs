@@ -60,5 +60,9 @@ namespace UDrive
         /// Final friction forces, x = longitudinal, y = lateral
         /// </summary>
         public Vector2 FrictionForce;
+        /// <summary>
+        /// Tag name of the surface the wheel touches
+        /// </summary>
+        public string TagName;
     }
 }

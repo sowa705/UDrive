@@ -14,14 +14,14 @@ namespace UDrive
         public float Width = 0.2f;
         public float Mass = 20;
         public SuspensionSettings SuspensionSettings = new SuspensionSettings();
-        public SimpleTireData FrictionData = new SimpleTireData();
+        public SimpleTireFrictionCurve FrictionCurve = new SimpleTireFrictionCurve();
     }
 
     [Serializable]
     public class SuspensionSettings
     {
-        public float Spring = 30000;
-        public float Damper = 1000;
+        public float Spring = 40000;
+        public float Damper = 2000;
         public float Travel = 0.3f;
     }
     [Serializable]

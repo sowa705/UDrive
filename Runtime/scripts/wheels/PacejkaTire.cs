@@ -7,16 +7,6 @@ using UnityEngine;
 
 namespace UDrive
 {
-    [Serializable]
-    public class SimpleTireData
-    {
-        [Range(0, 3)]
-        public float LongitudinalMultiplier = 1;
-        [Range(0, 3)]
-        public float LateralMultiplier = 1;
-        public SimpleTireFrictionCurve Tire;
-    }
-
     //default values taken from https://www.edy.es/dev/docs/pacejka-94-parameters-explained-a-comprehensive-guide/
     [Serializable]
     public class SimpleTireFrictionCurve
@@ -29,6 +19,10 @@ namespace UDrive
         public float Peak = 1;
         [Range(-10, 1)]
         public float Curvature = 0.97f;
+        [Range(0, 3)]
+        public float LongitudinalMultiplier = 1;
+        [Range(0, 3)]
+        public float LateralMultiplier = 1;
 
         public float GetMaxCof()
         {
@@ -49,7 +43,7 @@ namespace UDrive
             float forwardCoF = CalculateCoF(slipRatio);
             float lateralCoF = CalculateCoF(slipAngle);
 
-            return new Vector2(((slipRatio / maxCOF) /ratio)*CalculateCoF(ratio), ((slipAngle / maxCOF) / ratio) * CalculateCoF(ratio)) * SuspensionForce;
+            return new Vector2(((slipRatio / maxCOF) /ratio)*CalculateCoF(ratio)*LongitudinalMultiplier, ((slipAngle / maxCOF) / ratio) * CalculateCoF(ratio)*LateralMultiplier) * SuspensionForce;
         }
     }
 }
