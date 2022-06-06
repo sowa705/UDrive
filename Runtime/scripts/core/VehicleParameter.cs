@@ -12,6 +12,7 @@
         VehicleLongitudinalAcceleration,
         RoadGrade,
         ABSActive,
-        TCSActive
+        TCSActive,
+        TractionBatteryCharge
     }
 }

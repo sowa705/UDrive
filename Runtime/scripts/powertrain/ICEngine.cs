@@ -20,10 +20,10 @@ namespace UDrive
 
         public void RunSubstep()
         {
-            cutoffTimer -= vehicle.CurrentDeltaT;
+            cutoffTimer -= vehicle.SubstepDeltaT;
             float input = Vehicle.ReadInputParameter(VehicleInputParameter.Accelerator);
 
-            input += idleRPMController.ComputeStep(CurrentRPM, vehicle.CurrentDeltaT);
+            input += idleRPMController.ComputeStep(CurrentRPM, vehicle.SubstepDeltaT);
 
             input = Mathf.Clamp01(input);
 

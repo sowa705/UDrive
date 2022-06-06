@@ -21,7 +21,7 @@ namespace UDrive
 
         [Range(1, 32)]
         public int Substeps = 4;
-        public float CurrentDeltaT { get => Time.fixedDeltaTime / Substeps; }
+        public float SubstepDeltaT { get => Time.fixedDeltaTime / Substeps; }
 
         public Dictionary<VehicleParameter, float> VehicleValues { get; private set; }
         public Dictionary<VehicleInputParameter, float> InputParameters { get; private set; }
@@ -144,7 +144,7 @@ namespace UDrive
             }
             foreach (var item in UWheelColliders)
             {
-                item.RunSubstep(CurrentDeltaT);
+                item.RunSubstep(SubstepDeltaT);
             }
             foreach (var item in Components)
             {

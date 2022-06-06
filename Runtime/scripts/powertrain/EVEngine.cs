@@ -17,7 +17,9 @@ namespace UDrive
         float currentInput;
         float currentMaxTq;
 
-        PIDController idleRPMController;
+        public bool EnableRegen;
+
+        TractionBattery battery;
 
         public void RunSubstep()
         {
@@ -30,6 +32,16 @@ namespace UDrive
                 input = 0;
             }
 
+            if (battery != null&&battery.ChargeValue<=0)
+            {
+                input = 0;
+            }
+
+            if (EnableRegen&&CurrentRPM> (MaxRPM/50f))
+            {
+                input -= Vehicle.ReadInputParameter(VehicleInputParameter.Brake);
+            }
+
             float torque = MaxTorque * input;
             //torque -= (CurrentRPM / 100f);
 
@@ -39,9 +51,9 @@ namespace UDrive
 
             currentMaxTq = MaxPower * 1000 * 9.54f / tqrpm;
 
-            if (torque > currentMaxTq)
+            if (Mathf.Abs(torque) > currentMaxTq)
             {
-                torque = currentMaxTq;
+                torque = Mathf.Sign(torque)*currentMaxTq;
             }
 
             currentInput = input;
@@ -49,6 +61,15 @@ namespace UDrive
 
             currentPwr = torque * CurrentRPM / 9.54f / 1000;
 
+            
+
+            if (battery != null)
+            {
+                float currentenergy = currentPwr * vehicle.SubstepDeltaT / 3600f; //kWh for this frame
+
+                battery.CurrentEnergy -= currentenergy;
+            }
+            
             Vehicle.WriteParameter(VehicleParameter.EngineRPM, CurrentRPM);
 
             CurrentRPM = outputGenerator.GetRPMFromTorque(torque);
@@ -57,6 +78,11 @@ namespace UDrive
         public override void VehicleStart()
         {
             Vehicle.WriteParameter(VehicleParameter.EngineMaxRPM, MaxRPM);
+
+            if (battery==null)
+            {
+                battery = vehicle.GetComponentInChildren<TractionBattery>();
+            }
         }
 
         public void DrawDebugText()

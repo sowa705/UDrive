@@ -44,7 +44,7 @@ namespace UDrive
             if (CruiseControlSpeed > 0)
             {
                 cruiseControl.SetPoint = CruiseControlSpeed / 3.6f;
-                float input = cruiseControl.ComputeStep(vehicle.ReadParameter(VehicleParameter.VehicleSpeed), vehicle.CurrentDeltaT);
+                float input = cruiseControl.ComputeStep(vehicle.ReadParameter(VehicleParameter.VehicleSpeed), vehicle.SubstepDeltaT);
                 Vehicle.WriteInputParameter(VehicleInputParameter.Accelerator, input);
             }
         }

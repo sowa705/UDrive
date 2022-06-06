@@ -54,7 +54,7 @@ public class ManualGearbox : PowertrainNode, ITorqueNode, IDebuggableComponent
     {
         Clutch = 1- Vehicle.ReadInputParameter(VehicleInputParameter.Clutch);
 
-        ShiftTimer -= vehicle.CurrentDeltaT;
+        ShiftTimer -= vehicle.SubstepDeltaT;
         if (AutoClutch)
         {
             float targetrpm = 1000;
@@ -74,7 +74,7 @@ public class ManualGearbox : PowertrainNode, ITorqueNode, IDebuggableComponent
             ActualClutch = 0;
         }
 
-        SmoothActualClutch = Mathf.Lerp(SmoothActualClutch, ActualClutch, vehicle.CurrentDeltaT * 10f);
+        SmoothActualClutch = Mathf.Lerp(SmoothActualClutch, ActualClutch, vehicle.SubstepDeltaT * 10f);
 
         float diff = ShaftRPM - FlywheelRPM;
         if (Gear == 0)
@@ -82,7 +82,7 @@ public class ManualGearbox : PowertrainNode, ITorqueNode, IDebuggableComponent
         float ClutchTq = Mathf.Clamp01(Mathf.Abs(diff) / MaxClutchTorque) * MaxClutchTorque * Mathf.Sign(diff) * SmoothActualClutch;
 
         float tq = torque + ClutchTq;
-        FlywheelRPM += (tq / MomentOfInertia) * vehicle.CurrentDeltaT;
+        FlywheelRPM += (tq / MomentOfInertia) * vehicle.SubstepDeltaT;
 
         AppliedClutchTQ = ClutchTq;
 
