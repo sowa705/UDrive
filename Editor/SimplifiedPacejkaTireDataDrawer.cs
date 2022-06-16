@@ -70,8 +70,7 @@ namespace UDrive
         }
         private static object GetValue_Imp(object source, string name, int index)
         {
-            var enumerable = GetValue_Imp(source, name) as System.Collections.IEnumerable;
-            if (enumerable == null) return null;
+            if (GetValue_Imp(source, name) is not IEnumerable enumerable) return null;
             var enm = enumerable.GetEnumerator();
             //while (index-- >= 0)
             //    enm.MoveNext();

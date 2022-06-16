@@ -28,10 +28,32 @@ namespace UDrive
             Vehicle.WriteInputParameter(VehicleInputParameter.Handbrake, Input.GetKey(KeyCode.Space) ? 1 : 0);
             Vehicle.WriteInputParameter(VehicleInputParameter.Clutch, Input.GetKey(KeyCode.E) ? 1 : 0);
 
+            int headlightmode = (int)Vehicle.ReadInputParameter(VehicleInputParameter.HeadlightMode);
+            
+            if (Input.GetKeyDown(KeyCode.O))
+            {
+                headlightmode++;
+                if (headlightmode>3)
+                {
+                    headlightmode = 0;
+                }
+            }
+            
+            Vehicle.WriteInputParameter(VehicleInputParameter.HeadlightMode,headlightmode);
+
             if (Input.GetKeyDown(KeyCode.P))
             {
                 CruiseControlSpeed += 10;
             }
+            
+            if (Input.GetKeyDown(KeyCode.H))
+            {
+                bool hazardlights = Vehicle.ReadInputParameter(VehicleInputParameter.HazardLightsEnabled)>0;
+                hazardlights = !hazardlights;
+                
+                Vehicle.WriteInputParameter(VehicleInputParameter.HazardLightsEnabled,hazardlights?1:0);
+            }
+            
             if (Input.GetKeyDown(KeyCode.L))
             {
                 CruiseControlSpeed -= 10;

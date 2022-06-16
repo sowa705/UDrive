@@ -10,14 +10,13 @@ namespace UDrive
         bool Activated;
         public void OnWheel(UWheelCollider collider)
         {
-            if (collider.BrakeTorque>0)
-            {
-                if (collider.LastTickState.SlipRatio< TargetSlipRatio)
-                {
-                    collider.BrakeTorque = 0;
-                    Activated = true;
-                }
-            }
+            if (!(collider.BrakeTorque > 0))
+                return;
+            if (!(collider.LastTickState.SlipRatio < TargetSlipRatio))
+                return;
+            
+            collider.BrakeTorque = 0;
+            Activated = true;
         }
 
         public void DrawDebugText()
