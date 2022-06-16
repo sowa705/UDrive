@@ -22,9 +22,28 @@ namespace UDrive
 
             return GlobalMultiplier;
         }
+
+        private static GroundConfig currentConf;
         /// <summary>
         /// Returns the loaded global GroundConfig instance or a new instance
         /// </summary>
-        public static GroundConfig GlobalConfig { get { var gc = Resources.Load<GroundConfig>("GlobalGroundConfig"); return gc ?? new GroundConfig(); } }
+        public static GroundConfig GlobalConfig {
+            get
+            {
+                if (currentConf==null)
+                {
+                    currentConf = Resources.Load<GroundConfig>("GlobalGroundConfig");
+                    if (currentConf==null)
+                    {
+                        currentConf = ScriptableObject.CreateInstance<GroundConfig>();
+                        
+                    }
+                    return currentConf;
+                }
+                else
+                {
+                    return currentConf;
+                }
+            } }
     }
 }
