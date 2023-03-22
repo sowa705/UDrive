@@ -14,8 +14,14 @@ public class ManualGearbox : PowertrainNode, ITorqueNode, IDebuggableComponent
     public float Clutch = 0;
     public float ActualClutch = 1;
     public float SmoothActualClutch;
+    /// <summary>
+    /// Maximum torque that can be transmitted through the clutch, avoid setting this higher than the engine's max torque or you'll get weird results
+    /// </summary>
     public float MaxClutchTorque = 200;
     public float AppliedClutchTQ;
+    /// <summary>
+    /// Automatically presses the clutch to avoid stalling the engine
+    /// </summary>
     public bool AutoClutch;
     [Range(0.01f, 0.2f)]
     public float MomentOfInertia = 0.02f;

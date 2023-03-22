@@ -49,11 +49,11 @@ MonoBehaviour:
   ParametersObject: {fileID: 11400000, guid: 518f5a39a32cf49e5a7b39952d5d0f71, type: 2}
   Parameters:
     Radius: 0.3
-    Width: 0.2
-    Mass: 20
+    Width: 0.3
+    Mass: 30
     SuspensionSettings:
-      Spring: 42500
-      Damper: 3500
+      Spring: 52000
+      Damper: 4000
       Travel: 0.3
     FrictionCurve:
       Stiffness: 10
@@ -62,12 +62,9 @@ MonoBehaviour:
       Curvature: 0.97
       LongitudinalMultiplier: 1
       LateralMultiplier: 1
-    ColliderMesh: {fileID: 0}
-  wheelState:
-    SuspensionPosition: 0
-    SuspensionVelocity: 0
-    AngularVelocity: 0
-    RotationAngle: 0
+    ColliderMesh: {fileID: 2534964839176971238, guid: e0ccb08da952b43e88e8f1e228d9d259,
+      type: 3}
+    RotateColliderMesh: 0
   EngineTorque: 0
   BrakeTorque: 0
   LForceMultip: 1
@@ -342,11 +339,11 @@ MonoBehaviour:
   ParametersObject: {fileID: 11400000, guid: 518f5a39a32cf49e5a7b39952d5d0f71, type: 2}
   Parameters:
     Radius: 0.3
-    Width: 0.2
-    Mass: 20
+    Width: 0.3
+    Mass: 30
     SuspensionSettings:
-      Spring: 42500
-      Damper: 3500
+      Spring: 52000
+      Damper: 4000
       Travel: 0.3
     FrictionCurve:
       Stiffness: 10
@@ -355,12 +352,9 @@ MonoBehaviour:
       Curvature: 0.97
       LongitudinalMultiplier: 1
       LateralMultiplier: 1
-    ColliderMesh: {fileID: 0}
-  wheelState:
-    SuspensionPosition: 0
-    SuspensionVelocity: 0
-    AngularVelocity: 0
-    RotationAngle: 0
+    ColliderMesh: {fileID: 2534964839176971238, guid: e0ccb08da952b43e88e8f1e228d9d259,
+      type: 3}
+    RotateColliderMesh: 0
   EngineTorque: 0
   BrakeTorque: 0
   LForceMultip: 1
@@ -533,11 +527,11 @@ MonoBehaviour:
   ParametersObject: {fileID: 11400000, guid: 518f5a39a32cf49e5a7b39952d5d0f71, type: 2}
   Parameters:
     Radius: 0.3
-    Width: 0.2
-    Mass: 20
+    Width: 0.3
+    Mass: 30
     SuspensionSettings:
-      Spring: 42500
-      Damper: 3500
+      Spring: 52000
+      Damper: 4000
       Travel: 0.3
     FrictionCurve:
       Stiffness: 10
@@ -546,12 +540,9 @@ MonoBehaviour:
       Curvature: 0.97
       LongitudinalMultiplier: 1
       LateralMultiplier: 1
-    ColliderMesh: {fileID: 0}
-  wheelState:
-    SuspensionPosition: 0
-    SuspensionVelocity: 0
-    AngularVelocity: 0
-    RotationAngle: 0
+    ColliderMesh: {fileID: 2534964839176971238, guid: e0ccb08da952b43e88e8f1e228d9d259,
+      type: 3}
+    RotateColliderMesh: 0
   EngineTorque: 0
   BrakeTorque: 0
   LForceMultip: 1
@@ -623,11 +614,11 @@ MonoBehaviour:
   ParametersObject: {fileID: 11400000, guid: 518f5a39a32cf49e5a7b39952d5d0f71, type: 2}
   Parameters:
     Radius: 0.3
-    Width: 0.2
-    Mass: 20
+    Width: 0.3
+    Mass: 30
     SuspensionSettings:
-      Spring: 42500
-      Damper: 3500
+      Spring: 52000
+      Damper: 4000
       Travel: 0.3
     FrictionCurve:
       Stiffness: 10
@@ -636,12 +627,9 @@ MonoBehaviour:
       Curvature: 0.97
       LongitudinalMultiplier: 1
       LateralMultiplier: 1
-    ColliderMesh: {fileID: 0}
-  wheelState:
-    SuspensionPosition: 0
-    SuspensionVelocity: 0
-    AngularVelocity: 0
-    RotationAngle: 0
+    ColliderMesh: {fileID: 2534964839176971238, guid: e0ccb08da952b43e88e8f1e228d9d259,
+      type: 3}
+    RotateColliderMesh: 0
   EngineTorque: 0
   BrakeTorque: 0
   LForceMultip: 1
@@ -841,6 +829,11 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[8]
       value: 
       objectReference: {fileID: 2100000, guid: 5b6bee02dff5c8140a3fe9fc73b9fefc, type: 2}
+    - target: {fileID: -7511558181221131132, guid: 18040b30931c25b49bc8bb051cf6493d,
+        type: 3}
+      propertyPath: m_Materials.Array.data[9]
+      value: 
+      objectReference: {fileID: 2100000, guid: eed31f5c96f30994fb54de4cc34aeb73, type: 2}
     - target: {fileID: 919132149155446097, guid: 18040b30931c25b49bc8bb051cf6493d,
         type: 3}
       propertyPath: m_Name
