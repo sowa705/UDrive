@@ -17,9 +17,10 @@ namespace UDrive
             float finaltorque = Collider.EngineTorque - tickState.ReactionTorque;
 
             Collider.wheelState.AngularVelocity += (finaltorque / moi) * deltaT;
-            float brakeTq = Collider.BrakeTorque;
+            float brakeTq = Collider.BrakeTorque + Collider.wheelState.AngularVelocity * 0.1f; //brake torque + friction
 
             brakeTq = -Mathf.Sign(Collider.wheelState.AngularVelocity) * (brakeTq);
+
             bool sign = Collider.wheelState.AngularVelocity > 0;
 
             Collider.wheelState.AngularVelocity += (brakeTq / moi) * deltaT;
@@ -29,10 +30,18 @@ namespace UDrive
                 Collider.wheelState.AngularVelocity = 0;
             }
 
-            //Collider.wheelState.AngularVelocity -= Collider.wheelState.AngularVelocity / 10f * deltaT; //damping
-
+            if (Collider.wheelState.AngularVelocity < 0.05f && brakeTq > 0)
+            {
+                Collider.wheelState.AngularVelocity = 0;
+            }
+            
             Collider.wheelState.RotationAngle += Collider.wheelState.AngularVelocity * 9.5493f * deltaT * 6;
             Collider.wheelState.RotationAngle = Collider.wheelState.RotationAngle % 360f;
+        }
+        
+        public override void OnDetach()
+        {
+            //nothing to do
         }
     }
 }

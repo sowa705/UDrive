@@ -6,6 +6,7 @@ namespace UDrive
     [ExecuteInEditMode]
     public class VehicleFollowCamera : MonoBehaviour
     {
+        public bool AutoSetTarget;
         public UVehicle Target;
         [Range(1f, 20f)]
         public float Distance = 10;
@@ -27,7 +28,14 @@ namespace UDrive
         {
             if (Target == null)
             {
-                return;
+                if (AutoSetTarget)
+                {
+                    Target = FindObjectOfType<UVehicle>();
+                }
+                else
+                {
+                    return;
+                }
             }
             float actualRotSpeed = RotationSpeed;
 

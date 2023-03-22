@@ -26,12 +26,12 @@ namespace UDrive
             float totalsusforce = 0;
 
             if (DisplayWheels)
-                GUILayout.Label("Wheel name\tSuspension force\tSlip ratio\tSlip angle\tBlend ratio   ");
+                GUILayout.Label("Wheel name\tSuspension force\tSlip ratio\tSlip angle\tBlend ratio\tRPM");
             for (int i = 0; i < wheels.Length; i++)
             {
                 totalsusforce += wheels[i].LastTickState.SuspensionForce;
                 if (DisplayWheels)
-                    GUILayout.Label($"{wheels[i].name}\t\t{(int)wheels[i].LastTickState.SuspensionForce} N\t\t{(wheels[i].LastTickState.SlipRatio).ToString("00.00")}\t{(wheels[i].LastTickState.SlipAngle * Mathf.Rad2Deg).ToString("+0.00;-0.00")} °\t{(wheels[i].LastTickState.BlendRatio * 100).ToString("000")} %");
+                    GUILayout.Label($"{wheels[i].name}\t\t{(int)wheels[i].LastTickState.SuspensionForce} N\t\t{(wheels[i].LastTickState.SlipRatio).ToString("00.00")}\t{(wheels[i].LastTickState.SlipAngle * Mathf.Rad2Deg).ToString("+0.00;-0.00")} °\t{(wheels[i].LastTickState.BlendRatio * 100).ToString("000")} %\t{(wheels[i].wheelState.AngularVelocity*9.549f).ToString("0000")} RPM");
             }
 
             float weight = totalsusforce / Physics.gravity.y;

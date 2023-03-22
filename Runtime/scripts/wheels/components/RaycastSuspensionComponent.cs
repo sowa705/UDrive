@@ -62,5 +62,10 @@ namespace UDrive
             tickState.TagName = tagname;
             tickState.SuspensionForce = (force);
         }
+
+        public override void OnDetach()
+        {
+            // nothing to do here
+        }
     }
 }

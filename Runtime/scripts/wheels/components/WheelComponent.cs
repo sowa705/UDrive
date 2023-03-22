@@ -5,7 +5,7 @@ namespace UDrive
     /// <summary>
     /// Wheel functionality is divided between multiple components: suspension, friction and final torque calculations. WheelComponent is a base class for these features
     /// </summary>
-    abstract class WheelComponent
+    public abstract class WheelComponent
     {
         protected UWheelCollider Collider;
         public WheelComponent(UWheelCollider collider)
@@ -14,5 +14,6 @@ namespace UDrive
         }
 
         public abstract void RunSubstep(WheelTickState tickState, float deltaT);
+        public abstract void OnDetach();
     }
 }
