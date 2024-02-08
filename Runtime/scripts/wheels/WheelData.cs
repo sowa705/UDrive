@@ -15,6 +15,14 @@ namespace UDrive
         public float Mass = 20;
         public SuspensionSettings SuspensionSettings = new SuspensionSettings();
         public SimpleTireFrictionCurve FrictionCurve = new SimpleTireFrictionCurve();
+        /// <summary>
+        /// Mesh used for the wheel collider in 1x1x1 meter scale. will be scaled to the wheel radius by UWheelCollider
+        /// </summary>
+        public Mesh ColliderMesh;
+        /// <summary>
+        /// Determines if the collider mesh should be rotated to match the wheel rotation, this is useful for weird meshes like square wheels :)
+        /// </summary>
+        public bool RotateColliderMesh = false;
     }
 
     [Serializable]

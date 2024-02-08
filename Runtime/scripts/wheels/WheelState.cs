@@ -64,5 +64,6 @@ namespace UDrive
         /// Tag name of the surface the wheel touches
         /// </summary>
         public string TagName;
+        public int ColliderCount;
     }
 }

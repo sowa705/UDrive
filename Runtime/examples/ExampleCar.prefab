@@ -26,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 336212243461665321}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.95, y: 0, z: 1.22}
+  m_LocalPosition: {x: -0.77, y: 0, z: 1.22}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -46,13 +46,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b606a8e13f9be5d4ca1dceb6c5fb85e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ParametersObject: {fileID: 11400000, guid: 518f5a39a32cf49e5a7b39952d5d0f71, type: 2}
   Parameters:
     Radius: 0.3
-    Width: 0.2
-    Mass: 20
+    Width: 0.3
+    Mass: 30
     SuspensionSettings:
-      Spring: 42500
-      Damper: 3500
+      Spring: 52000
+      Damper: 4000
       Travel: 0.3
     FrictionCurve:
       Stiffness: 10
@@ -61,11 +62,9 @@ MonoBehaviour:
       Curvature: 0.97
       LongitudinalMultiplier: 1
       LateralMultiplier: 1
-  wheelState:
-    SuspensionPosition: 0
-    SuspensionVelocity: 0
-    AngularVelocity: 0
-    RotationAngle: 0
+    ColliderMesh: {fileID: 2534964839176971238, guid: e0ccb08da952b43e88e8f1e228d9d259,
+      type: 3}
+    RotateColliderMesh: 0
   EngineTorque: 0
   BrakeTorque: 0
   LForceMultip: 1
@@ -158,10 +157,21 @@ Rigidbody:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 336212243622908284}
-  serializedVersion: 2
+  serializedVersion: 4
   m_Mass: 1200
   m_Drag: 0
   m_AngularDrag: 0.01
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 1
@@ -306,7 +316,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 336212244317466756}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.95, y: 0, z: 1.22}
+  m_LocalPosition: {x: 0.77, y: 0, z: 1.22}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -326,13 +336,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b606a8e13f9be5d4ca1dceb6c5fb85e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ParametersObject: {fileID: 11400000, guid: 518f5a39a32cf49e5a7b39952d5d0f71, type: 2}
   Parameters:
     Radius: 0.3
-    Width: 0.2
-    Mass: 20
+    Width: 0.3
+    Mass: 30
     SuspensionSettings:
-      Spring: 42500
-      Damper: 3500
+      Spring: 52000
+      Damper: 4000
       Travel: 0.3
     FrictionCurve:
       Stiffness: 10
@@ -341,11 +352,9 @@ MonoBehaviour:
       Curvature: 0.97
       LongitudinalMultiplier: 1
       LateralMultiplier: 1
-  wheelState:
-    SuspensionPosition: 0
-    SuspensionVelocity: 0
-    AngularVelocity: 0
-    RotationAngle: 0
+    ColliderMesh: {fileID: 2534964839176971238, guid: e0ccb08da952b43e88e8f1e228d9d259,
+      type: 3}
+    RotateColliderMesh: 0
   EngineTorque: 0
   BrakeTorque: 0
   LForceMultip: 1
@@ -495,7 +504,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 336212244569899991}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.95, y: 0, z: -1.39}
+  m_LocalPosition: {x: -0.77, y: 0, z: -1.39}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -515,13 +524,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b606a8e13f9be5d4ca1dceb6c5fb85e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ParametersObject: {fileID: 11400000, guid: 518f5a39a32cf49e5a7b39952d5d0f71, type: 2}
   Parameters:
     Radius: 0.3
-    Width: 0.2
-    Mass: 20
+    Width: 0.3
+    Mass: 30
     SuspensionSettings:
-      Spring: 42500
-      Damper: 3500
+      Spring: 52000
+      Damper: 4000
       Travel: 0.3
     FrictionCurve:
       Stiffness: 10
@@ -530,11 +540,9 @@ MonoBehaviour:
       Curvature: 0.97
       LongitudinalMultiplier: 1
       LateralMultiplier: 1
-  wheelState:
-    SuspensionPosition: 0
-    SuspensionVelocity: 0
-    AngularVelocity: 0
-    RotationAngle: 0
+    ColliderMesh: {fileID: 2534964839176971238, guid: e0ccb08da952b43e88e8f1e228d9d259,
+      type: 3}
+    RotateColliderMesh: 0
   EngineTorque: 0
   BrakeTorque: 0
   LForceMultip: 1
@@ -583,7 +591,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 336212245205562003}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.95, y: 0, z: -1.39}
+  m_LocalPosition: {x: 0.77, y: 0, z: -1.39}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -603,13 +611,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b606a8e13f9be5d4ca1dceb6c5fb85e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ParametersObject: {fileID: 11400000, guid: 518f5a39a32cf49e5a7b39952d5d0f71, type: 2}
   Parameters:
     Radius: 0.3
-    Width: 0.2
-    Mass: 20
+    Width: 0.3
+    Mass: 30
     SuspensionSettings:
-      Spring: 42500
-      Damper: 3500
+      Spring: 52000
+      Damper: 4000
       Travel: 0.3
     FrictionCurve:
       Stiffness: 10
@@ -618,11 +627,9 @@ MonoBehaviour:
       Curvature: 0.97
       LongitudinalMultiplier: 1
       LateralMultiplier: 1
-  wheelState:
-    SuspensionPosition: 0
-    SuspensionVelocity: 0
-    AngularVelocity: 0
-    RotationAngle: 0
+    ColliderMesh: {fileID: 2534964839176971238, guid: e0ccb08da952b43e88e8f1e228d9d259,
+      type: 3}
+    RotateColliderMesh: 0
   EngineTorque: 0
   BrakeTorque: 0
   LForceMultip: 1
@@ -650,6 +657,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 336212243622908285}
     m_Modifications:
     - target: {fileID: 8744916720265659746, guid: 3dd67284104241840a16e93b46f4aa60,
@@ -713,6 +721,9 @@ PrefabInstance:
       value: ExampleLights
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3dd67284104241840a16e93b46f4aa60, type: 3}
 --- !u!4 &8744916720314197537 stripped
 Transform:
@@ -725,6 +736,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 336212243622908285}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 18040b30931c25b49bc8bb051cf6493d,
@@ -817,6 +829,11 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[8]
       value: 
       objectReference: {fileID: 2100000, guid: 5b6bee02dff5c8140a3fe9fc73b9fefc, type: 2}
+    - target: {fileID: -7511558181221131132, guid: 18040b30931c25b49bc8bb051cf6493d,
+        type: 3}
+      propertyPath: m_Materials.Array.data[9]
+      value: 
+      objectReference: {fileID: 2100000, guid: eed31f5c96f30994fb54de4cc34aeb73, type: 2}
     - target: {fileID: 919132149155446097, guid: 18040b30931c25b49bc8bb051cf6493d,
         type: 3}
       propertyPath: m_Name
@@ -828,6 +845,17 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 18040b30931c25b49bc8bb051cf6493d,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4239807247947474887}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 18040b30931c25b49bc8bb051cf6493d,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1095575766}
   m_SourcePrefab: {fileID: 100100000, guid: 18040b30931c25b49bc8bb051cf6493d, type: 3}
 --- !u!4 &258206611794345999 stripped
 Transform:
@@ -849,9 +877,17 @@ MeshCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 639094599752129205}
   m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
   m_IsTrigger: 0
+  m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 4
+  serializedVersion: 5
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 994024980850245719, guid: 18040b30931c25b49bc8bb051cf6493d, type: 3}
@@ -888,6 +924,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 336212243461665326}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 6fddb60e2fc61b0429af466e93c95e0b,
@@ -898,7 +935,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 6fddb60e2fc61b0429af466e93c95e0b,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.129
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 6fddb60e2fc61b0429af466e93c95e0b,
         type: 3}
@@ -951,6 +988,9 @@ PrefabInstance:
       value: ExampleTire
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6fddb60e2fc61b0429af466e93c95e0b, type: 3}
 --- !u!4 &1711339338941420434 stripped
 Transform:
@@ -963,6 +1003,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 336212244569899988}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 6fddb60e2fc61b0429af466e93c95e0b,
@@ -973,7 +1014,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 6fddb60e2fc61b0429af466e93c95e0b,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.129
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 6fddb60e2fc61b0429af466e93c95e0b,
         type: 3}
@@ -1026,6 +1067,9 @@ PrefabInstance:
       value: ExampleTire
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6fddb60e2fc61b0429af466e93c95e0b, type: 3}
 --- !u!4 &1986749868120669248 stripped
 Transform:
@@ -1038,6 +1082,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 336212243622908285}
     m_Modifications:
     - target: {fileID: 6495913681552545989, guid: 321c647cc99466f448e2112672603727,
@@ -1101,6 +1146,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 321c647cc99466f448e2112672603727, type: 3}
 --- !u!4 &7077987597669421635 stripped
 Transform:
@@ -1113,6 +1161,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 336212245205562000}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 6fddb60e2fc61b0429af466e93c95e0b,
@@ -1123,7 +1172,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 6fddb60e2fc61b0429af466e93c95e0b,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.129
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 6fddb60e2fc61b0429af466e93c95e0b,
         type: 3}
@@ -1176,6 +1225,9 @@ PrefabInstance:
       value: ExampleTire
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6fddb60e2fc61b0429af466e93c95e0b, type: 3}
 --- !u!4 &7494924716210442293 stripped
 Transform:
@@ -1188,6 +1240,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 336212244317466757}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 6fddb60e2fc61b0429af466e93c95e0b,
@@ -1198,7 +1251,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 6fddb60e2fc61b0429af466e93c95e0b,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.129
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 6fddb60e2fc61b0429af466e93c95e0b,
         type: 3}
@@ -1251,6 +1304,9 @@ PrefabInstance:
       value: ExampleTire
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6fddb60e2fc61b0429af466e93c95e0b, type: 3}
 --- !u!4 &8285797142693692107 stripped
 Transform:

@@ -35,5 +35,10 @@ namespace UDrive
                 tickState.IsGrounded = false;
             }
         }
+
+        public override void OnDetach()
+        {
+            Object.Destroy(SuspensionCollider);
+        }
     }
 }

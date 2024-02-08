@@ -79,5 +79,10 @@ namespace UDrive
 
             tickState.ReactionTorque = reactionTorque;
         }
+
+        public override void OnDetach()
+        {
+            //nothing to do
+        }
     }
 }

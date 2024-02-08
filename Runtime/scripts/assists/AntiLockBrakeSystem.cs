@@ -10,9 +10,15 @@ namespace UDrive
         bool Activated;
         public void OnWheel(UWheelCollider collider)
         {
+            if (!enabled)
+            {
+                return;
+            }
             if (!(collider.BrakeTorque > 0))
                 return;
             if (!(collider.LastTickState.SlipRatio < TargetSlipRatio))
+                return;
+            if (!collider.LastTickState.IsGrounded)
                 return;
             
             collider.BrakeTorque = 0;

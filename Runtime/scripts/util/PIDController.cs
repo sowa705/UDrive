@@ -7,9 +7,6 @@ using UnityEngine;
 
 namespace UDrive
 {
-    /// <summary>
-    /// PID controller
-    /// </summary>
     [Serializable]
     public class PIDController
     {

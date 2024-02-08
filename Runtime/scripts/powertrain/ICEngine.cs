@@ -7,7 +7,7 @@ namespace UDrive
         public Object Output;
         ITorqueNode outputGenerator { get => Output as ITorqueNode; }
         public float Torque = 100;
-        public float MaxRPM = 5000;
+        public float MaxRPM = 6000;
         public float IdleRPM = 800;
         public float CurrentRPM;
         float cutoffTimer = 0;

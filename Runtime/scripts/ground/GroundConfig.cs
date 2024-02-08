@@ -37,6 +37,8 @@ namespace UDrive
                     {
                         currentConf = ScriptableObject.CreateInstance<GroundConfig>();
                         
+                        currentConf.GroundTypes.Add(new GroundType() { TagName = "Default", FrictionMultiplier = 1 });
+                        currentConf.GroundTypes.Add(new GroundType() { TagName = "Ice", FrictionMultiplier = 0.5f });
                     }
                     return currentConf;
                 }

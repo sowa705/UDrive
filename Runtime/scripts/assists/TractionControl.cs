@@ -20,6 +20,10 @@ namespace UDrive
 
         public void OnUpdate()
         {
+            if (!enabled)
+            {
+                return;
+            }
             Activated = false;
 
             foreach (var item in vehicle.GetWheels())

@@ -11,7 +11,7 @@ namespace UDrive
         void FixedUpdate()
         {
             float speed = vehicle.ReadParameter(VehicleParameter.VehicleSpeed);
-            vehicle.Rigidbody.AddForceAtPosition(Vector3.down * 0.00119f * Downforce * speed * speed, transform.position);
+            vehicle.Rigidbody.AddForceAtPosition(Vector3.down * (0.00119f * Downforce * speed * speed), transform.position);
         }
     }
 }
